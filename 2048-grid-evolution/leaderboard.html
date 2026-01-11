@@ -1,0 +1,504 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <script type="module" src="fire1.js"></script>
+<script type="module" src="lb.js"></script>
+<link rel="stylesheet" href="style3.css">
+  <title>Leaderboard</title>
+  <style>
+    :root {
+      --bg: #05070a;
+      --panel: #0c1118;
+      --border: #1f2a3a;
+      --accent: #00ffff;
+      --text: #dbe6ff;
+      --muted: #6b7a99;
+      --highlight: #39ff14;
+    }* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #0b1220, var(--bg));
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.leaderboard {
+  width: 100%;
+  max-width: 900px;
+  background: var(--panel);
+  border-radius: 18px;
+  box-shadow: 0 0 40px rgba(0,255,255,0.08);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* ===== Header ===== */
+.lb-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  gap: 14px;
+}
+
+.lb-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+}
+
+.lb-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown button {
+  background: #0a0f16;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown button span {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* purely visual – no JS yet */
+.dropdown button::after {
+  content: '▾';
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ===== Table ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #080c12;
+}
+
+th, td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+ol{
+    color:#fff;
+    background: #030;
+}
+
+th {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* Level row spanning full table */
+.level-row td {
+  background: linear-gradient(90deg, rgba(0,255,255,0.15), transparent);
+  color: var(--accent);
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Empty state */
+.empty {
+  height: 260px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+
+.empty span {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #445066;
+}
+
+/* Highlight current user (future use) */
+.me {
+  background: rgba(57,255,20,0.12);
+  box-shadow: inset 0 0 0 1px rgba(57,255,20,0.3);
+}
+
+/* Footer hint */
+.lb-footer {
+  padding: 14px 18px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: #070b10;
+  text-align: center;
+}
+
+/* ===== Dropdown Menus ===== */
+.menulb {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: #0a0f16;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  min-width: 160px;
+  display: none;
+  z-index: 10;
+}
+
+.menulb li {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.menulb li:hover {
+  background: rgba(0,255,255,0.08);
+  color: var(--accent);
+}
+
+.dropdown.open .menulb {
+  display: block;
+}
+
+/* ===== Loading Skeleton ===== */
+.skeleton {
+  height: 18px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    #0f1622 25%,
+    #1a2538 37%,
+    #0f1622 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+.loading-row td {
+  padding: 18px 16px;
+}
+.no-display{
+    display:none;
+}
+
+.site-footer {
+  margin-top: 90px;
+  width:100%;
+  padding: 55px 20px;
+   background: radial-gradient(
+    circle at top,
+    rgba(0, 255, 255, 0.06),
+    rgba(0, 0, 0, 0.95) 60%
+  ); 
+  border-top: 1px solid rgba(0, 255, 255, 0.25);
+  font-family: 'Orbitron', sans-serif;
+  color: #00ffff;
+}
+
+.footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-brand {
+  font-size: 1.1rem;
+  letter-spacing: 1.5px;
+}
+
+.brand-name {
+  color: #39ff14;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+}
+
+.footer-tagline {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(0, 255, 255, 0.65);
+}
+
+.footer-socials {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+
+.footer-socials a {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(0, 255, 255, 0.7);
+  text-decoration: none;
+  padding: 8px 14px;
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 20px;
+  transition: all 0.25s ease;
+}
+
+.footer-socials a:hover {
+  color: #000;
+  background: #00ffff;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+
+.footer-credit {
+  margin-top: 28px;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  color: rgba(0, 255, 255, 0.45);
+}
+
+.footer-credit span {
+  color: rgba(0, 255, 255, 0.8);
+}
+
+  </style>
+</head>
+<body data-page="leaderboard">
+     <div class="header">
+       <div class="logo">2048: Grid Evolution Leaderboard</div>
+    <!-- <button id="hamburger">☰</button> -->
+  </div>
+  <!-- NEON HEADER WITH DIFFICULTY MENU -->
+   <!-- HEADER -->
+   
+ 
+
+  
+  <section class="leaderboard"><!-- ===== Header / Controls ===== -->
+<div class="lb-header">
+  <div class="lb-title">Leaderboard</div>
+
+  <div class="lb-controls">
+    <!-- Level selector (visual only) -->
+   <div class="dropdown" id="level-dropdown">
+  <button id="level-btn">
+    Level:
+    <span id="current-level">Hard</span>
+  </button>
+  <ul class="menulb">
+    <li data-level="super-easy">Super-Easy</li>
+    <li data-level="normal">Normal</li>
+    <li data-level="hard">Hard</li>
+  </ul>
+</div>
+
+<div class="dropdown" id="metric-dropdown">
+  <button id="metric-btn">
+    Data:
+    <span id="current-metric">Score</span>
+  </button>
+  <ul class="menulb">
+    <li data-metric="score">Score</li>
+    <li data-metric="highestTile">Highest Tile</li>
+    <li data-metric="fastest2048">FTTR2048</li>
+    <li data-metric="longestSession">Longest Session</li>
+  </ul>
+</div>
+  </div>
+</div>
+
+<!-- ===== Table ===== -->
+<table>
+  <thead>
+    <tr>
+        <th>#</th>
+      <th style="width: 60%">Username</th>
+<th id="metric-header" style="width: 40%">Score</th>
+    </tr>
+  </thead>
+  <tbody>
+   
+    <!-- Empty / no data state -->
+    <tr>
+      <td colspan="2" class="empty">
+         <!-- No leaderboard data
+        <span>Play games to appear here</span> -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===== Footer ===== -->
+<div class="lb-footer">
+  Rankings update only when a personal record is improved
+</div>
+<div class="no-display">
+<div id="signout-btn">
+    No display
+</div>
+<div id="user-display">
+    No display
+</div>
+<div id="signin-buttons">
+    No display
+</div>
+</div>
+  </section>
+  <a href="index.html" class="menu-btn"> Back To Game</a>
+
+<div id="loading-screen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;color:#00ffff;font-family:'Orbitron',sans-serif;">
+    <span>Quantorv Games Studio</span>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+ <div class="banter-loader">
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+</div>
+</div>
+               <!-- From Uiverse.io by david-mohseni --> 
+               <center>
+<div class="spinner" id="spinner">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+    <div class="bar4"></div>
+    <div class="bar5"></div>
+    <div class="bar6"></div>
+    <div class="bar7"></div>
+    <div class="bar8"></div>
+    <div class="bar9"></div>
+    <div class="bar10"></div>
+    <div class="bar11"></div>
+    <div class="bar12"></div>
+</div></center>
+          
+<style>
+    
+     /* Spinner styling */
+/* From Uiverse.io by david-mohseni */ 
+.spinner {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: none;
+}
+
+.spinner div {
+  width: 8%;
+  height: 24%;
+  background: rgb(128, 128, 128);
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  opacity: 0;
+  border-radius: 50px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  animation: fade458 1s linear infinite;
+}
+
+@keyframes fade458 {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.25;
+  }
+}
+
+.spinner .bar1 {
+  transform: rotate(0deg) translate(0, -130%);
+  animation-delay: 0s;
+}
+
+.spinner .bar2 {
+  transform: rotate(30deg) translate(0, -130%);
+  animation-delay: -1.1s;
+}
+
+.spinner .bar3 {
+  transform: rotate(60deg) translate(0, -130%);
+  animation-delay: -1s;
+}
+
+.spinner .bar4 {
+  transform: rotate(90deg) translate(0, -130%);
+  animation-delay: -0.9s;
+}
+
+.spinner .bar5 {
+  transform: rotate(120deg) translate(0, -130%);
+  animation-delay: -0.8s;
+}
+
+.spinner .bar6 {
+  transform: rotate(150deg) translate(0, -130%);
+  animation-delay: -0.7s;
+}
+
+.spinner .bar7 {
+  transform: rotate(180deg) translate(0, -130%);
+  animation-delay: -0.6s;
+}
+
+.spinner .bar8 {
+  transform: rotate(210deg) translate(0, -130%);
+  animation-delay: -0.5s;
+}
+
+.spinner .bar9 {
+  transform: rotate(240deg) translate(0, -130%);
+  animation-delay: -0.4s;
+}
+
+.spinner .bar10 {
+  transform: rotate(270deg) translate(0, -130%);
+  animation-delay: -0.3s;
+}
+
+.spinner .bar11 {
+  transform: rotate(300deg) translate(0, -130%);
+  animation-delay: -0.2s;
+}
+
+.spinner .bar12 {
+  transform: rotate(330deg) translate(0, -130%);
+  animation-delay: -0.1s;
+}
+
+</style>
+
+</body>
+</html>
