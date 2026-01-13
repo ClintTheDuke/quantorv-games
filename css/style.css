@@ -2,12 +2,10 @@
 :root {
   --text-color: rgb(245, 248, 250); 
   --bg-color: rgb(15, 18, 25); 
-  --temp: rgb(26, 30, 38); 
    --accent-color:#16832d;
   --hover-color: #16832d; 
   --radius: 1.2rem;
   --gbc:#040806;
-  /* --temp:linear-gradient(135deg, #0a1f0f, #101820); */
   --temp:#111a12;
   --cards:#16832d;
 }

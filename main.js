@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = emailInput.value.trim();
     if (!email) return;
 
-    // 🔗 Replace with your actual Substack URL
+   
     const substackUrl =
       "https://clintontheduke.substack.com/subscribe?email=" +
       encodeURIComponent(email) +
