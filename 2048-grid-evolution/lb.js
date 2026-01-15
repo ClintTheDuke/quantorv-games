@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 const preloader = document.getElementById('loading-screen');
     setTimeout(() => {
       preloader.style.display = 'none';
-    }, 2000); //
+    }, 2000); 
     
 
 // ---------- STATE ----------

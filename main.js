@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
  const aosLeft = document.querySelectorAll('.aos-left');
  const aosSlideIn = document.querySelectorAll('.aos-slideIn');
  

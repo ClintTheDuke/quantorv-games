@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded",()=>{
+const preloader = document.getElementById('loading-screen');
+    setTimeout(() => {
+      preloader.style.display = 'none';
+    }, 2000); 
+    
 // === Current Year Updating ===
 const currentYear = document.querySelector('#current-year');
 currentYear.textContent = new Date().getFullYear(); // automatic year updating
@@ -63,15 +68,15 @@ const blurryDivs = document.querySelectorAll(".blurry")
    
  if(isMenuVisible){
    $("nav").slideUp(500)
-   $("article, footer").css("opacity", "1")
-   $("article, footer").css("transition", ".5s")
+   $("article, footer, main").css("opacity", "1")
+   $("article, footer, main").css("transition", ".5s")
  
    isMenuVisible = false;
  }
  else{
    $("nav").slideDown(500)
-   $("article, footer").css("opacity", "0.3")
-   $("article, footer").css("transition", ".5s")
+   $("article, footer, main").css("opacity", "0.3")
+   $("article, footer, main").css("transition", ".5s")
    isMenuVisible = true;
  }
  })  

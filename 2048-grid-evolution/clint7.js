@@ -615,7 +615,7 @@ if (matrix.flat().every(v => v === 0)) {
   function startAttackTimer() {
     const timer = document.createElement('div');
     timer.className = 'attack-timer';
-    timer.innerHTML = '<div class="timer-ring"></div><div class="timer-text">10</div>';
+    timer.innerHTML = '<div class="timer-ring"></div><div class="timer-text">5</div>';
     document.body.appendChild(timer);
     let sec = 5;
     attackTimer = setInterval(() => {
