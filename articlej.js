@@ -121,8 +121,40 @@ copyButtons.forEach((button, index) => {
   });
 });
 
+ // ===== Substack Newsletter Code ========
+    document
+  .getElementById("newsletterForm")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const emailInput = document.getElementById("emailInput");
+    const message = document.getElementById("newsletterMessage");
+
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+   
+    const substackUrl =
+      "https://clintontheduke.substack.com/subscribe?email=" +
+      encodeURIComponent(email) +
+      "&utm_source=website&utm_medium=newsletter_form";
+
+    // Open Substack in background (new tab)
+    window.open(substackUrl, "_blank");
+
+    // UX feedback on YOUR site
+    message.textContent =
+      "Almost done! Check your inbox to confirm your subscription.";
+    message.style.display = "block";
+
+    // Optional: clear input
+    emailInput.value = "";
+  });
+
 quicklink.listen({
     timeout:2000
 });
+
+
 
 })

@@ -243,7 +243,7 @@
 
         <p>
           Our testers claim reaching <strong>4096</strong> here is impossible.
-          But testers don’t write history — players do.
+          But who decided that?! testers don’t write history — players do.
         </p>
 
         <h2 class="toc-item">4. Survival Tips</h2>
@@ -268,7 +268,7 @@
         </ul>
 
         <p>
-          The best ideas rise to the top — and get built.
+         <strong style="color:#08d549;"> The best ideas rise to the top — and get built.</strong>
         </p>
 
         <h2 class="toc-item">6. Premium Newsletter</h2>
@@ -290,22 +290,15 @@
 
 </body>
 <footer>
- <section class="newsletter">
+<section class="newsletter">
   <h2>Stay Informed 📰</h2>
   <p>Get latest updates and new releases in your inbox weekly</p>
 
-  <form class="input-wrapper flex-between" id="newsletterForm">
-    <input
-      type="email"
-      id="emailInput"
-      placeholder="Enter your email address"
-      required
-    />
-    <button type="submit">Submit</button>
-  </form>
-
-  <p id="newsletterMessage" style="display:none;"></p>
+ <div id="custom-substack-embed"></div>
 </section>
+
+
+<!-- Newsletter Ends -->
   <section>
    <div class='footer-brief'>
     <h2> Quantorv Games</h2>
@@ -346,5 +339,21 @@
    </div>
   </section>
  </footer>
+ <script>
+  window.CustomSubstackWidget = {
+    substackUrl: "clintontheduke.substack.com",
+    placeholder: "Enter your email address",
+    buttonText: "Subscribe",
+    theme: "custom",
+    colors: {
+      primary: "#000000",
+      input: "#ffffff",
+      email: "#000000",
+      text: "#ffffff"
+    }
+  };
+</script>
+
+<script src="https://substackapi.com/widget.js" async></script>
  
 </html>
