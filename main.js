@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "&utm_source=website&utm_medium=newsletter_form";
 
     // Open Substack in background (new tab)
-    window.open(substackUrl, "_blank");
+    //window.open(substackUrl, "_blank");
 
     // UX feedback on YOUR site
     message.textContent =
