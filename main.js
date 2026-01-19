@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }); // classList toggle logic for accordions
  
     // ===== Substack Newsletter Code ========
+    /*
     document
   .getElementById("newsletterForm")
   .addEventListener("submit", function (e) {
@@ -46,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "&utm_source=website&utm_medium=newsletter_form";
 
     // Open Substack in background (new tab)
-    //window.open(substackUrl, "_blank");
+    window.open(substackUrl, "_blank");
 
     // UX feedback on YOUR site
     message.textContent =
@@ -56,5 +57,52 @@ document.addEventListener("DOMContentLoaded", () => {
     // Optional: clear input
     emailInput.value = "";
   });
+  
+  */
+  // Newsletter handler - main logic (NEVER needs to change)
+
+document
+  .getElementById("newsletterForm")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const emailInput = document.getElementById("emailInput");
+    const message = document.getElementById("newsletterMessage");
+
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    message.style.display = "block";
+    message.textContent = "Processing...";
+
+    try {
+      await subscribeUser(email);
+
+      message.textContent =
+        "Almost done! Check your inbox to confirm your subscription.";
+
+      emailInput.value = "";
+    } catch (err) {
+      console.error(err);
+      message.textContent =
+        "Something went wrong. Please try again later.";
+    }
+  });
+
+
+// ===== PROVIDER FUNCTION (THIS IS THE ONLY PART YOU EVER EDIT) =====
+
+async function subscribeUser(email) {
+
+  // CURRENT METHOD: Substack redirect
+  const substackUrl =
+    "https://quantorvgames.substack.com/subscribe?email=" +
+    encodeURIComponent(email) +
+    "&utm_source=website&utm_medium=newsletter_form";
+
+  window.open(substackUrl, "_blank");
+
+  return true;
+}
   
 });
