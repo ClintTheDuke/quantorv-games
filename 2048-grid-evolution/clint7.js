@@ -221,6 +221,7 @@ if (musicEnabled && soundEnabled) {
     best = getBestForLevel();   
 bestEl.textContent = best;   
     initGame();
+    location.reload()
   };
 
   // ==================== GAME STATE ====================
@@ -393,7 +394,7 @@ bestEl.textContent = best;
     const empty = getEmptyCells();
     if (!empty.length) return false;
     const pos = empty[Math.floor(Math.random() * empty.length)];
-    matrix[pos.r][pos.c] = Math.random() < 0.9 ? 2 : 4;
+    matrix[pos.r][pos.c] = Math.random() < 0.5 ? 2 : 4;
     playSound('spawn');
     return true;
   }
@@ -846,7 +847,27 @@ if (highestTile >= 2048 && saveFastest2048(elapsedSeconds)) {
     });
   }, 500);
 }
-  // ==================== SOUND ====================
+  // ========== Themes =============
+  function setTheme(themeName) {
+  const grid = document.getElementById("grid");
+  const container = document.getElementById("container");
+  container.classList.remove('grid-container');
+  
+  // Remove all existing theme classes
+  grid.classList.remove(
+    "theme-default",
+    "theme-cinderella"
+    // add future themes here
+  );
+
+  // Apply selected theme
+  grid.classList.add(themeName);
+  container.classList.add(themeName);
+}
+
+//setTheme('theme-cinderella')
+//setTheme('pink')
+// ========== Themes End =============
   
   
 // ——— DIFFICULTY MENU LOGIC ———

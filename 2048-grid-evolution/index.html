@@ -3,15 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2048 — The Evolved Grid</title>
+<!-- Primary Meta -->
+<meta name="title" content="Play 2048: Grid Evolution Online | Quantorv Games">
+<meta name="description" content="Play 2048: Grid Evolution online — a modern twist on the classic puzzle with gems, power-ups, multiple modes, and endless strategy. Can you reach the ultimate tile?">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content="Play 2048: Grid Evolution Online | Quantorv Games">
+<meta property="og:description" content="Merge, evolve, and dominate the grid. 2048: Grid Evolution adds gems, power-ups, and advanced mechanics to the classic puzzle game. Play free now.">
+<meta property="og:image" content="https://quantorv-games.com/assets/thumbnails/qvg-2048.jpg">
+<meta property="og:url" content="https://quantorv-games.com/2048-grid-evolution.html">
+<meta property="og:type" content="game">
+<meta property="og:site_name" content="Quantorv Games">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Play 2048: Grid Evolution Online | Quantorv Games">
+<meta name="twitter:description" content="A smarter, harder, and more chaotic version of 2048. Gems, power-ups, and next-level strategy await.">
+<meta name="twitter:image" content="https://quantorv-games.com/assets/thumbnails/qvg-2048.jpg">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://quantorv-games.com/2048-grid-evolution.html">
+
+<!-- Keywords -->
+<meta name="keywords" content="play 2048 online, 2048 grid evolution game, advanced 2048, puzzle game online, 2048 power-ups, Quantorv Games">
+<title>2048 — Grid Evolution</title>
 <link rel="stylesheet" href="style3.css">
 <script type="module" src="fire1.js"></script>
 <script type="module" src="clint7.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
-<body data-page="game">
+<body data-page="game" class = "default" id="body">
      <div class="header">
-       <div class="logo">Grid Evolution</div>
+       <div class="logo"><a href="../index.html" style="text-decoration:none; color:#08d549;">Grid Evolution</a></div>
     <button id="hamburger">☰</button>
   </div>
   <!-- NEON HEADER WITH DIFFICULTY MENU -->
@@ -125,8 +148,8 @@
 
   <div id="gem-status"></div>
 
-  <div class="grid-container">
-    <div id="grid"></div>
+  <div class="grid-container" id ="container">
+   <div id="grid"></div> 
   </div>
 <script>
   document.getElementById('hamburger').onclick = () => {
@@ -212,13 +235,13 @@
     </div>
 
     <div class="footer-socials">
-      <a href="https://x.com/yourhandle" target="_blank" aria-label="X (Twitter)">
+      <a href="" target="_blank" aria-label="X (Twitter)">
         X
       </a>
-      <a href="https://reddit.com/r/yourcommunity" target="_blank" aria-label="Reddit">
+      <a href="" target="_blank" aria-label="Reddit">
         Reddit
       </a>
-      <a href="https://yourname.substack.com" target="_blank" aria-label="Substack">
+      <a href="https://quantorvgames.substack.com" target="_blank" aria-label="Substack">
         Substack
       </a>
     </div>

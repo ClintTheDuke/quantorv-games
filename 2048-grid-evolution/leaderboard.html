@@ -2,7 +2,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
+  <!-- Primary Meta -->
+<meta name="title" content="2048: Grid Evolution Leaderboard | Quantorv Games">
+<meta name="description" content="See the top players on the 2048: Grid Evolution leaderboard. Compare scores, track rankings, and prove your mastery of the grid.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content="2048: Grid Evolution Leaderboard | Quantorv Games">
+<meta property="og:description" content="Who rules the grid? View the global leaderboard for 2048: Grid Evolution and see how your score stacks up against the best.">
+<meta property="og:image" content="https://quantorv-games.com/assets/thumbnails/qvg-2048.jpg">
+<meta property="og:url" content="https://quantorv-games.com/2048-grid-evolution/leaderboard.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Quantorv Games">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="2048: Grid Evolution Leaderboard | Quantorv Games">
+<meta name="twitter:description" content="Check the rankings. Compete for the top spot. Can you dominate the 2048 Grid Evolution leaderboard?">
+<meta name="twitter:image" content="https://quantorv-games.com/assets/thumbnails/qvg-2048.jpg">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://quantorv-games.com/2048-grid-evolution/leaderboard.html">
+
+<!-- Keywords -->
+<meta name="keywords" content="2048 leaderboard, 2048 grid evolution scores, puzzle game rankings, top 2048 players, Quantorv Games leaderboard">
+
   <!-- ====== Font styling ====== -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <!-- ======= Fonts Styling Ends===== -->
@@ -15,7 +38,7 @@
       --bg: #05070a;
       --panel: #0c1118;
       --border: #1f2a3a;
-      --accent: #00ffff;
+      --accent: #08d549;
       --text: #dbe6ff;
       --muted: #6b7a99;
       --highlight: #39ff14;
@@ -289,7 +312,26 @@ th {
 .footer-credit span {
   color: rgba(0, 255, 255, 0.8);
 }
-
+section{
+    margin-top:5.5rem;
+}
+.btg{
+padding: 14px 18px;
+  font-size: 0.75rem;
+  color: #08d549;
+  background: #070b10;
+  text-align: center;
+  }
+  
+  .btg a{
+      padding:5px;
+  border:groove;
+  border-radius:5px;
+  border-color:#08d549;
+  color:#08d549;
+  text-decoration:none;
+  font-size:1.1rem;
+  }
   </style>
 </head>
 <body data-page="leaderboard">
@@ -299,10 +341,10 @@ th {
   </div>
   <!-- NEON HEADER WITH DIFFICULTY MENU -->
    <!-- HEADER -->
-   
- 
 
-  
+
+
+
   <section class="leaderboard"><!-- ===== Header / Controls ===== -->
 <div class="lb-header">
   <div class="lb-title">Leaderboard</div>
@@ -346,7 +388,7 @@ th {
     </tr>
   </thead>
   <tbody>
-   
+
     <!-- Empty / no data state -->
     <tr>
       <td colspan="2" class="empty">
@@ -361,6 +403,10 @@ th {
 <div class="lb-footer">
   Rankings update only when a personal record is improved
 </div>
+
+<div class="btg">
+  <a href="index.html">Back To Game</a>
+</div>
 <div class="no-display">
 <div id="signout-btn">
     No display
@@ -373,8 +419,7 @@ th {
 </div>
 </div>
   </section>
-  <a href="index.html" class="menu-btn"> Back To Game</a>
-
+  
 <div id="loading-screen" class="loading-screen">
     <span>Quantorv Games Studio</span>
     <br><br><br><br><br><br><br><br><br><br><br><br>
@@ -406,9 +451,9 @@ th {
     <div class="bar11"></div>
     <div class="bar12"></div>
 </div></center>
-          
+
 <style>
-    
+
      /* Spinner styling */
 /* From Uiverse.io by david-mohseni */ 
 .spinner {
@@ -505,4 +550,6 @@ th {
 </style>
 
 </body>
+
+
 </html>

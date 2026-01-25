@@ -553,6 +553,32 @@ background-size: 2.5rem 2.5rem;
  border-radius: .8rem;
 }
 
+/* Loader */
+.img-loader {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #0b0b0b;
+}
+
+/* Spinner */
+.img-loader::after {
+  content: "";
+  width: 28px;
+  height: 28px;
+  border: 3px solid #222;
+  border-top-color: #00ff9c;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Loader End  */
+
 .blog-post h2 {
  display: -webkit-box;
  -webkit-line-clamp: 2;

@@ -27,39 +27,16 @@ document.addEventListener("DOMContentLoaded", () => {
    });
   }); // classList toggle logic for accordions
  
-    // ===== Substack Newsletter Code ========
-    /*
-    document
-  .getElementById("newsletterForm")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const emailInput = document.getElementById("emailInput");
-    const message = document.getElementById("newsletterMessage");
-
-    const email = emailInput.value.trim();
-    if (!email) return;
-
-   
-    const substackUrl =
-      "https://clintontheduke.substack.com/subscribe?email=" +
-      encodeURIComponent(email) +
-      "&utm_source=website&utm_medium=newsletter_form";
-
-    // Open Substack in background (new tab)
-    window.open(substackUrl, "_blank");
-
-    // UX feedback on YOUR site
-    message.textContent =
-      "Almost done! Check your inbox to confirm your subscription.";
-    message.style.display = "block";
-
-    // Optional: clear input
-    emailInput.value = "";
+ 
+  document.querySelectorAll(".post-thumbnail img").forEach(img => {
+    img.addEventListener("load", () => {
+      img.style.opacity = "1";
+      img.previousElementSibling.remove();
+    });
   });
-  
-  */
-  // Newsletter handler - main logic (NEVER needs to change)
+
+    // ===== Substack Newsletter Code ========
+ 
 
 document
   .getElementById("newsletterForm")

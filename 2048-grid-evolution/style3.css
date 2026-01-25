@@ -1,4 +1,4 @@
-body {
+body.default{
   margin: 0;
   padding: 0;                  
   background: var(--bg);  
@@ -22,6 +22,7 @@ body {
 background-size: 2.5rem 2.5rem;
   
 }
+
 :root {
     --bg: #0d0d1a;
     --card: #1a1a2e;
@@ -980,10 +981,25 @@ background-size: 2.5rem 2.5rem;
       0 0 40px rgba(0, 255, 255, 0.15),
       inset 0 0 30px rgba(0, 0, 0, 0.5);
   }
+  /* Testing */
+  .pink {
+    width: 420px;
+    max-width: 95vw;
+    margin: 20px auto;
+    padding: 15px;
+    background: pink;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: 
+      0 0 40px rgba(0, 255, 255, 0.15),
+      inset 0 0 30px rgba(0, 0, 0, 0.5);
+  }
+  
   #grid {
     width: 100%;
     aspect-ratio: 1;
-    background: #0f0f1a;
+     background: #0f0f1a; 
+   /*  background: #f4aaff; */
     border-radius: 15px;
     padding: 10px;
     display: grid;
@@ -1499,3 +1515,120 @@ background-size: 2.5rem 2.5rem;
 .footer-credit span {
   color: rgba(0, 255, 255, 0.8);
 }
+
+
+/* ===============================
+   🌸 PINK CINDERELLA THEME
+================================ */
+
+.theme-cinderella .tile-1 {
+  background: #2b1b24;
+  color: #f6c1da;
+}
+
+.theme-cinderella .tile-2 {
+  background: #fde2ec;
+  color: #8a3a62;
+}
+
+.theme-cinderella .tile-4 {
+  background: #fbc1d9;
+  color: #7a2952;
+}
+
+.theme-cinderella .tile-8 {
+  background: #f9a1c4;
+  color: #fff;
+}
+
+.theme-cinderella .tile-16 {
+  background: #f57bb0;
+  color: #fff;
+}
+
+.theme-cinderella .tile-32 {
+  background: #f1539a;
+  color: #fff;
+}
+
+.theme-cinderella .tile-64 {
+  background: #ec2f86;
+  color: #fff;
+}
+
+/* Glow starts here ✨ */
+.theme-cinderella .tile-128 {
+  background: #ff7ac8;
+  color: #fff;
+  font-size: 2.2rem;
+  box-shadow: 0 0 25px #ff7ac8;
+}
+
+.theme-cinderella .tile-256 {
+  background: #ff4fb3;
+  color: #fff;
+  font-size: 2.2rem;
+  box-shadow: 0 0 35px #ff4fb3;
+}
+
+.theme-cinderella .tile-512 {
+  background: #ff299e;
+  color: #fff;
+  font-size: 2.2rem;
+  box-shadow: 0 0 45px #ff299e;
+}
+
+.theme-cinderella .tile-1024 {
+  background: #ff008c;
+  color: #fff;
+  font-size: 1.8rem;
+  box-shadow: 0 0 60px #ff008c;
+}
+
+/* 👑 Princess final boss */
+.theme-cinderella .tile-2048 {
+  background: linear-gradient(135deg, #ff69c6, #ff1493);
+  color: #fff;
+  font-size: 1.8rem;
+  box-shadow:
+    0 0 60px #ff69c6,
+    0 0 100px #ff1493;
+  animation: cinderella-glow 2s infinite;
+}
+
+.theme-cinderella .tile-4096 {
+  background: linear-gradient(135deg, #ff1493, #c8006e);
+  color: #fff;
+  font-size: 1.6rem;
+  box-shadow:
+    0 0 80px #ff1493,
+    0 0 140px #c8006e;
+  animation: cinderella-glow 1.4s infinite;
+}
+
+/* ✨ Magical glow animation */
+@keyframes cinderella-glow {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

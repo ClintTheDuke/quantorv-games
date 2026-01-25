@@ -20,7 +20,7 @@ html{
       --bg-color: rgb(15, 18, 25); 
    --accent-color:#16832d;
   --hover-color: #16832d; 
-  --radius: 1.2rem;
+  --radius: 1.8rem;
   --gbc:#040806;
   --temp:#111a12;
   --cards:#08d549;
@@ -80,6 +80,7 @@ header{
 #menu{
   color: #fff;
 }
+
 /* article styles */
 
 .dark-theme {
@@ -347,7 +348,7 @@ border-radius: 5px;
  transition: all .7s;
 }
 nav a:hover{
-  background:rgba(0,0,255,.9);
+  background:var(--cards);
   color: #fff;
 }
 /*responsive nav bar*/
@@ -382,7 +383,7 @@ nav{
       }
       .bigMenu a:hover{
       border-radius:10px ;
-       background:linear-gradient(35deg,#15e0ff,#15e0ff,#ff1569,#ff1569);
+       background-color:var(--cards);
       }
 
 
@@ -510,6 +511,7 @@ justify-content: space-between;
 
 .blog-post a {
  align-self: center;
+ text-decoration: none;
  width: 90%;
  display: block;
  position: absolute;

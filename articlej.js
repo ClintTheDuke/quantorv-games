@@ -159,7 +159,7 @@ async function subscribeUser(email) {
 
   // CURRENT METHOD: Substack redirect
   const substackUrl =
-    "https://clintontheduke.substack.com/subscribe?email=" +
+    "https://quantorvgames.substack.com/subscribe?email=" +
     encodeURIComponent(email) +
     "&utm_source=website&utm_medium=newsletter_form";
 
