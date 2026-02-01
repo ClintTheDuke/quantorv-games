@@ -429,6 +429,30 @@ and making sure it’s worth the wait. Stay sharp — fun is almost unlocked �
  </footer>
  <script src="./main.js"></script>
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const thumbnails = document.querySelectorAll(".post-thumbnail");
 
+  thumbnails.forEach(thumbnail => {
+    const img = thumbnail.querySelector("img");
+    const loader = thumbnail.querySelector(".img-loader");
+
+    if (!img || !loader) return;
+
+    const hideLoader = () => {
+      loader.remove();
+      img.classList.add("img-loaded");
+    };
+
+    // If image already loaded (from cache)
+    if (img.complete && img.naturalWidth !== 0) {
+      hideLoader();
+    } else {
+      img.addEventListener("load", hideLoader);
+      img.addEventListener("error", () => loader.remove());
+    }
+  });
+});
+</script>
 
 </html>
