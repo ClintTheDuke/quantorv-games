@@ -25,6 +25,7 @@ html{
   --temp:#111a12;
   --cards:#08d549;
   --dkh:#15e0ff;
+  --date:#696972;
 
 }
 body {
@@ -80,7 +81,10 @@ header{
 #menu{
   color: #fff;
 }
-
+.blog-date{
+    color: var(--date);
+    font-style: italic;
+}
 /* article styles */
 
 .dark-theme {

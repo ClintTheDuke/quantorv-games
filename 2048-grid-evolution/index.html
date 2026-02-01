@@ -132,7 +132,9 @@
     </div>
   </div>
   <div id="time"></div>
-  <button id="test-gameover">TEST GAME OVER</button>
+  <br>
+  
+  <button id="test-gameover">END SESSION</button>
   <!-- ====== Gems Panel ========= -->
   <div class="gems-panel">
     <div class="gem dim" id="gem-switcher">
@@ -225,8 +227,6 @@
     <p id="username-error" style="color:#ff0044;margin-top:10px;"></p>
   </div>
 </div>
-</body>
-
 <footer class="site-footer">
   <div class="footer-inner">
 
@@ -256,5 +256,20 @@
 
   </div>
 </footer>
+<!-- End Session Modal -->
+<div id="endSessionModal" class="dialog">
+  <h3>End Session?</h3>
+  <p>
+    Are you sure you want to end this session?  
+    New high scores and progress will be saved.
+  </p>
+
+  <div class="dialog-actions">
+    <button id="cancelEnd" class="btn cancel">Cancel</button>
+    <button id="confirmEnd" class="btn confirm">End Session</button>
+  </div>
+</div>
+</body>
+
 
 </html>

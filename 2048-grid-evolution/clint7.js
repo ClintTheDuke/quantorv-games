@@ -784,10 +784,24 @@ function canMerge() {
   
   
   // ====== check if there's no more moves =========
-// ========= Game Over for Testing ========
-document.getElementById('test-gameover').addEventListener('click', () => {
-  gameOver(); // async is fine, no await needed for testing
+// ===== End Session =====
+const dialog = document.getElementById("endSessionModal");
+
+document.getElementById("test-gameover").addEventListener("click", () => {
+  dialog.classList.add("show");
 });
+
+document.getElementById("cancelEnd").addEventListener("click", () => {
+  dialog.classList.remove("show");
+});
+
+document.getElementById("confirmEnd").addEventListener("click", () => {
+  dialog.classList.remove("show");
+  gameOver();
+});
+
+// ===== End Session Code Ends =====
+
 
 async function gameOver() {
   stopMusic('bgm');
