@@ -190,6 +190,10 @@ img:hover{
     color: #08d549;
     font-weight: bolder;
 }
+.toc-item {
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+}
 article h2 {
   font-size: 1.5rem;
   margin-top: 20px;
@@ -204,7 +208,7 @@ a{
 blockquote {
   font-style: italic;
   padding: 10px 20px;
-  border-left: 4px solid #15e0ff;
+  border-left: 4px solid var(--accent-color);
   margin: 20px 0;
   background: #1e1e1e;
   color: #ccc;
