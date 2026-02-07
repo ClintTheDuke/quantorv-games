@@ -33,6 +33,9 @@ body {
  font-family: "ABeeZee",sans-serif;
  
 }
+main, .article-container{
+    font-family: "ABeeZee",sans-serif;
+}
 h1 {
   margin: 0;
   left:0;

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 const preloader = document.getElementById('loading-screen');
     setTimeout(() => {
       preloader.style.display = 'none';
-    }, 2000); 
+    }, 200); 
     
 // === Current Year Updating ===
 const currentYear = document.querySelector('#current-year');
