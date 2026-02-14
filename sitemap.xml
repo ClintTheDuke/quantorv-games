@@ -3,47 +3,72 @@
 		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 	<loc>https://quantorv-games.com/</loc>
-	<lastmod>2026-02-06T08:57:47+01:00</lastmod>
+	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics.html</loc>
-	<lastmod>2026-02-06T08:57:47+01:00</lastmod>
+	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/games.html</loc>
-	<lastmod>2026-02-06T08:57:47+01:00</lastmod>
+	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
+	<loc>https://quantorv-games.com/2048-grid-evolution/index.html</loc>
+	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
 	<loc>https://quantorv-games.com/about.html</loc>
-	<lastmod>2026-02-06T08:57:47+01:00</lastmod>
+	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/terms.html</loc>
-	<lastmod>2026-02-06T08:57:47+01:00</lastmod>
+	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/privacy-policy.html</loc>
-	<lastmod>2026-02-06T08:57:47+01:00</lastmod>
+	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
-	<loc>https://quantorv-games.com/contact.html</loc>
-	<lastmod>2026-02-06T08:57:49+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day.html</loc>
-	<lastmod>2026-02-06T08:57:49+01:00</lastmod>
+	<loc>https://quantorv-games.com/2048-grid-evolution/leaderboard.html</loc>
+	<lastmod>2026-02-14T16:47:58+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/how-to-play-2048.html</loc>
-	<lastmod>2026-02-06T08:57:49+01:00</lastmod>
+	<lastmod>2026-02-14T16:47:58+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://quantorv-games.com/contact.html</loc>
+	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day-won.html</loc>
+	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day.html</loc>
+	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://quantorv-games.com/topics/how-to-beat-4096-tile-2048.html</loc>
+	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://quantorv-games.com/topics/about-grid-evolution-2048.html</loc>
+	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 </urlset>
