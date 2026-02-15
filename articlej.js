@@ -7,30 +7,41 @@ const preloader = document.getElementById('loading-screen');
 // === Current Year Updating ===
 const currentYear = document.querySelector('#current-year');
 currentYear.textContent = new Date().getFullYear(); // automatic year updating
-  
-//Table of Contents
+  // ===== SAFE TABLE OF CONTENTS =====
+
 const toc = document.getElementById('toc');
-        const headings = document.querySelectorAll('h2.toc-item');
+const headings = document.querySelectorAll('h2.toc-item');
 
-        // Create a list for the TOC
-        const list = document.createElement('ul');
+// Exit safely if TOC container OR headings don't exist
+if (!toc || headings.length === 0) {
+    console.log("TOC not generated: container or headings missing.");
+}
+else {
 
-        headings.forEach((heading, index) => {
-            // Create a unique ID for each heading
-            const id = `heading-${index}`;
-            heading.id = id; // Set the ID for the heading
+    const list = document.createElement('ul');
 
-            // Create a list item for the TOC
-            const listItem = document.createElement('li');
-            const link = document.createElement('a');
-            link.href = `#${id}`; // Link to the heading
-            link.textContent = heading.textContent; // Use the heading text
+    headings.forEach((heading, index) => {
 
-            listItem.appendChild(link);
-            list.appendChild(listItem);
-        });
+        // Only proceed if heading exists
+        if (!heading) return;
 
-        toc.appendChild(list); // Append the list to the TOC
+        const id = `heading-${index}`;
+        heading.id = id;
+
+        const listItem = document.createElement('li');
+
+        const link = document.createElement('a');
+        link.href = `#${id}`;
+        link.textContent = heading.textContent || `Section ${index+1}`;
+
+        listItem.appendChild(link);
+        list.appendChild(listItem);
+
+    });
+
+    toc.appendChild(list);
+
+}
         
 /*Blurry loaded Image Effect */
 const blurryDivs = document.querySelectorAll(".blurry")

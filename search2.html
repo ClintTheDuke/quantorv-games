@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Results | Quantorv Games</title>
+
+<style>
+
+body{
+  font-family: Arial, sans-serif;
+  margin:0;
+  padding:2rem;
+  background:#0f1115;
+  color:#fff;
+}
+
+h1{
+  margin-bottom:1rem;
+}
+
+.blogs-wrapper{
+ width:100%;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));
+ gap:2rem;
+}
+
+.blog-post{
+ background:#1a1d24;
+ padding:1rem;
+ border-radius:12px;
+ transition:.3s;
+}
+
+.blog-post:hover{
+ transform:translateY(-5px);
+}
+
+.post-thumbnail img{
+ width:100%;
+ border-radius:8px;
+}
+
+.blog-post h2{
+ font-size:1.2rem;
+ margin:.5rem 0;
+}
+
+.blog-date{
+ font-size:.85rem;
+ opacity:.7;
+}
+
+.blog-post p{
+ font-size:.95rem;
+}
+
+.blog-post a{
+ display:inline-block;
+ margin-top:.5rem;
+ color:#4da3ff;
+ text-decoration:none;
+}
+
+.no-results{
+ text-align:center;
+ margin-top:2rem;
+ opacity:.7;
+}
+
+
+/* ===== UPGRADE: Highlight styling ===== */
+
+mark{
+  background:#ffd54f;
+  color:#000;
+  padding:2px 4px;
+  border-radius:4px;
+  font-weight:bold;
+}
+
+</style>
+
+</head>
+<body>
+
+
+<h1 id="search-title">Search Results</h1>
+
+<div id="blogs-wrapper" class="blogs-wrapper"></div>
+
+<div id="no-results" class="no-results" style="display:none;">
+No articles found.
+</div>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded',()=>{
+
+
+/* ===== BLOG DATA ===== */
+
+const blogPosts = [
+
+  {
+    title: "Watch Dogs: Legion — What If Zero Day Won?",
+    date: "6 February 2026",
+    description: "What would London look like if Zero Day actually won in Watch Dogs: Legion? A speculative, casual deep dive into chaos, factions, and the dystopian future we never got to play.",
+    image: "https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/90ade4251f8140eebd567566ba6119ac.jpg",
+    url: "https://quantorv-games.com/topics/watch-dogs-legion-zero-day-won.html"
+  },
+
+  {
+    title: "Grid Evolution 2048 — Strategy Guide",
+    date: "23 January 2026",
+    description: "Master Grid Evolution 2048 with advanced strategies, tile control techniques, and efficient board management tips.",
+    image: "https://via.placeholder.com/400x250",
+    url: "#"
+  }
+
+];
+
+
+
+/* ===== GET QUERY ===== */
+
+const params = new URLSearchParams(window.location.search);
+
+const query = params.get("q")?.toLowerCase().trim() || "";
+
+
+
+/* =====================================================
+   ===== UPGRADE START: NORMALIZATION FUNCTION =====
+   Makes watchdog, watch-dog, Watch Dogs all match
+===================================================== */
+
+function normalize(text){
+
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g,"");
+
+}
+
+
+/* =====================================================
+   ===== UPGRADE START: SIMILARITY FUNCTION =====
+   Returns score between 0 and 1
+===================================================== */
+
+function similarity(a,b){
+
+  a = normalize(a);
+  b = normalize(b);
+
+  if(!a || !b) return 0;
+
+  let matches = 0;
+
+  const shorter = a.length < b.length ? a : b;
+  const longer = a.length >= b.length ? a : b;
+
+  for(let char of shorter){
+
+    if(longer.includes(char)){
+      matches++;
+    }
+
+  }
+
+  return matches / longer.length;
+
+}
+
+
+
+/* =====================================================
+   ===== UPGRADE START: FUZZY HIGHLIGHT FUNCTION =====
+===================================================== */
+
+function highlight(text, query){
+
+  if(!query) return text;
+
+  const words = text.split(" ");
+
+  return words.map(word => {
+
+    const score = similarity(query, word);
+
+    if(score >= 0.4){
+      return `<mark>${word}</mark>`;
+    }
+
+    return word;
+
+  }).join(" ");
+
+}
+
+
+
+/* =====================================================
+   ===== UPGRADE START: EXACT MATCH SEARCH =====
+===================================================== */
+
+const exactMatches = blogPosts.filter(post =>
+
+  normalize(post.title).includes(normalize(query)) ||
+  normalize(post.description).includes(normalize(query))
+
+);
+
+
+
+/* =====================================================
+   ===== UPGRADE START: FUZZY SEARCH FALLBACK =====
+   activates only if no exact matches found
+===================================================== */
+
+let filteredPosts = exactMatches;
+
+let isFuzzyResult = false;
+
+if(filteredPosts.length === 0 && query){
+
+  filteredPosts = blogPosts.filter(post => {
+
+    const titleScore = similarity(query, post.title);
+
+    const descScore = similarity(query, post.description);
+
+    const bestScore = Math.max(titleScore, descScore);
+
+    return bestScore >= 0.2;
+
+  });
+
+  if(filteredPosts.length > 0){
+    isFuzzyResult = true;
+  }
+
+}
+
+
+
+/* =====================================================
+   ===== UPGRADE START: TITLE LOGIC =====
+===================================================== */
+
+const title = document.getElementById("search-title");
+
+if(!query){
+
+  title.textContent = "Search Results";
+
+}
+
+else if(exactMatches.length > 0){
+
+  title.textContent = `Search results for "${query}"`;
+
+}
+
+else if(isFuzzyResult){
+
+  title.textContent = `No exact matches for "${query}". Showing similar results:`;
+
+}
+
+else{
+
+  title.textContent = `No results found for "${query}"`;
+
+}
+
+
+
+/* ===== RENDER FUNCTION ===== */
+
+const wrapper = document.getElementById("blogs-wrapper");
+
+const noResults = document.getElementById("no-results");
+
+function renderBlogs(posts){
+
+  wrapper.innerHTML = "";
+
+  if(posts.length === 0){
+
+    noResults.style.display = "block";
+    return;
+
+  }
+
+  noResults.style.display = "none";
+
+
+  posts.forEach(post=>{
+
+    const card = document.createElement("div");
+
+    card.className = "blog-post";
+
+
+    const highlightedTitle = highlight(post.title, query);
+
+    const highlightedDescription = highlight(post.description, query);
+
+
+    card.innerHTML = `
+
+      <div class="post-thumbnail">
+        <img src="${post.image}" alt="${post.title}">
+      </div>
+
+      <h2>${highlightedTitle}</h2>
+
+      <span class="blog-date">${post.date}</span>
+
+      <p>${highlightedDescription}</p>
+
+      <a href="${post.url}">
+        Read Article 📰
+      </a>
+
+    `;
+
+    wrapper.appendChild(card);
+
+  });
+
+}
+
+
+/* ===== EXECUTE SEARCH ===== */
+
+renderBlogs(filteredPosts);
+
+
+});
+
+</script>
+
+
+</body>
+</html>
