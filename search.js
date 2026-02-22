@@ -14,11 +14,32 @@ const blogPosts = [
   },
 
   {
-    title: "Grid Evolution 2048 — Strategy Guide",
+    title: "Watch Dogs: Legion — What Really Happens After You Discover Zero Day?",
+    date: "6 February 2026",
+    description: "What really changes in Watch Dogs: Legion after you discover Zero Day? A casual, spoiler-filled look at replaying the game, different choices, and why knowing the truth reshapes everything.",
+    image: "https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/299a26fe54c8c2391bb11518ec9d25eb.jpg",
+    url: "https://quantorv-games.com/topics/watch-dogs-legion-zero-day.html"
+  },
+   {
+    title: "How to Beat the 4096 Tile on Hard Mode in 2048: Grid Evolution",
+    date: "28 January 2026",
+    description: "Struggling with Hard Mode? Learn proven strategies to beat the 4096 tile in 2048: Grid Evolution. Master tile attacks, board control, and high-level tactics.",
+    image: "./assets/thumbnails/qvg-2048.jpg",
+    url: "https://quantorv-games.com/topics/how-to-beat-4096-tile-2048.html"
+  },
+   {
+    title: "About Grid Evolution: 2048",
     date: "23 January 2026",
-    description: "Master Grid Evolution 2048 with advanced strategies, tile control techniques, and efficient board management tips.",
-    image: "https://via.placeholder.com/400x250",
-    url: "#"
+    description: "Learn the story behind Grid Evolution 2048 — a creative twist on the classic puzzle game by Gabriel Cirulli, with gems, power-ups, and strategic depth, created by Clinton Nwezeaku..",
+    image: "./assets/thumbnails/qvg-2048.jpg",
+    url: "https://quantorv-games.com/topics/about-grid-evolution-2048.html"
+  },
+   {
+    title: "How to Play 2048: Grid Evolution",
+    date: "21 January 2026",
+    description: "Think you can handle the ultimate number showdown? Merge, evolve, and strategize your way through 2048: Grid Evolution by Quantorv Games — where every move counts and only the sharpest minds reach the top!",
+    image: "./assets/thumbnails/qvg-2048.jpg",
+    url: "https://quantorv-games.com/topics/how-to-play-2048.html"
   }
 
 ];

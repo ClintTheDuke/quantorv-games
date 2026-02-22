@@ -126,9 +126,15 @@
     <center>
         <h2 style="color:#fff; font-size:1.2rem;"> Various Topics and Guides From Quantorv Games!</h2>
         </center>
-    <div class='blogs-wrapper'>
+        <!-- ===== Filter Buttons ===== -->
+<div class="topics-filter">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="video-games">Video Games</button>
+  <button class="filter-btn" data-filter="web-games">Web Games</button>
+</div>
+    <div class='blogs-wrapper' id="topics-container">
           <!-- ==== Blog Post ==== -->
-    <div class='blog-post aos-slideIn'>
+    <div class='blog-post aos-slideIn' data-category="video-games">
      <div class='post-thumbnail'>
       <img 
        src='https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/90ade4251f8140eebd567566ba6119ac.jpg'
@@ -149,7 +155,7 @@
     </div>
      <!-- ==== Blog Post End ==== -->
          <!-- ==== Blog Post ==== -->
-    <div class='blog-post aos-slideIn'>
+  <div class='blog-post aos-slideIn' data-category="video-games">
      <div class='post-thumbnail'>
       <img 
        src='https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/299a26fe54c8c2391bb11518ec9d25eb.jpg'
@@ -170,7 +176,7 @@
     </div>
      <!-- ==== Blog Post End ==== -->
         <!-- ==== Blog Post ==== -->
-    <div class='blog-post aos-slideIn'>
+  <div class='blog-post aos-slideIn' data-category="web-games">
      <div class='post-thumbnail'>
       <img 
        src='./assets/thumbnails/qvg-2048.jpg'
@@ -192,7 +198,7 @@
      <!-- ==== Blog Post End ==== -->
     
     <!-- ==== Blog Post ==== -->
-    <div class='blog-post aos-slideIn'>
+   <div class='blog-post aos-slideIn' data-category="web-games">
      <div class='post-thumbnail'>
       <img 
        src='./assets/thumbnails/qvg-2048.jpg'
@@ -214,7 +220,7 @@
      <!-- ==== Blog Post End ==== -->
     
     <!-- ==== Blog Post ==== -->
-    <div class='blog-post aos-slideIn'>
+    <div class='blog-post aos-slideIn' data-category="web-games">
      <div class='post-thumbnail'>
       <img 
        src='./assets/thumbnails/qvg-2048.jpg'
@@ -238,7 +244,7 @@
     
    </div>
 </main>
-<script src="blogs.js"></script>
+<script src="topics.js"></script>
 </body>
 <footer>
  <section class="newsletter">

@@ -103,7 +103,7 @@ mark{
 .no-results{
  text-align:center;
  margin-top:2rem;
- opacity:.7;
+ color: #FFFF1515;
 }
 /* =========== Search bar styling Ends ========= */
 /* ====== Logo ======= */
