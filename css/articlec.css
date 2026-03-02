@@ -33,6 +33,42 @@ body {
  font-family: "ABeeZee",sans-serif;
  
 }
+p {
+  margin-bottom: 1em; /* Adds space after each paragraph */
+  line-height: 1.5;   /* Optional: makes text more readable */
+}
+/* ===============================
+   Topics display 
+================================ */
+
+.related-section {
+    margin-top: 60px;
+}
+.related-section h3{
+    color:#fff;
+    margin: 25px;
+}
+#related-posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.related-card {
+    display: block;
+    padding: 14px;
+    background: var(--hover-color);
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.related-card:hover {
+    background: var(--hover-color);
+    transform: translateY(-3px);
+}
 
 /* ===============================
    Topics Filter Container

@@ -57,6 +57,77 @@
         <link rel="stylesheet" href="css/articlec.css">    
             
         <title>Quantorv Games | Topics</title>
+        <style>
+            /* Topics Controls Container */
+.topics-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px auto;
+  max-width: 900px;
+  gap: 10px;
+}
+
+/* Filter Buttons */
+.topics-filter .filter-btn {
+  background-color: #064e3b; /* dark green */
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.9rem;
+}
+
+.topics-filter .filter-btn:hover,
+.topics-filter .filter-btn.active {
+  background-color: #065f46; /* slightly brighter green */
+}
+
+/* Sort Dropdown Styling */
+.sort-dropdown {
+  position: relative;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.sort-dropdown summary {
+  list-style: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: #064e3b;
+  color: #fff;
+}
+
+.sort-dropdown[open] summary {
+  background-color: #065f46;
+}
+
+.sort-dropdown ul {
+  margin: 5px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background-color: #064e3b;
+  border-radius: 6px;
+  overflow: hidden;
+  position: absolute;
+  z-index: 10;
+  min-width: 150px;
+}
+
+.sort-dropdown ul li {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.sort-dropdown ul li:hover {
+  background-color: #065f46;
+}
+        </style>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1BB0F4H256"></script>
 <script src="g-analytics.js"></script>
@@ -132,117 +203,19 @@
   <button class="filter-btn" data-filter="video-games">Video Games</button>
   <button class="filter-btn" data-filter="web-games">Web Games</button>
 </div>
-    <div class='blogs-wrapper' id="topics-container">
-          <!-- ==== Blog Post ==== -->
-    <div class='blog-post aos-slideIn' data-category="video-games">
-     <div class='post-thumbnail'>
-      <img 
-       src='https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/90ade4251f8140eebd567566ba6119ac.jpg'
-       alt='Watch Dogs: Legion — What If Zero Day Won?'/>
-     </div>
-     <h2>
-       Watch Dogs: Legion — What If Zero Day Won?
-     </h2>
-     <span class="blog-date">6 February 2026</span>
-     
-     <p>What would London look like if Zero Day actually won in Watch Dogs: Legion? A speculative, casual deep dive into chaos, factions, and the dystopian future we never got to play.
-      
-     </p>
-     
-     <a href='https://quantorv-games.com/topics/watch-dogs-legion-zero-day-won.html'>
-      Read Article📰
-     </a>
-    </div>
-     <!-- ==== Blog Post End ==== -->
-         <!-- ==== Blog Post ==== -->
-  <div class='blog-post aos-slideIn' data-category="video-games">
-     <div class='post-thumbnail'>
-      <img 
-       src='https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/299a26fe54c8c2391bb11518ec9d25eb.jpg'
-       alt='Watch Dogs: Legion — What Really Happens After You Discover Zero Day? | Quantorv Games'/>
-     </div>
-     <h2>
-       Watch Dogs: Legion — What Really Happens After You Discover Zero Day?
-     </h2>
-     <span class="blog-date">6 February 2026</span>
-     
-     <p>What really changes in Watch Dogs: Legion after you discover Zero Day? A casual, spoiler-filled look at replaying the game, different choices, and why knowing the truth reshapes everything.
-      
-     </p>
-     
-     <a href='https://quantorv-games.com/topics/watch-dogs-legion-zero-day.html'>
-      Read Article📰
-     </a>
-    </div>
-     <!-- ==== Blog Post End ==== -->
-        <!-- ==== Blog Post ==== -->
-  <div class='blog-post aos-slideIn' data-category="web-games">
-     <div class='post-thumbnail'>
-      <img 
-       src='./assets/thumbnails/qvg-2048.jpg'
-       alt='Quantorv Games - 2048 Grid Evolution'/>
-     </div>
-     <h2>
-       How to Beat the 4096 Tile on Hard Mode in 2048: Grid Evolution
-     </h2>
-     <span class="blog-date">28 January 2026</span>
-     
-     <p>Struggling with Hard Mode? Learn proven strategies to beat the 4096 tile in 2048: Grid Evolution. Master tile attacks, board control, and high-level tactics.
-      
-     </p>
-     
-     <a href='topics/how-to-beat-4096-tile-2048.html'>
-      Read Article📰
-     </a>
-    </div>
-     <!-- ==== Blog Post End ==== -->
-    
-    <!-- ==== Blog Post ==== -->
-   <div class='blog-post aos-slideIn' data-category="web-games">
-     <div class='post-thumbnail'>
-      <img 
-       src='./assets/thumbnails/qvg-2048.jpg'
-       alt='Quantorv Games - 2048 Grid Evolution'/>
-     </div>
-     <h2>
-       About Grid Evolution: 2048
-     </h2>
-     <span class="blog-date">23 January 2026</span>
-     
-     <p>
-      Learn the story behind Grid Evolution 2048 — a creative twist on the classic puzzle game by Gabriel Cirulli, with gems, power-ups, and strategic depth, created by Clinton Nwezeaku.
-     </p>
-     
-     <a href='topics/about-grid-evolution-2048.html'>
-      Read Article📰
-     </a>
-    </div>
-     <!-- ==== Blog Post End ==== -->
-    
-    <!-- ==== Blog Post ==== -->
-    <div class='blog-post aos-slideIn' data-category="web-games">
-     <div class='post-thumbnail'>
-      <img 
-       src='./assets/thumbnails/qvg-2048.jpg'
-       alt='Quantorv Games - 2048 Grid Evolution'/>
-     </div>
-     <h2>
-       How to Play 2048: Grid Evolution
-     </h2>
-     <span class="blog-date">21 January 2026</span>
-     
-     <p>
-      Think you can handle the ultimate number showdown? Merge, evolve, and strategize your way through 2048: Grid Evolution by Quantorv Games — where every move counts and only the sharpest minds reach the top!
-     </p>
-     
-     <a href='topics/how-to-play-2048.html'>
-      Read Article📰
-     </a>
-    </div>
-     <!-- ==== Blog Post End ==== -->
-    
-    
-   </div>
+
+<!-- Sort Dropdown -->
+  <details class="sort-dropdown">
+    <summary>Sort: Newest ▼</summary>
+    <ul>
+      <li data-sort="newest">Newest First</li>
+      <li data-sort="oldest">Oldest First</li>
+    </ul>
+  </details>
+<!-- ========== Topics Container ========== -->
+     <div class='blogs-wrapper' id="topics-container">
+   </div> 
+   <!-- ========== Topics Container End ========== -->
 </main>
 <script src="topics.js"></script>
 </body>
