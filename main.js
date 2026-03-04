@@ -82,4 +82,159 @@ async function subscribeUser(email) {
   return true;
 }
   
+  //=========== Json show start ===========
+
+const track = document.getElementById("qv-carousel-track");
+const btnNext = document.querySelector(".qv-btn-right");
+const btnPrev = document.querySelector(".qv-btn-left");
+
+let index = 0;
+let visible = 3;
+let total = 0;
+let autoSlide;
+
+/* ===== FETCH JSON ===== */
+fetch("topics.json")
+.then(res=>res.json())
+.then(data=>{
+    renderCards(data.slice(0,7)); // only first 7 posts
+    setupCarousel();
+    startAuto();
+});
+
+/* ===== RENDER CARDS ===== */
+function renderCards(data){
+    data.forEach(item=>{
+        track.appendChild(createCard(item));
+    });
+}
+
+/* ===== CREATE CARD ===== */
+function createCard(item){
+    const card = document.createElement("div");
+    card.className="blog-post";
+
+    card.innerHTML=`
+        <div class="post-thumbnail">
+            <img src="${item.thumbnail}" alt="${item.title}" loading="lazy">
+        </div>
+        <h2>${item.title}</h2>
+        <p>${item.excerpt}</p>
+        <a href="${item.url}">Read More</a>
+    `;
+    return card;
+}
+
+/* ===== RESPONSIVE VISIBLE CARDS ===== */
+function setVisible(){
+    if(window.innerWidth <=600){ visible=1; }
+    else if(window.innerWidth <=1024){ visible=2; }
+    else{ visible=3; }
+}
+
+/* ===== SETUP LOOP ===== */
+  /*function setupCarousel(){
+    setVisible();
+    const cards = Array.from(track.children);
+    total = cards.length;
+
+    // clone for infinite effect
+    for(let i=0;i<visible;i++){
+        track.appendChild(cards[i].cloneNode(true));
+        track.insertBefore(cards[total-1-i].cloneNode(true), track.firstChild);
+    }
+
+    index=visible;
+    updatePosition(false);
+} */
+function setupCarousel(){
+    setVisible();
+    const cards = Array.from(track.children);
+    total = cards.length;
+
+    // Clone first 'visible' cards at the end only
+    for(let i=0; i<visible; i++){
+        track.appendChild(cards[i].cloneNode(true));
+    }
+
+    index = 0; // start at first real card
+    updatePosition(false);
+}
+
+function nextSlide(){
+    index++;
+    updatePosition(true);
+
+    setTimeout(()=>{
+        if(index >= total-2){ // reached duplicates
+            index = 0;
+            updatePosition(false); // jump back seamlessly
+        }
+    }, 500);
+}
+
+
+
+/* ===== UPDATE POSITION ===== */
+function updatePosition(animate=true){
+    const width = track.parentElement.clientWidth;
+    const slideWidth = width / visible;
+    track.style.transition = animate ? "transform 0.5s ease" : "none";
+    track.style.transform = `translateX(-${index*slideWidth}px)`;
+}
+
+/* ===== NEXT / PREV ===== */
+function nextSlide(){
+    index++;
+    updatePosition(true);
+    setTimeout(()=>{
+        if(index >= total+visible){ index=visible; updatePosition(false); }
+    },500);
+}
+/* function prevSlide(){
+    index--;
+    updatePosition(true);
+    setTimeout(()=>{
+        if(index<visible){ index=total+visible-1; updatePosition(false); }
+    },500);
+} */
+function prevSlide(){
+    index--;
+    updatePosition(true);
+
+    setTimeout(()=>{
+        if(index < 0){
+            index = total - 1;
+            updatePosition(false); // jump back seamlessly
+        }
+    }, 500);
+}
+/* ===== BUTTONS ===== */
+btnNext.addEventListener("click", ()=>{
+    nextSlide();
+    resetAuto();
+});
+btnPrev.addEventListener("click", ()=>{
+    prevSlide();
+    resetAuto();
+});
+
+/* ===== AUTO SCROLL ===== */
+function startAuto(){
+    autoSlide=setInterval(nextSlide,3000);
+}
+function resetAuto(){
+    clearInterval(autoSlide);
+    startAuto();
+}
+
+/* ===== RESPONSIVE ===== */
+window.addEventListener("resize", ()=>{
+    setVisible();
+    updatePosition(false);
+});
+
+
+
+//=========== Json show ends ===========
 });
