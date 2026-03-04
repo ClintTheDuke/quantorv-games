@@ -1,74 +1,108 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-		<!--	created with www.mysitemapgenerator.com	-->
-		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url>
-	<loc>https://quantorv-games.com/</loc>
-	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/topics.html</loc>
-	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/games.html</loc>
-	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/2048-grid-evolution/index.html</loc>
-	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
-	<priority>0.8</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/about.html</loc>
-	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/terms.html</loc>
-	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/privacy-policy.html</loc>
-	<lastmod>2026-02-14T16:47:57+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/2048-grid-evolution/leaderboard.html</loc>
-	<lastmod>2026-02-14T16:47:58+01:00</lastmod>
-	<priority>0.8</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/topics/how-to-play-2048.html</loc>
-	<lastmod>2026-02-14T16:47:58+01:00</lastmod>
-	<priority>0.8</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/contact.html</loc>
-	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
-	<priority>1.0</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day-won.html</loc>
-	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
-	<priority>0.8</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day.html</loc>
-	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
-	<priority>0.8</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/topics/how-to-beat-4096-tile-2048.html</loc>
-	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
-	<priority>0.8</priority>
-</url>
-<url>
-	<loc>https://quantorv-games.com/topics/about-grid-evolution-2048.html</loc>
-	<lastmod>2026-02-14T16:47:59+01:00</lastmod>
-	<priority>0.8</priority>
-</url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://quantorv-games.com/</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/index.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/games.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/top-10-best-pvp-games-mobile-2026.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/best-pvp-games-mobile.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/gta-6-leaks.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/2022-rockstar-hack-gta6.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day-won.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/how-to-beat-4096-tile-2048.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/2048-grid-evolution/index.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/about.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/terms.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/privacy-policy.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/contact.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/about-grid-evolution-2048.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/how-to-play-2048.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/2048-grid-evolution.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/2048-grid-evolution/leaderboard.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantorv-games.com/topics/about-grid-evoulution-2048.html</loc>
+    <lastmod>2026-03-04</lastmod>
+    <priority>0.8</priority>
+  </url>
 </urlset>
