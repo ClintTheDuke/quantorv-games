@@ -463,7 +463,24 @@ blockquote {
   background: #1e1e1e;
   color: #ccc;
 }
+/* Ordered List Styling */
+ol {
+  margin: 20px 0;          
+  padding-left: 25px;      
+}
 
+ol li {
+  margin-bottom: 12px;     
+  line-height: 1.6;        
+}
+
+ol li strong {
+    color:#08d549;
+}
+ol li ol {
+  margin-top: 10px;
+}
+/* UnOrdered List Styling */
 ul {
   padding-left: 20px;
 }
