@@ -132,21 +132,7 @@ function setVisible(){
     else{ visible=3; }
 }
 
-/* ===== SETUP LOOP ===== */
-  /*function setupCarousel(){
-    setVisible();
-    const cards = Array.from(track.children);
-    total = cards.length;
 
-    // clone for infinite effect
-    for(let i=0;i<visible;i++){
-        track.appendChild(cards[i].cloneNode(true));
-        track.insertBefore(cards[total-1-i].cloneNode(true), track.firstChild);
-    }
-
-    index=visible;
-    updatePosition(false);
-} */
 function setupCarousel(){
     setVisible();
     const cards = Array.from(track.children);
