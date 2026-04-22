@@ -20,7 +20,7 @@
   position: absolute;
   width: 140px;
   height: 200px;
-  background: #fff;
+  background: #111a12;
   border-radius: 10px;
   border: 1px solid #ddd#8098ff;
   padding: 10px;
@@ -30,6 +30,14 @@
   transform-style: preserve-3d;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
+
+.qvg-3d-carousel-card p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 
 /* IMAGE */
 .qvg-post-thumbnail img {
@@ -41,13 +49,15 @@
 
 /* TEXT */
 .qvg-3d-carousel-card h2 {
+ color:#ffffff;
+ font-weight:700;
   font-size: 12px;
   margin: 5px 0;
 }
 
 .qvg-blog-date {
   font-size: 10px;
-  color: gray;
+  color: #fff;
 }
 
 .qvg-3d-carousel-card p {

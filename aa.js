@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 card.className = "qvg-3d-carousel-card";
 
                 card.innerHTML = `
+                 
                     <div class="qvg-post-thumbnail">
                         <img src="${post.thumbnail}" alt="${post.title}">
                     </div>
@@ -65,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <p>${post.excerpt || ""}</p>
 
-                    <a href="${post.url}">
+                   <a href="${post.url}">
                         Read Article 📰
                     </a>
                 `;
