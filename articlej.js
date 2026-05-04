@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ===============================
      PRELOADER
   =============================== */
-  const preloader = document.getElementById('loading-screen');
+  /* const preloader = document.getElementById('loading-screen');
   if (preloader) {
     setTimeout(() => {
       preloader.style.display = 'none';
     }, 200);
-  }
+  } */
 
   /* ===============================
      CURRENT YEAR

@@ -1,5 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-
+  /* ===============================
+     PRELOADER
+  =============================== */
+  const preloader = document.getElementById('loading-screen');
+  if (preloader) {
+    setTimeout(() => {
+      preloader.style.display = 'none';
+    }, 2000);
+  }
+  
+  
  const aosLeft = document.querySelectorAll('.aos-left');
  const aosSlideIn = document.querySelectorAll('.aos-slideIn');
  
@@ -81,146 +91,268 @@ async function subscribeUser(email) {
 
   return true;
 }
-  
-  //=========== Json show start ===========
+ /* ======== QVG Carousel  ========= */
+    async function qvgLoad3DCarousel() {
+       
 
-const track = document.getElementById("qv-carousel-track");
-const btnNext = document.querySelector(".qv-btn-right");
-const btnPrev = document.querySelector(".qv-btn-left");
+        const container = document.getElementById("qvg-3d-carousel");
 
-let index = 0;
-let visible = 3;
-let total = 0;
-let autoSlide;
+        // Check container
+        if (!container) {
+           // console.error(" Container #qvg-3d-carousel NOT found in HTML");
+            return;
+        } else {
+            //console.log("Container found");
+        }
 
-/* ===== FETCH JSON ===== */
-fetch("topics.json")
-.then(res=>res.json())
-.then(data=>{
-    renderCards(data.slice(0,7)); // only first 7 posts
-    setupCarousel();
-    startAuto();
-});
+        try {
+            console.log("🌐 Fetching topics.json...");
 
-/* ===== RENDER CARDS ===== */
-function renderCards(data){
-    data.forEach(item=>{
-        track.appendChild(createCard(item));
-    });
+            const res = await fetch("topics.json");
+
+            //  Check response
+            if (!res.ok) {
+                console.error("❌ Fetch failed:", res.status, res.statusText);
+                return;
+            } else {
+                console.log("✅ Fetch successful");
+            }
+
+            const data = await res.json();
+
+            // Check JSON format
+            if (!Array.isArray(data)) {
+               // console.error("❌ topics.json is NOT an array");
+                console.log("👉 Actual data:", data);
+                return;
+            } else {
+               // console.log(`✅ JSON loaded (${data.length} items)`);
+            }
+
+            const posts = data.slice(0, 5);
+
+            //console.log("📊 Using first 5 posts:", posts);
+
+            posts.forEach((post, index) => {
+
+                // ✅ Validate post fields
+                if (!post.title || !post.thumbnail) {
+                    console.warn(`⚠️ Missing data in post index ${index}`, post);
+                }
+
+                const card = document.createElement("div");
+                card.className = "qvg-3d-carousel-card";
+
+                card.innerHTML = `
+                 
+                    <div class="qvg-post-thumbnail">
+                        <img src="${post.thumbnail}" alt="${post.title}">
+                    </div>
+
+                    <h2>${post.title}</h2>
+
+                    <span class="qvg-blog-date">${qvgFormatDate(post.date)}</span>
+
+                    <p>${post.excerpt || ""}</p>
+
+                   <a href="${post.url}">
+                        Read More
+                    </a>
+                 
+                `;
+
+                container.appendChild(card);
+            });
+
+            console.log("🎉 Carousel rendered successfully!");
+            
+            
+            
+ 
+ 
+ 
+        } catch (err) {
+            console.error("🔥 QVG Carousel Error:", err);
+        }
+    }
+    
+    /* ======= QVG Carousel Ends ======= */
+
+/* ===== Slick Carousel ======= */
+async function qvgLoadSlickCarousel() {
+
+    const container = document.querySelector(".card-carousel-slick");
+    if (!container) return;
+
+    try {
+        const res = await fetch("topics.json");
+        const data = await res.json();
+
+        const posts = data.slice(0, 16);
+        container.innerHTML = "";
+
+        posts.forEach(post => {
+            const card = document.createElement("a");
+            card.className = "card-slick";
+            card.href = post.url;
+
+            card.innerHTML = `
+                <div class="slick-img-wrap">
+                    <div class="slick-loader"></div>
+                    <img src="${post.thumbnail}" alt="${post.title}">
+                </div>
+                <div class="slick-content">
+                    <h3 class="slick-title">${post.title}</h3>
+                    
+                    <span class="slick-date">${qvgFormatDate(post.date)}</span>
+                    <p class="slick-excerpt">${post.excerpt || ""}</p>
+                </div>
+            `;
+
+            const img = card.querySelector("img");
+            const loader = card.querySelector(".slick-loader");
+
+            img.onload = () => {
+                loader.style.display = "none";
+                img.style.display = "block";
+            };
+
+            container.appendChild(card);
+        });
+
+        // 🔥 INIT SLICK HERE (AFTER content exists)
+      
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+/* ======== slick carousel ends ========== */
+
+/* ===== Swiper Carousel ===== */
+async function qvgLoadSwiperCarousel() {
+
+    const track = document.getElementById("swiper-carousel-track");
+    if (!track) return;
+
+    try {
+        const res = await fetch("topics.json");
+
+        if (!res.ok) {
+            console.error("❌ Fetch failed:", res.status);
+            return;
+        }
+
+        const data = await res.json();
+        if (!Array.isArray(data)) return;
+
+        const posts = data.slice(0, 10);
+        track.innerHTML = "";
+
+        posts.forEach(post => {
+
+            const slide = document.createElement("div");
+            slide.className = "swiper-slide";
+
+            slide.innerHTML = `
+                <a href="${post.url}" class="swiper-carousel-card">
+                    
+                    <div class="swiper-carousel-img-wrap">
+                        <div class="swiper-carousel-loader"></div>
+                        <img src="${post.thumbnail}" alt="${post.title}">
+                    </div>
+
+                    <div class="swiper-carousel-content">
+                        <h3 class="swiper-carousel-title">${post.title}</h3>
+                        <span class="swiper-carousel-date">
+                            ${qvgFormatDate(post.date)}
+                        </span>
+                    </div>
+
+                </a>
+            `;
+
+            // loader logic (same pattern as your slick)
+            const img = slide.querySelector("img");
+            const loader = slide.querySelector(".swiper-carousel-loader");
+
+            img.onload = () => {
+                loader.style.display = "none";
+                img.style.display = "block";
+            };
+
+            track.appendChild(slide);
+        });
+
+        // INIT SWIPER
+        new Swiper(".swiper-carousel", {
+            loop: true,
+
+            slidesPerView: 1,
+            spaceBetween: 15,
+
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+
+            navigation: {
+                nextEl: ".swiper-carousel-button-next",
+                prevEl: ".swiper-carousel-button-prev",
+            },
+
+            breakpoints: {
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
+            }
+        });
+
+    } catch (err) {
+        console.error("🔥 Swiper Carousel Error:", err);
+    }
 }
 
-/* ===== CREATE CARD ===== */
-function createCard(item){
-    const card = document.createElement("div");
-    card.className="blog-post";
-
-    card.innerHTML=`
-        <div class="post-thumbnail">
-            <img src="${item.thumbnail}" alt="${item.title}" loading="lazy">
-        </div>
-        <h2>${item.title}</h2>
-        <p>${item.excerpt}</p>
-        <a href="${item.url}">Read More</a>
-    `;
-    return card;
-}
-
-/* ===== RESPONSIVE VISIBLE CARDS ===== */
-function setVisible(){
-    if(window.innerWidth <=600){ visible=1; }
-    else if(window.innerWidth <=1024){ visible=2; }
-    else{ visible=3; }
-}
 
 
-function setupCarousel(){
-    setVisible();
-    const cards = Array.from(track.children);
-    total = cards.length;
 
-    // Clone first 'visible' cards at the end only
-    for(let i=0; i<visible; i++){
-        track.appendChild(cards[i].cloneNode(true));
+
+
+
+
+    /* DATE FORMAT */
+    function qvgFormatDate(dateStr) {
+        if (!dateStr) {
+            console.warn("⚠️ Missing date");
+            return "No date";
+        }
+
+        const dateObj = new Date(dateStr);
+
+        if (isNaN(dateObj)) {
+            console.error("❌ Invalid date format:", dateStr);
+            return dateStr;
+        }
+
+        const day = dateObj.getDate();
+        const month = dateObj.toLocaleString("en-US", { month: "long" });
+        const year = dateObj.getFullYear();
+
+        const ordinal = (n) => {
+            if (n > 3 && n < 21) return "th";
+            switch (n % 10) {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+                default: return "th";
+            }
+        };
+
+        return `${day}${ordinal(day)} ${month}, ${year}`;
     }
 
-    index = 0; // start at first real card
-    updatePosition(false);
-}
-
-function nextSlide(){
-    index++;
-    updatePosition(true);
-
-    setTimeout(()=>{
-        if(index >= total-2){ // reached duplicates
-            index = 0;
-            updatePosition(false); // jump back seamlessly
-        }
-    }, 500);
-}
-
-
-
-/* ===== UPDATE POSITION ===== */
-function updatePosition(animate=true){
-    const width = track.parentElement.clientWidth;
-    const slideWidth = width / visible;
-    track.style.transition = animate ? "transform 0.5s ease" : "none";
-    track.style.transform = `translateX(-${index*slideWidth}px)`;
-}
-
-/* ===== NEXT / PREV ===== */
-function nextSlide(){
-    index++;
-    updatePosition(true);
-    setTimeout(()=>{
-        if(index >= total+visible){ index=visible; updatePosition(false); }
-    },500);
-}
-/* function prevSlide(){
-    index--;
-    updatePosition(true);
-    setTimeout(()=>{
-        if(index<visible){ index=total+visible-1; updatePosition(false); }
-    },500);
-} */
-function prevSlide(){
-    index--;
-    updatePosition(true);
-
-    setTimeout(()=>{
-        if(index < 0){
-            index = total - 1;
-            updatePosition(false); // jump back seamlessly
-        }
-    }, 500);
-}
-/* ===== BUTTONS ===== */
-btnNext.addEventListener("click", ()=>{
-    nextSlide();
-    resetAuto();
-});
-btnPrev.addEventListener("click", ()=>{
-    prevSlide();
-    resetAuto();
-});
-
-/* ===== AUTO SCROLL ===== */
-function startAuto(){
-    autoSlide=setInterval(nextSlide,3000);
-}
-function resetAuto(){
-    clearInterval(autoSlide);
-    startAuto();
-}
-
-/* ===== RESPONSIVE ===== */
-window.addEventListener("resize", ()=>{
-    setVisible();
-    updatePosition(false);
-});
-
-
-
-//=========== Json show ends ===========
+    qvgLoad3DCarousel();
+    qvgLoadSlickCarousel();
+    qvgLoadSwiperCarousel();
+    // ======== carousel ends ======
 });

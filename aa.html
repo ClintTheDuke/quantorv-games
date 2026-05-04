@@ -5,37 +5,68 @@
     <meta charset="UTF-8">
     <title>Page title</title>
     <style>
+       .qvg-3d-carousel-wrapper{
+    width: min(600px, 95vw);
+    height: min(360px, 70vh);
+    border: groove;
+
+    background-color: #08d549;
+    background-image: radial-gradient(at 85% 51%, hsla(60,60%,61%,1) 0px, transparent 50%),
+      radial-gradient(at 74% 68%, hsla(235,69%,77%,1) 0px, transparent 50%),
+      radial-gradient(at 64% 79%, hsla(284,72%,73%,1) 0px, transparent 50%),
+      radial-gradient(at 75% 16%, hsla(283,60%,72%,1) 0px, transparent 50%),
+      radial-gradient(at 90% 65%, hsla(153,70%,64%,1) 0px, transparent 50%),
+      radial-gradient(at 91% 83%, hsla(283,74%,69%,1) 0px, transparent 50%),
+      radial-gradient(at 72% 91%, hsla(213,75%,75%,1) 0px, transparent 50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: auto;
+}
+        
+        
         .qvg-3d-carousel {
   position: relative;
-  width: 500px;
-  height: 260px;
-  margin: 50px auto;
+  width: min(500px, 90%);
+  height: min(260px, 60vh);
+
   transform-style: preserve-3d;
   transform: perspective(1000px);
   animation: qvgRotateStep 15s infinite;
 }
-
 /* CARD */
 .qvg-3d-carousel-card {
   position: absolute;
-  width: 140px;
-  height: 200px;
+
+  width: clamp(110px, 25vw, 140px);
+  height: clamp(170px, 36vh, 210px);
+
   background: #111a12;
   border-radius: 10px;
   border: 1px solid #ddd#8098ff;
   padding: 10px;
+
   top: 50%;
   left: 50%;
   transform-origin: center;
   transform-style: preserve-3d;
+
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-.qvg-3d-carousel-card p {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.qvg-3d-carousel-card.inactive {
+  filter: blur(3px);
+  opacity: 0.3;
+  transform: scale(0.85);
+}
+
+.qvg-3d-carousel-card.active {
+  filter: none;
+  opacity: 1;
+  transform: scale(1);
+  z-index: 10;
 }
 
 
@@ -63,6 +94,11 @@
 .qvg-3d-carousel-card p {
   font-size: 10px;
   margin: 5px 0;
+  color:#fff;
+   display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .qvg-3d-carousel-card a {
@@ -72,11 +108,11 @@
 }
 
 /* POSITIONS (5 cards) */
-.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(1) { transform: translate(-50%, -50%) rotateY(0deg)   translateZ(260px); }
-.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(2) { transform: translate(-50%, -50%) rotateY(72deg)  translateZ(260px); }
-.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(3) { transform: translate(-50%, -50%) rotateY(144deg) translateZ(260px); }
-.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(4) { transform: translate(-50%, -50%) rotateY(216deg) translateZ(260px); }
-.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(5) { transform: translate(-50%, -50%) rotateY(288deg) translateZ(260px); }
+.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(1) { transform: translate(-50%, -50%) rotateY(0deg)   translateZ(clamp(140px, 30vw, 260px)); }
+.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(2) { transform: translate(-50%, -50%) rotateY(72deg)  translateZ(clamp(140px, 30vw, 260px)); }
+.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(3) { transform: translate(-50%, -50%) rotateY(144deg) translateZ(clamp(140px, 30vw, 260px)); }
+.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(4) { transform: translate(-50%, -50%) rotateY(216deg) translateZ(clamp(140px, 30vw, 260px)); }
+.qvg-3d-carousel .qvg-3d-carousel-card:nth-child(5) { transform: translate(-50%, -50%) rotateY(288deg) translateZ(clamp(140px, 30vw, 260px)); }
 
 /* STEP ROTATION */
 @keyframes qvgRotateStep {
@@ -97,11 +133,42 @@
 
   100% { transform: perspective(1000px) rotateY(-360deg); }
 }
+
+@media (min-width: 1024px) {
+
+  .qvg-3d-carousel-wrapper {
+    width: 900px;
+    height: 500px;
+  }
+
+  .qvg-3d-carousel {
+    width: 700px;
+    height: 380px;
+  }
+
+  .qvg-3d-carousel-card {
+    width: 150px;
+    height: 220px;
+  }
+
+  .qvg-3d-carousel .qvg-3d-carousel-card:nth-child(1) { transform: translate(-50%, -50%) rotateY(0deg)   translateZ(320px); }
+  .qvg-3d-carousel .qvg-3d-carousel-card:nth-child(2) { transform: translate(-50%, -50%) rotateY(72deg)  translateZ(320px); }
+  .qvg-3d-carousel .qvg-3d-carousel-card:nth-child(3) { transform: translate(-50%, -50%) rotateY(144deg) translateZ(320px); }
+  .qvg-3d-carousel .qvg-3d-carousel-card:nth-child(4) { transform: translate(-50%, -50%) rotateY(216deg) translateZ(320px); }
+  .qvg-3d-carousel .qvg-3d-carousel-card:nth-child(5) { transform: translate(-50%, -50%) rotateY(288deg) translateZ(320px); }
+
+}
     </style>
   
 </head>
 <body bgcolor="#000">
-    <div id="qvg-3d-carousel" class="qvg-3d-carousel"></div>
+   
+        
     
+    <div class="qvg-3d-carousel-wrapper">
+        
+    <div id="qvg-3d-carousel" class="qvg-3d-carousel"></div>
+    </div>
+   
 </body>
 </html>

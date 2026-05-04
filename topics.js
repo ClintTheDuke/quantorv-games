@@ -14,6 +14,12 @@ NEW FEATURES:
 
 document.addEventListener("DOMContentLoaded", async () => {
 
+const preloader = document.getElementById('loading-screen');
+  if (preloader) {
+    setTimeout(() => {
+      preloader.style.display = 'none';
+    }, 2000);
+  }
     const container = document.getElementById("topics-container");
     const filterButtons = document.querySelectorAll(".filter-btn");
 
@@ -38,93 +44,62 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const post = document.createElement("div");
 
-        post.className = "blog-post aos-slideIn";
+post.className = "blog-post aos-slideIn";
+post.dataset.category = data.category;
 
-        post.dataset.category = data.category;
+post.innerHTML = `
+    <div class="post-thumbnail">
+        <div class="blog-loader"></div>
+        <img src="${data.thumbnail}" alt="${data.title}">
+    </div>
 
-        post.innerHTML = `
-            <div class="post-thumbnail">
-                <img src="${data.thumbnail}" alt="${data.title}">
-            </div>
+    <h2>${data.title}</h2>
 
-            <h2>${data.title}</h2>
+    <span class="blog-date">${formatDateHuman(data.date)}</span>
 
-           <span class="blog-date">${formatDateHuman(data.date)}</span>
+    <p>${data.excerpt}</p>
 
-            <p>${data.excerpt}</p>
+    <a href="${data.url}">
+        Read Article📰
+    </a>
+`;
 
-            <a href="${data.url}">
-                Read Article📰
-            </a>
-        `;
+const img = post.querySelector("img");
+const loader = post.querySelector(".blog-loader");
 
-        return post;
+img.onload = () => {
+    loader.style.display = "none";
+    img.classList.add("fade-in");
+    img.style.display = "block";
+};
+
+img.style.display = "none";
+
+return post;
     }
 
 
     /*
     ===========================================
-    STEP 3 — LOAD TOPICS FROM JSON DATABASE
-    NEW: This replaces HTML scanning
+    STEP 3 — LOAD TOPICS FROM DOM
     ===========================================
     */
 
-    async function loadTopicsFromJSON() {
+    function loadTopicsFromDOM() {
+  const elements = document.querySelectorAll(".blog-post");
 
-        try {
+  elements.forEach(el => {
+    topics.push({
+      element: el,
+      category: el.dataset.category?.toLowerCase() || "all",
 
-            const response = await fetch("topics.json");
+      date: el.dataset.date, // for sorting (IMPORTANT)
 
-            if (!response.ok)
-                throw new Error("Failed to fetch topics.json");
-
-            const data = await response.json();
-
-
-            data.forEach(topicData => {
-
-                const element = createTopicElement(topicData);
-
-                const topicObject = {
-
-                    element: element,
-
-                    category: topicData.category.toLowerCase(),
-
-                    title: topicData.title,
-
-                    date: topicData.date,
-
-                    url: topicData.url
-
-                };
-
-
-                topics.push(topicObject);
-
-
-                /*
-                Only render visually if container exists
-                This allows use on article pages without container
-                */
-
-                if (container) {
-
-                    container.appendChild(element);
-
-                }
-
-            });
-
-        }
-        catch (error) {
-
-            console.error("Quantorv Topics Engine JSON load failed:", error);
-
-        }
-
-    }
-
+      title: el.querySelector("h2")?.innerText || "",
+      url: el.querySelector("a")?.href || ""
+    });
+  });
+}
 
     /*
     ===========================================
@@ -286,7 +261,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     ===========================================
     */
 
-    await loadTopicsFromJSON();
+    await loadTopicsFromDOM();
 
 
     /*
@@ -307,51 +282,34 @@ NEW: Allows sorting topics by date (Newest/Oldest)
 // Only initialize if container exists (topics page)
 if (container) {
 
-    // Grab the sort dropdown list items
-    const sortDropdownItems = document.querySelectorAll(".sort-dropdown ul li");
+  const sortDropdownItems = document.querySelectorAll(".sort-dropdown ul li");
+  const posts = Array.from(container.querySelectorAll(".list-post"));
 
-    sortDropdownItems.forEach(item => {
+  sortDropdownItems.forEach(item => {
 
-        item.addEventListener("click", () => {
+    item.addEventListener("click", () => {
 
-            const sortType = item.dataset.sort; // 'newest' or 'oldest'
+      const sortType = item.dataset.sort;
 
-            /*
-            ===========================================
-            SORT LOGIC
-            ===========================================
-            */
+      posts.sort((a, b) => {
+        const dateA = new Date(a.dataset.date);
+        const dateB = new Date(b.dataset.date);
 
-            if (sortType === "newest") {
+        return sortType === "newest"
+          ? dateB - dateA
+          : dateA - dateB;
+      });
 
-                // Sort topics array descending by date
-                topics.sort((a, b) => new Date(b.date) - new Date(a.date));
+      // Clear & re-append in new order
+      container.innerHTML = "";
+      posts.forEach(post => container.appendChild(post));
 
-                // Update summary text
-                document.querySelector(".sort-dropdown summary").innerText = "Sort: Newest ▼";
-
-            } else {
-
-                // Sort topics array ascending by date
-                topics.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-                // Update summary text
-                document.querySelector(".sort-dropdown summary").innerText = "Sort: Oldest ▼";
-
-            }
-
-            /*
-            ===========================================
-            RE-RENDER CONTAINER
-            ===========================================
-            */
-
-            container.innerHTML = ""; // Clear existing posts
-            topics.forEach(topic => container.appendChild(topic.element));
-
-        });
+      document.querySelector(".sort-dropdown summary").innerText =
+        sortType === "newest" ? "Sort: Newest ▼" : "Sort: Oldest ▼";
 
     });
+
+  });
 
 }
 /*
@@ -380,5 +338,192 @@ function formatDateHuman(dateStr) {
 
     return `${day}${ordinal(day)} ${month}, ${year}`;
 }
+
+});
+
+/* ===============
+   Additions (SWIPER CAROUSEL)
+   ================
+ */
+ 
+ window.addEventListener("load", () => {
+  new Swiper(".swiper-topic", {
+    loop: true,
+    spaceBetween: 15,
+    slidesPerView: 1.2,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-topic-pagination",
+      clickable: true,
+    },
+    breakpoints: {
+      768: { slidesPerView: 2.2 },
+      1024: { slidesPerView: 3 }
+    }
+  });
+  // ========== Swiper Carousel ===========
+  async function qvgLoadSwiperCarousel() {
+
+    const track = document.getElementById("swiper-carousel-track");
+    if (!track) return;
+
+    try {
+        const res = await fetch("topics.json");
+
+        if (!res.ok) {
+            console.error("❌ Fetch failed:", res.status);
+            return;
+        }
+
+        const data = await res.json();
+        if (!Array.isArray(data)) return;
+
+        const posts = data.slice(0, 10);
+        track.innerHTML = "";
+
+        posts.forEach(post => {
+
+            const slide = document.createElement("div");
+            slide.className = "swiper-slide";
+
+            slide.innerHTML = `
+                <a href="${post.url}" class="swiper-carousel-card">
+                    
+                    <div class="swiper-carousel-img-wrap">
+                        <div class="swiper-carousel-loader"></div>
+                        <img src="${post.thumbnail}" alt="${post.title}">
+                    </div>
+
+                    <div class="swiper-carousel-content">
+                        <h3 class="swiper-carousel-title">${post.title}</h3>
+                        <span class="swiper-carousel-date">
+                            ${qvgFormatDate(post.date)}
+                        </span>
+                    </div>
+
+                </a>
+            `;
+
+            // loader logic (same pattern as your slick)
+            const img = slide.querySelector("img");
+            const loader = slide.querySelector(".swiper-carousel-loader");
+
+            img.onload = () => {
+                loader.style.display = "none";
+                img.style.display = "block";
+            };
+
+            track.appendChild(slide);
+        });
+
+        // INIT SWIPER
+        new Swiper(".swiper-carousel", {
+            loop: true,
+
+            slidesPerView: 1,
+            spaceBetween: 15,
+
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+
+            navigation: {
+                nextEl: ".swiper-carousel-button-next",
+                prevEl: ".swiper-carousel-button-prev",
+            },
+
+            breakpoints: {
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
+            }
+        });
+
+    } catch (err) {
+        console.error("🔥 Swiper Carousel Error:", err);
+    }
+}
+
+
+
+
+
+
+
+
+    /* DATE FORMAT */
+    function qvgFormatDate(dateStr) {
+        if (!dateStr) {
+            console.warn("⚠️ Missing date");
+            return "No date";
+        }
+
+        const dateObj = new Date(dateStr);
+
+        if (isNaN(dateObj)) {
+            console.error("❌ Invalid date format:", dateStr);
+            return dateStr;
+        }
+
+        const day = dateObj.getDate();
+        const month = dateObj.toLocaleString("en-US", { month: "long" });
+        const year = dateObj.getFullYear();
+
+        const ordinal = (n) => {
+            if (n > 3 && n < 21) return "th";
+            switch (n % 10) {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+                default: return "th";
+            }
+        };
+
+        return `${day}${ordinal(day)} ${month}, ${year}`;
+    }
+
+    
+    qvgLoadSwiperCarousel();
+    
+    // ========= Swiper Carousel Ends ===========
+  //======== Image Loader ==========
+  document.querySelectorAll("img").forEach(img => {
+  img.onload = () => {
+    img.style.display = "block";
+    const loader = img.previousElementSibling;
+    if (loader) loader.style.display = "none";
+  };
+});
+// =========== Image Loader Ends ==========
+
+// =========== Load More Topics ===========
+const posts = document.querySelectorAll(".list-post");
+const btn = document.getElementById("load-more-btn");
+
+let visible = 20;
+const step = 10;
+
+function updatePost() {
+  posts.forEach((p, i) => {
+    p.style.display = i < visible ? "flex" : "none";
+  });
+
+  if (visible >= posts.length) {
+    btn.innerText = "You've reached the end!";
+    btn.disabled = true;
+  }
+}
+
+btn.addEventListener("click", () => {
+  visible += step;
+  updatePost();
+});
+
+updatePost();
+
 
 });

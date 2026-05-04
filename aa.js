@@ -69,13 +69,33 @@ document.addEventListener("DOMContentLoaded", () => {
                    <a href="${post.url}">
                         Read Article 📰
                     </a>
+                 
                 `;
 
                 container.appendChild(card);
             });
 
             console.log("🎉 Carousel rendered successfully!");
+            /* blurr
+            const cards = document.querySelectorAll(".qvg-3d-carousel-card");
+let current = 0;
 
+function updateActive() {
+    cards.forEach((card, i) => {
+        card.classList.toggle("active", i === current);
+        card.classList.toggle("inactive", i !== current);
+    });
+}
+
+// initialize first state
+updateActive();
+
+// rotate
+setInterval(() => {
+    current = (current + 1) % cards.length;
+    updateActive();
+}, 3000);
+ blur end */
         } catch (err) {
             console.error("🔥 QVG Carousel Error:", err);
         }

@@ -14,6 +14,7 @@
             
       <link rel = "canonical" href="https://quantorv-games.com/">
         <!-- google fonts -->
+         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap" rel="stylesheet">
@@ -24,9 +25,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+        <!-- SWIPER CAROUSEL -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <!--Frameworks and libraries Installation-->
         <script src="https://code.jquery.com/jquery-3.1.1.js">
         </script>
+        <!-- ===== slick carousel ======= -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
         <!-- validatorjs -->
          <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
@@ -91,8 +96,8 @@
       <span class="explore-btn">Browse</span>
     </summary>
     <ul class="dropdown-menu">
-      <li><a href="topics.html">Hot Topics</a></li>
-      <li><a href="games.html">Games</a></li>
+      <li><a href="https://quantorv-games.com/topics.html">Hot Topics</a></li>
+      <li><a href="https://quantorv-games.com/games.html">Games</a></li>
     </ul>
   </details>
 </li>
@@ -100,13 +105,24 @@
   </nav>
  </header>
  
- 
  <main>
-     <div class="latest">
+     <section>
          
-     </div>
      
-  <section class='home-section'>
+     <br> <br> <br> <br> <br> <br>
+      <!-- Swiper Carousel Container -->
+<div id="swiper-carousel-container">
+  <div class="swiper swiper-carousel">
+    <div class="swiper-wrapper" id="swiper-carousel-track"></div>
+
+    <!-- Controls -->
+    <div class="swiper-carousel-button-next"></div>
+    <div class="swiper-carousel-button-prev"></div>
+  </div>
+</div>
+</section>
+ <section class='home-section'>
+    
    <div class='hero-info'>
      <div class='tag'>
        Quantorv Games - Explore Gaming!
@@ -132,6 +148,7 @@
     required
   >
 </form>
+
      <p>
       Dive into engaging puzzle and math games, expert gameplay insights, and the latest updates across the gaming world. Play, learn, and stay ahead—because great games reward smart thinking 🔥
      </p>
@@ -147,20 +164,29 @@
    </div>
   </section>
   
+
+     <!-- SLICK CAROUSEL CONTAINER -->
+   <section id="slickContainer">
+       <h3>Latest Topics and Releases 🔥</h3>
+  <section class="card-carousel-slick"></section>
+</section>
+<a href="topics.html">Read More</a>
+      
+     
+
+
+
+ 
   <section class='category-section'>
       <h2>Topics and New Releases 🔥🔥</h2>
      <section class="qv-simple-carousel">
 
-    <button class="qv-carousel-btn qv-btn-left">&#10094;</button>
-
-    <div class="qv-carousel-viewport">
-        <div class="blogs-wrapper" id="qv-carousel-track">
-            <!-- Cards will be injected here -->
-        </div>
+  <!-- ===== Carousel 2 ====== -->
+ <div class="qvg-3d-carousel-wrapper">
+        
+    <div id="qvg-3d-carousel" class="qvg-3d-carousel"></div>
     </div>
-
-    <button class="qv-carousel-btn qv-btn-right">&#10095;</button>
-
+    <!-- ===== Carousel 2 end ====== -->.
 </section>
    <h2> Wide Range of Games & Topics </h2>
    
@@ -394,15 +420,37 @@ Whether you’re sharpening your mind with a logic puzzle or discovering your ne
    </p>
    
    <div class='footer-links flex-center'>
-    <a href='./about.html'> About Us </a>
-    <a href='./terms.html'> Terms </a>
-    <a href='./privacy-policy.html'> Privacy Policy </a>
+    <a href='https://quantorv-games.com/about.html'> About Us </a>
+    <a href='https://quantorv-games.com/terms.html'> Terms </a>
+    <a href='https://quantorv-games.com/privacy-policy.html'> Privacy Policy </a>
    </div>
   </section>
  </footer>
- <script src="./main.js"></script>
  
+ 
+ <div id="loading-screen" class="loading-screen">
+    <span>Quantorv Games Studio</span>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+ <div class="banter-loader">
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+  <div class="banter-loader__box"></div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="slick-external.js"></script>
+!-- Swiper CDN -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<script src="./main.js"></script>
 </body>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const thumbnails = document.querySelectorAll(".post-thumbnail");
@@ -428,5 +476,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
+
 
 </html>
