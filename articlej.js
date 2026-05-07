@@ -205,5 +205,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof quicklink !== "undefined") {
     quicklink.listen({ timeout: 2000 });
   }
+  
+  /*======= Glightbox ======== */
+  const lightbox = GLightbox({
+    selector: '.glightbox',
+    touchNavigation: true,
+    loop: false,
+    zoomable: true,
+    autoplayVideos: true
+  });
 
 });
