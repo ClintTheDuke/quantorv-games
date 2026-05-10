@@ -207,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   /*======= Glightbox ======== */
+  if (document.querySelector('.glightbox')) {
   const lightbox = GLightbox({
     selector: '.glightbox',
     touchNavigation: true,
@@ -214,5 +215,6 @@ document.addEventListener("DOMContentLoaded", () => {
     zoomable: true,
     autoplayVideos: true
   });
+}
 
 });

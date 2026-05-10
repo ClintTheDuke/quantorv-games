@@ -21,14 +21,15 @@ body {
  display: flex;
  flex-direction: column;
  align-items: center;
+background: #000;
  color: var(--text-color);
- background-color: var(--gbc);  
 
  font-family: "ABeeZee",sans-serif;
 }
 
 /* ========= Search bar styling ========== */
  /* From Uiverse.io by EddyBel */ 
+ 
 .input__container {
   position: relative;
   background: rgba(255, 255, 255, 0.664);
@@ -104,6 +105,12 @@ mark{
  text-align:center;
  margin-top:2rem;
  color: #FFFF1515;
+}
+@media(max-width:500px){
+    .input__container{
+        max-width: 150px;
+        padding: 3px 5px;
+    }
 }
 /* =========== Search bar styling Ends ========= */
 /* ====== Logo ======= */
@@ -231,13 +238,13 @@ p {
 }
 
 section {
- width: 90%;
+ width: 95%;
  display: flex;
  flex-direction: column;
  align-items: center;
  text-align: column;
  padding: 1rem 5%;
- margin: 2rem 0;
+ margin: .1rem 0;
 }
 
 section > h2 {
@@ -249,6 +256,18 @@ section img {
  animation: zoomInDown;
  animation-duration: 1s;
 }
+/* Tablets and larger screens */
+@media (min-width: 768px) {
+  section {
+    font-size: 1.15rem;
+    line-height: 1.8;
+  }
+
+  section > h2 {
+    font-size: 2rem;
+  }
+}
+
 
 /** essential utility styles **/
 .flex-center {
@@ -1681,7 +1700,7 @@ font-size:16px;
 
 
 /* ===== slick ====== */
-#slickContainer .card-carousel-slick {
+ .card-carousel-slick {
   display: flex;
   gap: 23px;
   overflow-x: auto;
@@ -1759,10 +1778,41 @@ font-size:16px;
   .slick-excerpt {
     -webkit-line-clamp: 3; 
   }
+  .slick-title{
+      font-size: 2rem;
+  }
+  .slick-excerpt{
+      font-size: 1.3rem;
+  }
 }
-
+@media(min-width:1440px){
+     .slick-title{
+      font-size: 2.5rem;
+  }
+  .slick-excerpt{
+      font-size: 1.8rem;
+  }
+}
 /* ======== Swiper Carousel  ======== */
+.c-swiper {
+ gap: 2rem 2.5rem;
+ background-color: #040806;
+
+background-image:
+  linear-gradient(
+    rgba(0, 255, 170, 0.12) 0.08rem,
+    transparent 0.08rem
+  ),
+  linear-gradient(
+    90deg,
+    rgba(0, 255, 170, 0.12) 0.08rem,
+    transparent 0.08rem
+  );
+background-size: 2.5rem 2.5rem;
+    
+}
 #swiper-carousel-container {
+background: #111a12;
   width: 100%;
   padding: 20px;
 }
@@ -1772,13 +1822,7 @@ font-size:16px;
   margin: auto;
 }
 
-.swiper-carousel-card {
-  background: #000;
-  color: #fff;
-  border-radius: 10px;
-  padding: 16px;
-  transition: transform 0.3s ease;
-}
+
 
 .swiper-carousel-card:hover {
   transform: translateY(-5px);
@@ -1801,7 +1845,7 @@ font-size:16px;
 }
 .swiper-carousel-card {
   display: block;
-  background: #1a1a1a;
+  background: #111a12;
   border-radius: 10px;
   overflow: hidden;
   color: #fff;

@@ -78,7 +78,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1BB0F4H256"></script>
 <script src="g-analytics.js"></script>
 </head>
-<body>
+<body class="container">
  <header>
   <nav>
    <ul class='navbar flex-between'>
@@ -88,6 +88,27 @@
               alt="Quantorv Games" 
               class="logo-img"
             /></a></h1> 
+    </li>
+    <li class="flex-center">
+          <!-- ====== Search Bar ========  -->
+<form action="../search.html" method="GET" class="input__container">
+  <div class="shadow__input"></div>
+
+  <button type="submit" class="input__button__shadow">
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="20px" width="20px">
+      <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#17202A"></path>
+    </svg>
+  </button>
+
+  <input 
+    type="text" 
+    name="q" 
+    class="input__search" 
+    placeholder="What do you want to search?"
+    required
+  >
+</form>
+<!-- ====== Search Bar Ends =======  -->
     </li>
     
    <li class="flex-center">
@@ -106,7 +127,7 @@
  </header>
  
  <main>
-     <section>
+     <section class="c-swiper">
          
      
      <br> <br> <br> <br> <br> <br>
@@ -121,53 +142,8 @@
   </div>
 </div>
 </section>
- <section class='home-section'>
-    
-   <div class='hero-info'>
-     <div class='tag'>
-       Quantorv Games - Explore Gaming!
-     </div>
-   
-     <h2> 
-      Play Smarter. Think Deeper. Explore Better Games.
-     </h2>
-   <form action="search.html" method="GET" class="input__container">
-  <div class="shadow__input"></div>
-
-  <button type="submit" class="input__button__shadow">
-    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="20px" width="20px">
-      <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#17202A"></path>
-    </svg>
-  </button>
-
-  <input 
-    type="text" 
-    name="q" 
-    class="input__search" 
-    placeholder="What do you want to search?"
-    required
-  >
-</form>
-
-     <p>
-      Dive into engaging puzzle and math games, expert gameplay insights, and the latest updates across the gaming world. Play, learn, and stay ahead—because great games reward smart thinking 🔥
-     </p>
-   </div>
-   
-   <div class='hero-image'>
-     <img
-       src='./assets/illustrations/subtle-vr.png' 
-       alt='Wesbsite Creator' />
-   </div>
-   <div>
-       <h3>View Topics & New Releases </h3>
-   </div>
-  </section>
-  
-
-     <!-- SLICK CAROUSEL CONTAINER -->
+     <!-- SLICK CONTAINER -->
    <section id="slickContainer">
-       <h3>Latest Topics and Releases 🔥</h3>
   <section class="card-carousel-slick"></section>
 </section>
 <a href="topics.html">Read More</a>
@@ -256,8 +232,7 @@
       
        <div class='accordion-content'>
         <p>
-         Quantorv-Games is a modern gaming platform focused on puzzle, logic, and math-based games, built for players who enjoy thinking as much as playing. The site blends interactive browser games with curated insights from the wider gaming world.
-Whether you’re sharpening your mind with a logic puzzle or discovering your next favorite title, Quantorv-Games sits at the intersection of play, strategy, and intelligence.
+         Quantorv Games is a web-based gaming platform featuring smart puzzle games alongside the latest news, updates, and insights from the world of gaming. Discover new challenges, sharpen your skills, and stay informed—all in one place.
         </p>
        </div>
      </div>
@@ -386,7 +361,7 @@ Whether you’re sharpening your mind with a logic puzzle or discovering your ne
 
   <p id="newsletterMessage" style="display:none;"></p>
 </section>
- 
+ <br><br>
   <section>
    <div class='footer-brief'>
     <h2> Quantorv Games</h2>
@@ -446,7 +421,7 @@ Whether you’re sharpening your mind with a logic puzzle or discovering your ne
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="slick-external.js"></script>
-!-- Swiper CDN -->
+<!-- Swiper CDN -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <script src="./main.js"></script>
 </body>

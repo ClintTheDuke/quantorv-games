@@ -525,5 +525,46 @@ btn.addEventListener("click", () => {
 
 updatePost();
 
+/* =========== PARSE DATE NEW: ISO AND STATIC =========*/
+function parseDate(value) {
+  // ISO format (with time)
+  if (value.includes("T")) {
+    return new Date(value);
+  }
+
+  // Old format (YYYY-MM-DD)
+  return new Date(value + "T00:00:00");
+}
+
+function updateTimes() {
+  const elements = document.querySelectorAll('.blog-date');
+
+  elements.forEach(el => {
+    const published = parseDate(el.dataset.time);
+    const now = new Date();
+
+    const diffMs = now - published;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+
+    if (diffMins < 60) {
+      el.textContent = `${diffMins}min ago`;
+    } 
+    else if (diffHours < 24) {
+      el.textContent = `${diffHours}hr ago`;
+    } 
+    else {
+      el.textContent = published.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    }
+  });
+}
+
+updateTimes();
+setInterval(updateTimes, 60000);
+
 
 });
