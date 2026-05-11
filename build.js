@@ -37,9 +37,7 @@ const fullList = sorted.map(post => `
   <!-- Content Section -->
   <div class="list-content">
 
-    <!-- ⚠️ IMPORTANT:
-         We no longer format date in Node.js.
-         We pass raw date to frontend JS. -->
+   
     <span class="blog-date" data-time="${post.date}">
       Loading...
     </span>
