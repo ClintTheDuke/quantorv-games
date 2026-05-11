@@ -3,268 +3,288 @@
 		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 	<loc>https://quantorv-games.com/</loc>
-	<lastmod>2026-05-04T09:26:32+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:18+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics.html</loc>
-	<lastmod>2026-05-04T09:26:32+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:18+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/games.html</loc>
-	<lastmod>2026-05-04T09:26:32+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:18+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/2048-grid-evolution/index.html</loc>
-	<lastmod>2026-05-04T09:26:32+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:18+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/about.html</loc>
-	<lastmod>2026-05-04T09:26:32+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:18+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/terms.html</loc>
-	<lastmod>2026-05-04T09:26:32+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:18+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/privacy-policy.html</loc>
-	<lastmod>2026-05-04T09:26:32+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:18+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/contact.html</loc>
-	<lastmod>2026-05-04T09:26:33+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:19+01:00</lastmod>
 	<priority>1.0</priority>
 </url>
-<!-- Topics Pages -->
+<!-- Topics Pages VERY IMPORTANT -->
+<url>
+	<loc>https://quantorv-games.com/topics/crimson-desert-patch-1-06.html</loc>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://quantorv-games.com/topics/crimson-desert-moon-slash-abyss-gear.html</loc>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://quantorv-games.com/topics/crows-pursuit-crimson-desert.html</loc>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://quantorv-games.com/topics/groundsurge-crimson-desert-abyss-gear.html</loc>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-shadow-claw-abyss-gear.html</loc>
-	<lastmod>2026-05-06T14:19:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/greysoul-howling-abyss-gear-crimson-desert.html</loc>
-	<lastmod>2026-05-05T14:19:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-bugs-glitches.html</loc>
-	<lastmod>2026-05-04T14:19:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-best-abyss-gears-how-to-get.html</loc>
-	<lastmod>2026-05-04T12:15:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-dark-ringleader-set-guide.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/scarface-remaster-rumor.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/battlefield-6-naval-warfare-return.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-infinite-money-hat.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/capcom-mod-crackdown-costume-mods.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-updates-competition-threat.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/fortnite-new-ai-npc.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-decade-defining-game.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/wolverine-ps5-reveal-timeline-details.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/resident-evil-mod-video-takedown-capcom.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/god-of-war-multiple-mythologies-rumor.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/fortnite-ai-npcs-conversations-system.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/god-of-war-franchise-shift-mythologies.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/roblox-ps5-native-app-features-performance.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/roblox-ps5-upgrade-faster-load-times.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-exposes-gaming-journalism-trust-crisis.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/steam-charts-vs-game-critics-debate.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-ign-review-controversy.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/marathon-1-0-6-progression-rewards-carrri-system.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/marathon-1-0-6-weapon-rebalance-railgun-smg-changes.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/marathon-1-0-6-gameplay-systems-implants-drones-updates.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/ubisoft-black-flag-remake-leak.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/crimson-desert-update-1-02-full-breakdown.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/free-heavy-rain-steam-keys.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/ready-or-not-v1-4-2-fixes.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/duke-nukem-15-year-development.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/roblox-2026-comeback.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/best-android-games-under-100mb.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/hidden-windows-setting-killing-fps.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/8-types-of-video-games.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/most-expensive-video-games-march-2026.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/top-10-best-pvp-games-mobile-2026.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/best-pvp-games-mobile.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/gta-6-leaks.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/2022-rockstar-hack-gta6.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day-won.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/watch-dogs-legion-zero-day.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/how-to-beat-4096-tile-2048.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/about-grid-evolution-2048.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/topics/how-to-play-2048.html</loc>
-	<lastmod>2026-05-04T09:26:34+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:20+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 <url>
 	<loc>https://quantorv-games.com/2048-grid-evolution/leaderboard.html</loc>
-	<lastmod>2026-05-04T09:26:35+01:00</lastmod>
+	<lastmod>2026-05-11T13:43:21+01:00</lastmod>
 	<priority>0.8</priority>
 </url>
 </urlset>
