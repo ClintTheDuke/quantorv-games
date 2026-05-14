@@ -1634,29 +1634,15 @@ footer{
 }
 
 /* ======== Topics List Wrapper ======== */
-#list-topics-container {
-  max-width: 1400px;
-  margin:0 auto;
-  padding: 20px;
-  background: #111a12;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  justify-content: center;
-  align-items: center;
-   gap: 16px;  
-}
-
 
 /* CARD */
 .list-post {
-  height:100%;
-  background: #111a12;
-  border-radius: 10px;
-  overflow: hidden;
-
   display: flex;
-  flex-direction: column;
-
+  gap: 23px;
+  overflow-x: auto;
+  padding: 10px;
+  background: #111a12;
+  text-decoration: none;
   transition: 0.2s ease;
 }
 
@@ -1666,8 +1652,8 @@ footer{
 
 /* IMAGE */
 .list-thumb {
-  width: 100%;
-  height: 180px;
+position: relative;
+  width: 40%;
 }
 
 .list-thumb img {
@@ -1678,40 +1664,66 @@ footer{
 
 /* CONTENT */
 .list-content {
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  padding: 10px;
+  width: 60%;
 }
 
 .blog-date {
   font-size: 12px;
-  color: #888;
+  color: #7fa58a;
 }
 
 .post-title {
-  font-size: 16px;
-  color: #fff;
-  margin: 0;
-}
+  color: #e6f2e9;
+  font-size: 14px;
+  line-height: 1.4;
 
-.post-excerpt {
-  color: #fff;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
   overflow: hidden;
-  line-clamp: 2;             
 }
 
-/* BUTTON */
-.read-more-btn {
-  margin-top: auto;
-  color: #ff3c00;
-  text-decoration: none;
+.post-excerpt {
   font-size: 13px;
+  color: #a8c7b0;
+  margin-top: 8px;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* default: 2 lines */
+  overflow: hidden;       
 }
+
+/* ======= Excerpt on Bigger Screens ======= */
+@media (min-width: 768px) {
+  .post-excerpt {
+    -webkit-line-clamp: 3; 
+    font-size: 1.3rem;
+  }
+  .post-title{
+      font-size: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .post-excerpt {
+    -webkit-line-clamp: 3; 
+    font-size: 1.3rem;
+  }
+  .post-title{
+      font-size: 2rem;
+  }
+}
+
+@media(min-width:1440px){
+     .post-title{
+      font-size: 2.5rem;
+  }
+  .post-excerpt{
+      font-size: 1.8rem;
+  }
+}
+
 /* ======== Topics List Wrapper ENDS ======== */
 /* ========= Carousel Topics Starts ========== */
 /* ======== Swiper Carousel  ======== */

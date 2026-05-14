@@ -24,7 +24,7 @@ const sorted = [...json].sort((a, b) => {
    - Keeps raw date in data-date for JS later
 ========================= */
 const fullList = sorted.map(post => `
-<div class="list-post blog-post"
+<a class="list-post" href="${post.url}"
      data-category="${post.category}"
      data-date="${post.date}">
 
@@ -45,13 +45,9 @@ const fullList = sorted.map(post => `
     <h3 class="post-title">${post.title}</h3>
     <p class="post-excerpt">${post.excerpt}</p>
 
-    <div class="list-actions">
-      <a href="${post.url}" class="read-more-btn">Read Article 📰</a>
-    </div>
-
   </div>
 
-</div>
+</a>
 `).join("");
 
 
