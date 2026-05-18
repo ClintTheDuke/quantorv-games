@@ -198,6 +198,53 @@ document.addEventListener("DOMContentLoaded", () => {
     window.open(substackUrl, "_blank");
     return true;
   }
+  
+  //======= Date and Time ======
+  function formatDate(dateString) {
+  const postDate = new Date(dateString);
+  const now = new Date();
+
+  const diffMs = now - postDate;
+  const diffMins = Math.floor(diffMs / (1000 * 60));
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  
+  //Just Now 
+  if (diffMins < 1) {
+      return `Just Now`
+  }
+  // Under 1 hour
+  if (diffMins < 60) {
+    return `${diffMins} min ago`;
+  }
+
+  // Under 24 hours
+  /*
+  if (diffHours < 24) {
+    return `${diffHours} hr ago`;
+  }*/
+  // at 1 hour
+  if (diffHours  === 1) {
+    return `${diffHours} hr ago`;
+  }
+  if (diffHours < 24) {
+      return`${diffHours} hrs ago`
+  }
+  
+
+  // Full date after 24 hours
+  return postDate.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+}
+
+const articleDate = document.querySelector('.article-date');
+
+if (articleDate) {
+  const date = articleDate.dataset.date;
+  articleDate.textContent = formatDate(date);
+}
 
   /* ===============================
      QUICKLINK SAFE INIT

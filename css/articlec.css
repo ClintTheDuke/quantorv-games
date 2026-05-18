@@ -1913,3 +1913,28 @@ position: relative;
   transform: scale(1.05);
   transition: 0.3s ease;
 }
+
+.ad-wrapper{
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #111;
+}
+
+.ad-container{
+  display: grid;
+  place-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Larger screens */
+@media (min-width: 768px){
+
+  .ad-wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+}
