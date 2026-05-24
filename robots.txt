@@ -27,6 +27,6 @@ User-agent: MJ12bot
 Crawl-delay: 10
 
 # Sitemap
-Sitemap: https://quantorv-games.com
+Sitemap: https://quantorv-games.com/sitemap.xml
 
 ‎#DaumWebMasterTool:be3b9f65b052729a9203188eaa77c086831f19948ec4e1867bb061ff14d8737b:ctcF3Ceh61uLFl9tmIPr7A==
