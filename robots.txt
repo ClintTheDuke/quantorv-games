@@ -1,0 +1,45 @@
+# =========================================
+# Robots.txt for Quantorv Games
+# https://quantorv-games.com
+# =========================================
+
+# Block AI content scrapers and generic bots
+User-agent: 008
+User-agent: Applebot
+User-agent: Applebot-extended
+User-agent: Bytespider
+User-agent: CCBot
+User-agent: Claude-Web
+User-agent: ClaudeBot
+User-agent: Diffbot
+User-agent: FacebookBot
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: HTTrack
+User-agent: Nutch
+User-agent: Offline Explorer
+User-agent: Scrapy
+User-agent: YouBot
+User-agent: anthropic-ai
+User-agent: cohere-ai
+User-agent: omgili
+Disallow: /
+
+# Specifically allow AmazonAdBot
+User-agent: AmazonAdBot
+Allow: /
+
+# Directives for all other search engines
+User-agent: *
+Allow: /
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
+Disallow: /search?
+Disallow: /a.html
+Disallow: /search.html
+
+# Sitemap and Verification
+Sitemap: https://quantorv-games.com/sitemap.xml
+
+DaumWebMasterTool:be3b9f65b052729a9203188eaa77c086831f19948ec4e1867bb061ff14d8737b:ctcF3Ceh61uLFl9tmIPr7A==
