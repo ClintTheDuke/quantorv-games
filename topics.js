@@ -86,7 +86,7 @@ return post;
     */
 
     function loadTopicsFromDOM() {
-  const elements = document.querySelectorAll(".blog-post");
+  const elements = document.querySelectorAll(".list-post");
 
   elements.forEach(el => {
     topics.push({

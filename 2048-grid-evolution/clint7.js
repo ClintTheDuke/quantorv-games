@@ -930,4 +930,37 @@ document.getElementById('restart-btn')?.addEventListener('click', () => {
   location.reload()
   window.initGame();
 });
+
+//JSON Check
+
+
+/* (async function () {
+    const ret = await fetch('ln.json');
+    const mainData = await ret.json();
+    console.log(mainData[0])
+
+
+function dIso(dateT){
+   return dateT.includes('T')
+}
+
+function parser(datex){
+    if(dIso(datex)){
+        return new Date(datex)
+    }
+    return new Date(datex + 'T00:00:00')
+}
+
+function formatter(datec){
+    const cdate = parser(datec)
+    return cdate.toLocaleDateString('en-GB',{
+        day:'numeric',
+        month:'long',
+        year:'numeric'
+    })
+    
+}
+console.log(formatter(mainData[0].date))
+})()     */
+
 });
