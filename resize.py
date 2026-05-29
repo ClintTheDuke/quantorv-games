@@ -21,13 +21,21 @@ for filename in os.listdir(INPUT_FOLDER):
     try:
         img = Image.open(input_path)
 
+        # Fix transparency issues
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+
         # Keep aspect ratio
         width_percent = MIN_WIDTH / float(img.size[0])
         new_height = int(float(img.size[1]) * width_percent)
 
         resized_img = img.resize((MIN_WIDTH, new_height))
 
-        resized_img.save(output_path, quality=95)
+        resized_img.save(
+            output_path,
+            quality=85,
+            optimize=True
+        )
 
         print(f"Resized: {filename}")
 
