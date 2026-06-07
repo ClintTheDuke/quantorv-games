@@ -50,14 +50,22 @@ const fullList = sorted.map(post => `
 </a>
 `).join("");
 
+/* =========================
+   CLEAR EXISTING POSTS
+========================= */
+html = html.replace(
+  /<!-- POSTS_CONTAINER_START -->([\s\S]*?)<!-- POSTS_CONTAINER_END -->/,
+  "<!-- POSTS_CONTAINER_START --><!-- POSTS_CONTAINER_END -->"
+);
+
 
 /* =========================
    INJECT INTO HTML TEMPLATE
    - Replaces placeholder block
 ========================= */
 html = html.replace(
-  /<!-- LIST START -->([\s\S]*?)<!-- LIST END -->/,
-  `<!-- LIST START -->${fullList}<!-- LIST END -->`
+  /<!-- POSTS_CONTAINER_START -->([\s\S]*?)<!-- POSTS_CONTAINER_END -->/,
+  `<!-- POSTS_CONTAINER_START -->\n${fullList}\n<!-- POSTS_CONTAINER_END -->`
 );
 
 
@@ -66,7 +74,7 @@ html = html.replace(
 ========================= */
 fs.writeFileSync("topics.html", html);
 
-console.log("✅ List build complete");
+console.log("✅ Post build complete");
 
 
 /* =========================================================

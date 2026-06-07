@@ -1977,3 +1977,8 @@ position: relative;
     padding:10px;
   }
 }
+
+.span-code{
+    background:#9b8e9b;
+     color: #fff;
+}
