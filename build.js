@@ -1,15 +1,12 @@
 const fs = require("fs");
 
 /* =========================
-   LOAD JSON + HTML FILES
+   LOAD JSON
 ========================= */
 const json = JSON.parse(fs.readFileSync("topics.json", "utf-8"));
-let html = fs.readFileSync("topics.html", "utf-8");
-
 
 /* =========================
    SORT POSTS (NEWEST FIRST)
-   - Safely handles ISO + date-only formats
 ========================= */
 const sorted = [...json].sort((a, b) => {
   const da = new Date(a.date).getTime() || 0;
@@ -17,27 +14,21 @@ const sorted = [...json].sort((a, b) => {
   return db - da;
 });
 
-
 /* =========================
    BUILD HTML LIST
-   - Injects posts into template
-   - Keeps raw date in data-date for JS later
 ========================= */
 const fullList = sorted.map(post => `
 <a class="list-post" href="${post.url}"
      data-category="${post.category}"
      data-date="${post.date}">
 
-  <!-- Thumbnail Section -->
   <div class="list-thumb">
     <div class="list-loader"></div>
     <img src="${post.thumbnail}" alt="${post.title}">
   </div>
 
-  <!-- Content Section -->
   <div class="list-content">
 
-   
     <span class="blog-date" data-time="${post.date}">
       Loading...
     </span>
@@ -51,42 +42,35 @@ const fullList = sorted.map(post => `
 `).join("");
 
 /* =========================
-   CLEAR EXISTING POSTS
+   HTML FILES TO UPDATE
 ========================= */
+const htmlFiles = [
+  "topics.html",
+  "index.html"
+];
+
+
+
+/* =========================
+   UPDATE ALL HTML FILES
+========================= */
+for (const file of htmlFiles) {
+
+  let html = fs.readFileSync(file, "utf-8");
+
 html = html.replace(
   /<!-- POSTS_CONTAINER_START -->([\s\S]*?)<!-- POSTS_CONTAINER_END -->/,
   "<!-- POSTS_CONTAINER_START --><!-- POSTS_CONTAINER_END -->"
 );
 
+  html = html.replace(
+    /<!-- POSTS_CONTAINER_START -->([\s\S]*?)<!-- POSTS_CONTAINER_END -->/,
+    `<!-- POSTS_CONTAINER_START -->\n${fullList}\n<!-- POSTS_CONTAINER_END -->`
+  );
 
-/* =========================
-   INJECT INTO HTML TEMPLATE
-   - Replaces placeholder block
-========================= */
-html = html.replace(
-  /<!-- POSTS_CONTAINER_START -->([\s\S]*?)<!-- POSTS_CONTAINER_END -->/,
-  `<!-- POSTS_CONTAINER_START -->\n${fullList}\n<!-- POSTS_CONTAINER_END -->`
-);
+  fs.writeFileSync(file, html);
 
-
-/* =========================
-   SAVE FINAL HTML FILE
-========================= */
-fs.writeFileSync("topics.html", html);
+  console.log(`✅ Updated ${file}`);
+}
 
 console.log("✅ Post build complete");
-
-
-/* =========================================================
-   NOTE:
-   We REMOVED formatDate() from Node.js completely because:
-
-   ✔ Old system: static formatting at build time
-   ✔ New system: dynamic browser formatting
-
-   This gives:
-   - "20min ago"
-   - "3hr ago"
-   - "10 May 2026"
-   - Works across timezones
-========================================================= */

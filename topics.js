@@ -519,6 +519,8 @@ function updatePost() {
 }
 
 btn.addEventListener("click", () => {
+
+
   visible += step;
   updatePost();
 });
@@ -552,7 +554,10 @@ function updateTimes() {
     } 
     else if (diffHours < 24) {
       el.textContent = `${diffHours}hr ago`;
-    } 
+    }
+    if (diffMs < 1){
+        el.textContent = `Just Now`
+    }
     else {
       el.textContent = published.toLocaleDateString('en-GB', {
         day: 'numeric',
