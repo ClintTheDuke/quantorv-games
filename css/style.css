@@ -1992,3 +1992,50 @@ position: relative;
 }
 
 /* ======== Topics List Wrapper ENDS ======== */
+/* ========= Load More Button ========= */
+#load-more-btn {
+  display: block;
+  margin: 30px auto;
+
+  padding: 12px 26px;
+  background: var(--hover-color);
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+/* HOVER */
+#load-more-btn:hover {
+  background: #06b43c;
+  transform: translateY(-2px);
+}
+
+/* CLICK */
+#load-more-btn:active {
+  transform: scale(0.97);
+}
+
+/* ✅ END STATE (FIXED — clear + readable) */
+#load-more-btn:disabled {
+  background: transparent;        /*===== no dull block =====*/
+  color: #888;                    /*===== readable text =====*/
+  border: 1px solid #333;         /*===== subtle outline =====*/
+  cursor: default;
+  transform: none;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 480px) {
+  #load-more-btn {
+    width: 90%;
+    padding: 14px;
+    font-size: 15px;
+  }
+}

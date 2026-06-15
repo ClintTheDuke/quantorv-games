@@ -355,6 +355,33 @@ async function qvgLoadSwiperCarousel() {
     qvgLoadSlickCarousel();
     qvgLoadSwiperCarousel();
     // ======== carousel ends ======
+    // =========== Load More Topics ===========
+    const posts = document.querySelectorAll(".list-post");
+const btn = document.getElementById("load-more-btn");
+
+let visible = 20;
+const step = 10;
+
+function updatePost() {
+  posts.forEach((p, i) => {
+    p.style.display = i < visible ? "flex" : "none";
+  });
+
+  if (visible >= posts.length) {
+    btn.innerText = "You've reached the end!";
+    btn.disabled = true;
+  }
+}
+
+btn.addEventListener("click", () => {
+
+
+  visible += step;
+  updatePost();
+});
+
+updatePost();
+
     
     /* =========== PARSE DATE NEW: ISO AND STATIC =========*/
 function parseDate(value) {
