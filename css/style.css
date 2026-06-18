@@ -2039,3 +2039,101 @@ position: relative;
     font-size: 15px;
   }
 }
+
+
+/* ====== Share Card ====== */
+.share-card{
+    width:min(700px,90%);
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:24px;
+}
+
+.share-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--text);
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.share-icon{
+    width:22px;
+    height:22px;
+    color:var(--accent);
+}
+
+.social-icons{
+    display:flex;
+    gap:14px;
+}
+
+.social-btn{
+    width:52px;
+    height:52px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#0b120c;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:12px;
+    text-decoration:none;
+    transition:.25s ease;
+}
+
+.social-btn svg{
+    width:24px;
+    height:24px;
+    color:#fff;
+}
+
+.social-btn:hover{
+    transform:translateY(-3px);
+    border-color:var(--accent);
+    box-shadow:0 0 20px rgba(110,231,168,.2);
+}
+
+.share-icon,
+.social-btn svg{
+    fill:currentColor;
+}
+
+.share-header{
+    cursor:pointer;
+}
+
+.toast{
+    position:fixed;
+    bottom:24px;
+    right:24px;
+
+    background:#111a12;
+    color:#fff;
+
+    border:1px solid rgba(110,231,168,.3);
+    border-radius:12px;
+
+    padding:12px 18px;
+
+    font-size:14px;
+    font-weight:500;
+
+    box-shadow:0 0 20px rgba(110,231,168,.15);
+
+    opacity:0;
+    transform:translateY(20px);
+
+    pointer-events:none;
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
