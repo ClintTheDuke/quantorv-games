@@ -264,4 +264,41 @@ if (articleDate) {
   });
 }
 
+// ======= Share Button =========
+function showToast(message){
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toast.timer);
+
+    toast.timer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+
+}
+document.getElementById("shareBtn").addEventListener("click", async () => {
+
+    const shareData = {
+        title: document.title,
+        text: "Check out this article",
+        url: window.location.href
+    };
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+        } catch(err) {
+            console.log("Share cancelled");
+        }
+    } else {
+        await navigator.clipboard.writeText(window.location.href);
+        showToast('copied')
+    }
+
+});
+
 });
