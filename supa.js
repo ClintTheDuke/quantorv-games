@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded',()=>{
-    
+    // ======= Redirect proof Code =========
+    const redirectParams = new URLSearchParams(window.location.search);
+    const redirectPage = redirectParams.get('redirect');
+    //===== Redirect Helper =======
+    function eventOnRedirect(){
+        if(redirectPage){
+            window.location.href = redirectPage;
+        }
+        else{
+            window.location.href = 'https://quantorv-games.com/index.html'
+        }
+    }
 
 // ====== Sign Up Code Starts  =======
 const signupForm = document.getElementById("signupForm");
@@ -77,7 +88,10 @@ signupForm.addEventListener("submit", async (e)=>{
         return
     }
     document.getElementById('profileGreeting').textContent='Hello ' + signupUsername;
-    msg.textContent = 'Account Created Successfully'
+    msg.textContent = 'Account Created Successfully, redirecting....'
+    setTimeout(()=>{
+        eventOnRedirect();
+    },1000)
     
     })
    } 
@@ -125,6 +139,9 @@ signinForm.addEventListener('submit', async(p)=>{
       document.getElementById('profileGreeting').textContent='Welcome back ' + signinUsername;
       msg2.textContent =
 "Welcome back!";
+setTimeout(()=>{
+        eventOnRedirect();
+    },1000)
 })
 
 }
@@ -132,12 +149,14 @@ signinForm.addEventListener('submit', async(p)=>{
 // ======= log out code starts ========
 window.logOut = document.getElementById('logoutBtn');
 if(logOut) {
+    
     logOut.addEventListener('click', async ()=>{
         const { error: logOutError} = await supaDb.auth.signOut();
         if (logOutError) {
             console.log(logOutError.message);
             return;
         }
+        document.getElementById('profileGreeting').textContent = 'No logged in User'
         window.location.href = 'signin.html'
     })
 }
