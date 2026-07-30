@@ -1,0 +1,376 @@
+<head>
+     <!-- Meta Tags -->
+     
+        
+
+<!-- Meta Tags End -->
+
+<!-- GLightbox CSS -->
+<link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
+
+<!-- GLightbox JS -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+
+       <!-- google fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap" rel="stylesheet">
+           <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+         <!-- Favicon & Mobile Optimization -->
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/meta-images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/meta-images/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="./assets/favicons/favicon_32x32.png">
+  
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
+        <!--Frameworks and libraries Installation-->
+        <script src="https://code.jquery.com/jquery-3.1.1.js">
+        </script>
+         
+<!-- Quicklinks installation-->
+<script src="https://cdn.jsdelivr.net/npm/quicklink@2.0.0/dist/quicklink.umd.js"></script>
+         <!-- <script src="assets/js/article.js"></script> -->
+        <script src="articlej.js" defer></script>
+        <link rel="stylesheet" href="css/articlec.css">    
+           
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1BB0F4H256"></script>
+<script src="../g-analytics.js"></script>
+
+<title>Quantorv Games Authentication</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supa.js"></script>
+<script src="auth.js"></script>
+<style>
+    .profile-header{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+#profileAvatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:3px solid #08d549;
+    object-fit:cover;
+    margin-bottom:12px;
+}
+
+#profileGreeting{
+    color:#111a12;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+
+.container{
+    width:100%;
+    max-width:380px;
+    background:#fff;
+    border-radius:12px;
+    padding:30px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#111a12;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#08d549;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.switch-text{
+    text-align:center;
+    margin-top:18px;
+    font-size:14px;
+}
+
+.switch-text a{
+    color:#08d549;
+    cursor:pointer;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.form{
+    display:none;
+}
+
+.form.active{
+    display:block;
+}
+#msg{
+    margin-top:15px;
+    text-align:center;
+    font-size:14px;
+}
+
+</style>
+</head>
+<!-- ========= Head Ends===========  -->
+
+<!-- ========= HTML BODY ===========  -->
+<body data-page="article" data-category = "gadgets">
+    <header id="header" class="header">
+        <h1><a href="../index.html"><img 
+              src="assets/icons/logo2.png" 
+              alt="Quantorv Games" 
+              class="logo-img"
+            /></a></h1> 
+            <!-- ====== Search Bar ========  -->
+<form action="../search.html" method="GET" class="input__container">
+  <div class="shadow__input"></div>
+
+  <button type="submit" class="input__button__shadow">
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="20px" width="20px">
+      <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#17202A"></path>
+    </svg>
+  </button>
+
+  <input 
+    type="text" 
+    name="q" 
+    class="input__search" 
+    placeholder="What do you want to search?"
+    required
+  >
+</form>
+<!-- ====== Search Bar Ends =======  -->
+         <div id="cta">
+             
+                 <!-- The menu button -->
+<div class="menu-btn" id="menu-btn">
+  <span class="line line-1"></span>
+  <span class="line line-2"></span>
+  <span class="line line-3"></span>
+</div>
+<div class="bigMenu">
+    <ul id="bigMenu">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../games.html">Games</a></li>
+    <li><a href="../topics.html">Topics</a></li>
+     <li><a href="../contact.html">Contact</a></li>
+  </ul>
+</div>
+        </div> 
+                
+        </header>
+        
+    <br><br><br>
+    
+     <nav aria-label="Main Navigation">
+  <ul id="showmenu">
+   <li><a href="../index.html">Home</a></li>
+    <li><a href="../games.html">Games</a></li>
+    <li><a href="../topics.html">Topics</a></li>
+     <li><a href="../contact.html">Contact</a></li>
+    <!--ext123-->
+  </ul>
+</nav>
+
+<!-- ======== MAIN SECTION ======-->
+<main>
+
+<div class="container">
+<!-- ===== PROFILE HEADER ===== -->
+
+<div class="profile-header">
+
+    <img
+        id="profileAvatar"
+        src="avatar.png"
+        alt="Profile Avatar">
+
+    <h3 id="profileGreeting">
+        Guest User, Sign In?
+    </h3>
+
+</div>
+
+<!-- ===== END PROFILE HEADER ===== -->
+    <!-- ====== SIGN UP ======= -->
+    
+    <form class="form active" id="signupForm">
+
+        <h2>Create Account</h2>
+
+        <div class="input-group">
+            <input
+type="text"
+id="signupUsername"
+name="username"
+placeholder="Username"
+required
+maxlength="12"
+minlength="5"
+pattern="[A-Za-z0-9]+"
+autocomplete="username"
+spellcheck="false"
+autocapitalize="none">
+        </div>
+
+        <div class="input-group">
+            <input
+                type="email"
+                id="signupEmail"
+                name ="email"
+                placeholder="Email Address"
+                required>
+        </div>
+
+        <div class="input-group">
+            <input
+                type="password"
+                id="signupPassword"
+                placeholder="Password"
+                required>
+        </div>
+
+        <button id="signupBtn" type="submit">
+            Sign Up
+        </button>
+        <p id="msg"></p>
+
+        <p class="switch-text">
+            Already have an account?
+            <a id="showSignin">Sign In!</a>
+        </p>
+
+    </form>
+  <!-- ====== SIGN UP Ends ======= -->
+  
+  
+  
+    <!-- SIGN IN -->
+
+    <form class="form" id="signinForm">
+
+    <h2>Welcome Back</h2>
+
+    <div class="input-group">
+        <input
+            type="text"
+            id="signinUsername"
+            placeholder="Username"
+            required>
+    </div>
+
+    <div class="input-group">
+        <input
+            type="password"
+            id="signinPassword"
+            placeholder="Password"
+            required>
+    </div>
+
+    <button type="submit" id="signinBtn">
+        Sign In
+    </button>
+ <p id="msg2"></p>
+    <p class="switch-text">
+        Don't have an account?
+        <a id="showSignup">Sign Up!</a>
+    </p>
+
+</form>
+</main>
+</body>
+<footer>
+  <section>
+   <div class='footer-brief'>
+    <h2> Quantorv Games</h2>
+    <p>
+     Quantorv Games is a web-based gaming platform featuring smart puzzle games alongside the latest news, updates, and insights from the world of gaming. Discover new challenges, sharpen your skills, and stay informed,all in one place.
+    </p>
+    <br>
+   <div class="share-card">
+
+    <div class="share-header">
+        <svg class="share-icon">
+            <use href="../assets/sprite.svg#share"></use>
+        </svg>
+        <span>Follow Us On:</span>
+    </div>
+
+    <div class="social-icons">
+
+        <a href="https://www.facebook.com/profile.php?id=61587709617403" class="social-btn">
+            <svg><use href="../assets/sprite.svg#facebook"></use></svg>
+        </a>
+
+        <a href="https://www.instagram.com/quantorv_games/" class="social-btn">
+            <svg><use href="../assets/sprite.svg#instagram"></use></svg>
+        </a>
+
+        <a href="https://x.com/quantorvgames" class="social-btn">
+            <svg><use href="../assets/sprite.svg#x"></use></svg>
+        </a>
+
+        <a href="https://www.tiktok.com/@quantorv.games" class="social-btn">
+            <svg><use href="../assets/sprite.svg#tiktok"></use></svg>
+        </a>
+
+        <a href="https://www.pinterest.com/QuantorvGames2" class="social-btn">
+            <svg><use href="../assets/sprite.svg#pinterest"></use></svg>
+        </a>
+
+    </div>
+
+</div>
+
+   </div>
+
+   <p class="flex-center">
+   <span>© Copyright</span>
+   <span id='current-year' style="margin:5px;"></span>
+   <strong>Quantorv Games. All Rights Reserved</strong>
+   </p>
+
+   <div class='footer-links flex-center'>
+    <a href='../about.html'> About Us </a>
+    <a href="../terms.html">Terms</a>
+    <a href='../privacy-policy.html'> Privacy Policy</a>
+   </div>
+  </section>
+ </footer>
+ 
+</html>

@@ -32,7 +32,7 @@ html{
 body {
  background: #000;
  font-family: "ABeeZee",sans-serif;
- 
+ padding-bottom:100px;
 }
 p {
   margin-bottom: 1em; /* Adds space after each paragraph */
@@ -2077,4 +2077,111 @@ position: relative;
 .toast.show{
     opacity:1;
     transform:translateY(0);
+}
+
+
+/* ========= Navigation Banner =========== */
+
+.game-banner{
+    position:fixed;
+
+    bottom:20px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:90%;
+    max-width:600px;
+
+    background:#111a12;
+
+    border:1px solid #263b29;
+
+    border-radius:18px;
+
+    padding:12px 15px;
+
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+
+    z-index:1000;
+
+    opacity:1;
+    transition:opacity .3s ease;
+}
+
+
+.game-banner.hide{
+
+    opacity:0;
+
+    pointer-events:none;
+
+}
+.banner-item{
+
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+
+    padding:8px;
+
+    min-width:0;
+
+}
+
+
+.banner-icon svg{
+
+    width:24px;
+    height:24px;
+
+}
+
+
+.banner-text{
+
+    font-size:14px;
+
+    margin-top:5px;
+
+}
+.banner-icon svg{
+    width:26px;
+    height:26px;
+    color:#08d549;
+}
+
+
+@media(max-width:400px){
+
+    .game-banner{
+
+        width:95%;
+
+        padding:10px;
+
+    }
+
+
+    .banner-text{
+
+        font-size:12px;
+
+    }
+
+
+    .banner-icon svg{
+
+        width:22px;
+        height:22px;
+
+    }
+
 }

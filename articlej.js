@@ -9,7 +9,32 @@ document.addEventListener("DOMContentLoaded", () => {
       preloader.style.display = 'none';
     }, 200);
   } */
+/* ======={Gaming Banner} ==========*/
+/*  
+const banner = document.querySelector(".game-banner");
 
+let scrollTimer;
+
+
+window.addEventListener("scroll", () => {
+
+    // Hide banner while scrolling
+    banner.classList.add("hide");
+
+
+    // Clear previous timer
+    clearTimeout(scrollTimer);
+
+
+    // Show again after scrolling stops
+    scrollTimer = setTimeout(() => {
+
+        banner.classList.remove("hide");
+
+    }, 200);
+
+
+}); */
   /* ===============================
      CURRENT YEAR
   =============================== */
@@ -280,7 +305,11 @@ function showToast(message){
     }, 3000);
 
 }
-document.getElementById("shareBtn").addEventListener("click", async () => {
+
+// ======= Share button code =======
+const shareBtn = document.getElementById("shareBtn");
+if (shareBtn) {
+    shareBtn.addEventListener("click", async () => {
 
     const shareData = {
         title: document.title,
@@ -300,5 +329,7 @@ document.getElementById("shareBtn").addEventListener("click", async () => {
     }
 
 });
+}
+
 
 });

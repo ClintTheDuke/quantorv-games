@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Home Icon -->
+    <symbol id="home" viewBox="0 0 24 24">
+        <path 
+        d="M3 11L12 3L21 11V21C21 21.5 20.5 22 20 22H15V15H9V22H4C3.5 22 3 21.5 3 21V11Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </symbol>
+
+
+    <!-- Bookmark Icon -->
+    <symbol id="bookmark" viewBox="0 0 24 24">
+
+        <path
+        d="M6 3H18C18.6 3 19 3.4 19 4V21L12 17L5 21V4C5 3.4 5.4 3 6 3Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+    </symbol>
+
+
+    <!-- Profile Icon -->
+    <symbol id="profile" viewBox="0 0 24 24">
+
+        <circle
+        cx="12"
+        cy="8"
+        r="4"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"/>
+
+
+        <path
+        d="M4 21C4 17.7 7.6 15 12 15C16.4 15 20 17.7 20 21"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"/>
+
+    </symbol>
+
+
+</svg>
