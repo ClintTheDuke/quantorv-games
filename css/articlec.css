@@ -2135,6 +2135,13 @@ position: relative;
     min-width:0;
 
 }
+.banner-item:hover{
+    background: #fff;
+    color:#08d549;
+    border: none;
+    border-radius: 20px;
+}
+
 
 
 .banner-icon svg{

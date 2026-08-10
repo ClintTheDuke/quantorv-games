@@ -187,6 +187,100 @@ showSignup.onclick = ()=>{
 
 }
     
+    //======== Code for Archery Game Score Saving =========
+    // Check for current logged in user >>>>
+    async function saveArcheryScore(finalArcheryScore) {
+        const {
+            data:{user},
+            error: gameUserError
+        } = await supaDb.auth.getUser();
+        
+        if (gameUserError) {
+            console.log('Archery Game Error', gameUserError)
+            return;
+        }
+        
+        if (!user) {
+            console.log('no logged in user');
+            return;
+        }
+        
+        // access Games table >>>>>>
+        const {
+            data: archeryGame,
+            error: archeryGameError
+        } = await supaDb.from('Games').select('id').eq('slug','archery-game').single()
+        if (archeryGameError) {
+            console.log('Archery Game Error');
+            return;
+        }
+        
+        // look for player record >>>>>
+        const {
+            data: stats,
+            error: statsError
+        } = await supaDb.from('PlayerStats').select("id, best_score, games_played")
+        .eq("user_id", user.id)
+        .eq("game_id", archeryGame.id)
+        .maybeSingle();
+
+    if (statsError) {
+        console.error("Error checking player statistics:", statsError);
+        return;
+    }
+    
+    // if the player record no dey, create one >>>>>>
+    if (!stats) {
+        const{
+            error: archeryRecordError
+        } = await supaDb.from('PlayerStats').insert({
+            user_id: user.id,
+            game_id: archeryGame.id,
+            best_score: finalArcheryScore,
+                games_played: 1,
+                last_played: new Date().toISOString()
+            });
+            
+       if (archeryRecordError) {
+            console.error("Error creating player statistics:", archeryRecordError);
+            return;
+        }
+
+        console.log("First Archery game recorded!");
+        return;
+        
+    }
+    
+    // Existing record → update statistics
+
+    const newBestScore = Math.max(
+        stats.best_score,
+        finalScore
+    );
+
+    const { error: updateError } = await supaDb
+        .from("PlayerStats")
+        .update({
+            best_score: newBestScore,
+            games_played: stats.games_played + 1,
+            last_played: new Date().toISOString()
+        })
+        .eq("id", stats.id);
+
+    if (updateError) {
+        console.error("Error updating player statistics:", updateError);
+        return;
+    }
+
+    console.log("Archery statistics updated!");
+    
+    
+    
+        
+       
+    }
+        
+    
     
 
 })
