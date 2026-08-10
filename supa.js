@@ -279,7 +279,8 @@ showSignup.onclick = ()=>{
         
        
     }
-        
+    // Save Archery Game Score Function Ends >>>>>>>>
+    window.saveArcheryScore = saveArcheryScore;
     
     
 

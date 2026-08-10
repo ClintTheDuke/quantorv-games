@@ -373,7 +373,7 @@ function loadGame(){
                                 startPage.style.display = "block";
                                 document.getElementById("title").innerHTML = "Your Score<br>"+totalScore;
     // Supabase Score Saving >>>>>>                     
-   saveArcheryScore(totalScore);
+   window.saveArcheryScore(totalScore);
                                 if(bestScore < totalScore){
                                     bestScore = totalScore;
                                     try{
