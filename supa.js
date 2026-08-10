@@ -211,10 +211,9 @@ showSignup.onclick = ()=>{
             error: archeryGameError
         } = await supaDb.from('Games').select('id').eq('slug','archery-game').single()
         if (archeryGameError) {
-            console.log('Archery Game Error');
-            return;
-        }
-        
+    console.error("Error accessing Archery game:", archeryGameError);
+    return;
+}
         // look for player record >>>>>
         const {
             data: stats,
@@ -255,7 +254,7 @@ showSignup.onclick = ()=>{
 
     const newBestScore = Math.max(
         stats.best_score,
-        finalScore
+        finalArcheryScore
     );
 
     const { error: updateError } = await supaDb
