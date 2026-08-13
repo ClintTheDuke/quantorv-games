@@ -197,12 +197,12 @@ showSignup.onclick = ()=>{
         
         if (gameUserError) {
             console.log('Archery Game Error', gameUserError)
-            return;
+            return 0;
         }
         
         if (!user) {
             console.log('no logged in user');
-            return;
+            return 0;
         }
         
         // access Games table >>>>>>
@@ -212,7 +212,7 @@ showSignup.onclick = ()=>{
         } = await supaDb.from('Games').select('id').eq('slug','archery-game').single()
         if (archeryGameError) {
     console.error("Error accessing Archery game:", archeryGameError);
-    return;
+    return 0;
 }
         // look for player record >>>>>
         const {
@@ -225,7 +225,7 @@ showSignup.onclick = ()=>{
 
     if (statsError) {
         console.error("Error checking player statistics:", statsError);
-        return;
+        return 0;
     }
     
     // if the player record no dey, create one >>>>>>
@@ -242,7 +242,7 @@ showSignup.onclick = ()=>{
             
        if (archeryRecordError) {
             console.error("Error creating player statistics:", archeryRecordError);
-            return;
+            return 0;
         }
 
         console.log("First Archery game recorded!");
@@ -268,7 +268,7 @@ showSignup.onclick = ()=>{
 
     if (updateError) {
         console.error("Error updating player statistics:", updateError);
-        return;
+        return 0;
     }
 
     console.log("Archery statistics updated!");
@@ -281,7 +281,49 @@ showSignup.onclick = ()=>{
     // Save Archery Game Score Function Ends >>>>>>>>
     window.saveArcheryScore = saveArcheryScore;
     
+    // Loading Archery Game Scores Function >>>>>>>>>
+    async function loadArcheryScore(){
+    // Get the user
+    const {
+        data: {user},
+        error: archLoadError
+    } = await supaDb.auth.getUser();
     
+    if (archLoadError) {
+        console.log('Archery Game User Log in Load Error', archLoadError)
+        return 0;
+    }
+    if (!user) {
+    return 0;
+}
+    // access the Games Table
+    const {
+        data: loadArcheryData,
+        error: loadArcheryError
+    } = await supaDb.from('Games').select('id').eq('slug','archery-game').single()
+    if (loadArcheryError) {
+        console.log("Error Accessing Games Table on Load Function", loadArcheryError);
+        return 0;
+    }
+        // Access Player Records for Best Score
+        
+        const {
+            data: archeryScoreData,
+            error: archeryScoreError
+        } = await supaDb.from('PlayerStats').select('best_score').eq('user_id',user.id).eq('game_id',loadArcheryData.id).maybeSingle();
+        
+       if (archeryScoreError) {
+           console.error('Error Loading Scores', archeryScoreError)
+           return 0;
+       }
+        if (!archeryScoreData) {
+            return 0;
+        }
+        return archeryScoreData.best_score;
+        
+        //end of function 
+    }
+    window.loadArcheryScore = loadArcheryScore;
 
 })
 

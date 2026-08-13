@@ -1,5 +1,7 @@
 // adnan zawad toky
-window.onload = function(){
+document.addEventListener('DOMContentLoaded', async () =>{
+    
+
 
 
 String.prototype.repeat =  String.prototype.repeat ||
@@ -33,6 +35,14 @@ function startGame(){
 }
         
 var bestScore = 0;
+//retrieve Cloud Scores
+bestScore = await window.loadArcheryScore();
+if (bestScore === null) {
+    bestScore = 0;
+}
+
+document.getElementById("best").innerHTML = bestScore;
+
 var runCount = 0;
         
 var startSound = new Audio();
@@ -505,5 +515,5 @@ function loadGame(){
           drawBoard();
     },15)
 }
-}
+})
 //window.onload = setTimeout(loadGame,2000);
