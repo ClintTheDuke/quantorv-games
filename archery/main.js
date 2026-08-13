@@ -13,8 +13,10 @@ String.prototype.repeat =  String.prototype.repeat ||
 var asrcd = "toky";
 var startPage = document.getElementById("startMenu");
 startPage.addEventListener("click",startGame)
+const gameBanner = document.getElementById('gameBanner')
 function startGame(){
     startPage.style.display = "none";
+    gameBanner.style.display = "none";
     loadGame();
     try{
         startSound.play().catch(function(e){});
@@ -371,6 +373,7 @@ function loadGame(){
                                 document.getElementById("animCanvas").removeEventListener("click",shoot);
                                 document.body.removeEventListener("keydown",shoot);
                                 startPage.style.display = "block";
+                                gameBanner.style.display = "flex"
                                 document.getElementById("title").innerHTML = "Your Score<br>"+totalScore;
     // Supabase Score Saving >>>>>>                     
    window.saveArcheryScore(totalScore);
