@@ -70,41 +70,71 @@ const bookmarkIcon = document.getElementById('bookmarkIcon');
 if (bookmarkNav && bookmarkIcon) {
     
 
-bookmarkNav.addEventListener('click', function(){
-    
-    const useElement = bookmarkIcon.querySelector('use');
+bookmarkNav.addEventListener('click', async function () {
 
-    if (bookmarkNav.classList.contains('bookmarked')) {
+        // Get the logged-in user
+        const {
+            data: { user },
+            error: userError
+        } = await supaDb.auth.getUser();
 
-        // Remove bookmark
-        bookmarkNav.classList.remove('bookmarked');
+        if (userError) {
+            console.error('Error getting logged-in user:', userError);
+            return;
+        }
 
-        useElement.setAttribute(
-            'href',
-            '../assets/banner.svg#bookmark'
-        );
-        showToast('Removed From Bookmarks')
+        // Make sure someone is logged in
+        if (!user) {
+            console.log('User must be logged in to bookmark pages.');
+            return;
+        }
 
-    } else {
+        // Current page information
+        const pageUrl = window.location.pathname;
+        const pageTitle = document.title;
 
-        // Add bookmark
-        bookmarkNav.classList.add('bookmarked');
+        console.log('Bookmarking page:', pageTitle);
+        console.log('Page URL:', pageUrl);
+
+        // Save bookmark
+        const {
+            data,
+            error
+        } = await supaDb
+            .from('Bookmarks')
+            .insert({
+                user_id: user.id,
+                page_url: pageUrl,
+                page_title: pageTitle
+            })
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error saving bookmark:', error);
+            return;
+        }
+
+        console.log('Bookmark saved successfully:', data);
+
+        // Change icon to filled bookmark
+        const useElement = bookmarkIcon.querySelector('use');
 
         useElement.setAttribute(
             'href',
             '../assets/banner.svg#bookmark-filled'
         );
-        showToast('Bookmarked!')
 
-    }
+        bookmarkNav.classList.add('bookmarked');
 
-});
+    });
+
 }
 else {
     console.log('Missing Element for Bookmark')
 };
 
-
+//======= Creating Bookmarks Ends >>>>>>>>>>
   /* ===============================
      CURRENT YEAR
   =============================== */
