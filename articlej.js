@@ -35,6 +35,76 @@ window.addEventListener("scroll", () => {
 
 
 }); */
+// ===== Redirect to home page on Click >>>>>>> (Temporary)
+const bannerHome = document.getElementsByClassName('banner-item')[0];
+if (bannerHome) {
+    bannerHome.addEventListener('click',()=>{
+        window.location.href = 'https://quantorv-games.com/'
+    })
+}
+else{
+    console.log('no home banner')
+}
+// ===== Redirect to home page on Click End >>>> (Temporary)
+//======= Toasting >>>>>>
+function showToast(message){
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toast.timer);
+
+    toast.timer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+
+}
+
+
+//======= Creating Bookmarks >>>>>>>>>>
+const bookmarkNav = document.getElementById('bookmarkNav');
+const bookmarkIcon = document.getElementById('bookmarkIcon');
+if (bookmarkNav && bookmarkIcon) {
+    
+
+bookmarkNav.addEventListener('click', function(){
+    
+    const useElement = bookmarkIcon.querySelector('use');
+
+    if (bookmarkNav.classList.contains('bookmarked')) {
+
+        // Remove bookmark
+        bookmarkNav.classList.remove('bookmarked');
+
+        useElement.setAttribute(
+            'href',
+            '../assets/banner.svg#bookmark'
+        );
+        showToast('Removed From Bookmarks')
+
+    } else {
+
+        // Add bookmark
+        bookmarkNav.classList.add('bookmarked');
+
+        useElement.setAttribute(
+            'href',
+            '../assets/banner.svg#bookmark-filled'
+        );
+        showToast('Bookmarked!')
+
+    }
+
+});
+}
+else {
+    console.log('Missing Element for Bookmark')
+};
+
+
   /* ===============================
      CURRENT YEAR
   =============================== */
@@ -289,22 +359,7 @@ if (articleDate) {
   });
 }
 
-// ======= Share Button =========
-function showToast(message){
 
-    const toast = document.getElementById("toast");
-
-    toast.textContent = message;
-
-    toast.classList.add("show");
-
-    clearTimeout(toast.timer);
-
-    toast.timer = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3000);
-
-}
 
 // ======= Share button code =======
 const shareBtn = document.getElementById("shareBtn");

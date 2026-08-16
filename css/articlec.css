@@ -2072,6 +2072,7 @@ position: relative;
     transition:
         opacity .3s ease,
         transform .3s ease;
+        z-index: 99999;
 }
 
 .toast.show{
@@ -2141,6 +2142,7 @@ position: relative;
     border: none;
     border-radius: 20px;
 }
+
 
 
 

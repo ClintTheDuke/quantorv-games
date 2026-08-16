@@ -24,6 +24,19 @@
         stroke-linejoin="round"/>
 
     </symbol>
+    
+    <!-- Bookmark Icon 2 (Bookmarked)-->
+    <symbol id="bookmark-filled" viewBox="0 0 24 24">
+
+    <path
+        d="M6 3H18C18.6 3 19 3.4 19 4V21L12 17L5 21V4C5 3.4 5.4 3 6 3Z"
+        fill="#FFD700"
+        stroke="#FFD700"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+</symbol>
 
 
     <!-- Profile Icon -->
