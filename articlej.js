@@ -148,6 +148,7 @@ if (bookmarkNav && bookmarkIcon) {
             
             console.log('page removed from bookmarks');
              isPageBookmarked = false;
+             showToast('Removed from bookmarks, refresh..')
         updateBookmarkUi();
         return 0;
         }
@@ -184,10 +185,11 @@ if (bookmarkNav && bookmarkIcon) {
                 'Bookmark saved successfully:',
                addBookData
             );
+            
 
 
             isPageBookmarked = true;
-
+            showToast('Added to Bookmarks, refresh.....')
             updateBookmarkUi();
 
         
