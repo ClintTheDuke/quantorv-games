@@ -29,6 +29,41 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
 
     console.log('User bookmarks:', bookmarks);
+    
+    const bookmarkList = document.getElementById('bookmarkList');
+    
+    if (bookmarks.length === 0) {
+        bookmarkList.innerHTML = ` <div class="bookmark-item">
+            No bookmarks yet.
+        </div>`
+        return 0;
+    }
+    bookmarkList.innerHTML = '';
+    
+    bookmarks.forEach(bookmark => {
+
+    const item =
+        document.createElement('div');
+
+    item.className =
+        'bookmark-item';
+
+
+    const link =
+        document.createElement('a');
+
+    link.href =
+        bookmark.page_url;
+
+    link.textContent =
+        bookmark.page_title;
+
+
+    item.appendChild(link);
+
+    bookmarkList.appendChild(item);
+
+});
 
         // function End 
     }
