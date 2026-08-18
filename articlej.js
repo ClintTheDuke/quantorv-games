@@ -188,7 +188,7 @@ if (bookmarkNav && bookmarkIcon) {
 
             isPageBookmarked = true;
 
-            updateBookmarkIcon();
+            updateBookmarkUi();
 
         
         
