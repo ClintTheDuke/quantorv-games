@@ -2,38 +2,78 @@ import os
 import re
 
 # =====================================================
-# Add Supabase JavaScript files to HTML pages
-# Inserts the Supabase scripts immediately BEFORE
-# <script src="../assets/js/article.js"></script>
+# Add bookmarkIcon ID to bookmark SVG elements
+#
+# Scans ALL HTML files recursively.
+#
+# Replaces:
+#
+# <span class="banner-icon">
+#     <svg>
+#         <use href="../assets/banner.svg#bookmark"></use>
+#     </svg>
+# </span>
+#
+# With:
+#
+# <span class="banner-icon">
+#     <svg id="bookmarkIcon">
+#         <use href="../assets/banner.svg#bookmark"></use>
+#     </svg>
+# </span>
+#
+# Skips:
+# - Pages where bookmarkIcon is already implemented
+# - Pages where the bookmark element does not exist
 # =====================================================
+
 
 # Root folder to scan
 ROOT_DIR = os.path.abspath(".")
 
-# Match the article.js script tag (case-insensitive)
-SCRIPT_PATTERN = re.compile(
-    r'(<script\s+src=["\']\.\./assets/js/article\.js["\']\s*></script>)',
+
+# =====================================================
+# Regex: Find the existing bookmark element
+# =====================================================
+
+BOOKMARK_PATTERN = re.compile(
+    r'<span\s+class=["\']banner-icon["\']\s*>\s*'
+    r'<svg\s*>\s*'
+    r'<use\s+href=["\']\.\./assets/banner\.svg#bookmark["\']\s*>\s*</use>\s*'
+    r'</svg>\s*'
+    r'</span>',
     re.IGNORECASE
 )
 
-# Code to insert
-SUPABASE_SCRIPTS = """<!-- ======== Supabase JavaScript Files ========= -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../supa.js"></script>
-<script src="../auth.js"></script>
-<!-- ======== Supabase JavaScript Files End========= -->"""
+
+# =====================================================
+# Replacement HTML
+# =====================================================
+
+REPLACEMENT = """<span class="banner-icon">
+
+        <svg id="bookmarkIcon">
+            <use href="../assets/banner.svg#bookmark"></use>
+        </svg>
+
+    </span>"""
 
 
-def already_inserted(content):
+def already_implemented(content):
     """
-    Prevent duplicate insertion.
+    Check whether bookmarkIcon has already been added.
     """
-    return "../supa.js" in content or "../auth.js" in content
+
+    return re.search(
+        r'<svg[^>]*\bid=["\']bookmarkIcon["\']',
+        content,
+        re.IGNORECASE
+    ) is not None
 
 
 def process_file(filepath):
     """
-    Insert Supabase JavaScript files before article.js.
+    Process one HTML file.
     """
 
     try:
@@ -42,42 +82,65 @@ def process_file(filepath):
 
     except FileNotFoundError:
         print(f"✖ File not found: {filepath}")
-        return False
+        return "error"
 
     except PermissionError:
         print(f"✖ Permission denied: {filepath}")
-        return False
+        return "error"
 
     except UnicodeDecodeError:
         print(f"✖ Encoding error: {filepath}")
-        return False
+        return "error"
 
     except Exception as e:
         print(f"✖ Error reading {filepath}: {e}")
-        return False
+        return "error"
 
-    # Skip if already added
-    if already_inserted(content):
-        print(f"⏭ Already added, skipping: {filepath}")
-        return False
 
-    # Insert immediately before article.js
-    new_content, count = SCRIPT_PATTERN.subn(
-        SUPABASE_SCRIPTS + "\n\n" + r"\1",
+    # =================================================
+    # Skip if already implemented
+    # =================================================
+
+    if already_implemented(content):
+        print(f"⏭ Already implemented, skipping: {filepath}")
+        return "already"
+
+
+    # =================================================
+    # Check whether bookmark element exists
+    # =================================================
+
+    if not BOOKMARK_PATTERN.search(content):
+        print(f"⚪ Bookmark element not found, leaving unchanged: {filepath}")
+        return "not_found"
+
+
+    # =================================================
+    # Replace bookmark element
+    # =================================================
+
+    new_content, count = BOOKMARK_PATTERN.subn(
+        REPLACEMENT,
         content,
         count=1
     )
 
+
     if count == 0:
-        print(f"⚠ article.js script not found: {filepath}")
-        return False
+        print(f"⚠ Replacement failed: {filepath}")
+        return "error"
+
+
+    # =================================================
+    # Write updated file
+    # =================================================
 
     try:
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(new_content)
 
-        print(f"✔ Added Supabase scripts to: {filepath}")
-        return True
+        print(f"✔ Updated bookmarkIcon: {filepath}")
+        return "updated"
 
     except PermissionError:
         print(f"✖ Permission denied while writing: {filepath}")
@@ -85,25 +148,33 @@ def process_file(filepath):
     except Exception as e:
         print(f"✖ Error writing {filepath}: {e}")
 
-    return False
+    return "error"
 
 
-def scan_topics_folder(root):
+def scan_all_html(root):
     """
-    Recursively scan every HTML file inside the topics folder.
+    Recursively scan ALL HTML files from the root directory.
     """
 
-    topics_dir = os.path.join(root, "topics")
-
-    if not os.path.isdir(topics_dir):
-        print(f"✖ Topics folder not found: {topics_dir}")
-        return
-
-    modified = 0
-    skipped = 0
+    updated = 0
+    already = 0
+    not_found = 0
+    errors = 0
     scanned = 0
 
-    for foldername, _, filenames in os.walk(topics_dir):
+
+    print("\n==============================================")
+    print("   BOOKMARK ICON UPDATE SCRIPT")
+    print("==============================================")
+    print(f"Root folder: {root}")
+    print("Scanning all HTML files recursively...\n")
+
+
+    # =================================================
+    # Walk through entire website
+    # =================================================
+
+    for foldername, _, filenames in os.walk(root):
 
         for filename in filenames:
 
@@ -114,16 +185,43 @@ def scan_topics_folder(root):
 
             filepath = os.path.join(foldername, filename)
 
-            if process_file(filepath):
-                modified += 1
-            else:
-                skipped += 1
+            result = process_file(filepath)
 
-    print("\n========== DONE ==========")
-    print(f"Scanned : {scanned}")
-    print(f"Added   : {modified}")
-    print(f"Skipped : {skipped}")
+
+            # =================================================
+            # Count result
+            # =================================================
+
+            if result == "updated":
+                updated += 1
+
+            elif result == "already":
+                already += 1
+
+            elif result == "not_found":
+                not_found += 1
+
+            elif result == "error":
+                errors += 1
+
+
+    # =====================================================
+    # Final Report
+    # =====================================================
+
+    print("\n")
+    print("==============================================")
+    print("              WORKFLOW COMPLETE")
+    print("==============================================")
+    print(f"HTML files scanned       : {scanned}")
+    print(f"Pages updated            : {updated}")
+    print(f"Already implemented      : {already}")
+    print(f"Bookmark element absent  : {not_found}")
+    print(f"Errors                   : {errors}")
+    print("==============================================")
+    print("Done.")
+    print("==============================================")
 
 
 if __name__ == "__main__":
-    scan_topics_folder(ROOT_DIR)
+    scan_all_html(ROOT_DIR)
