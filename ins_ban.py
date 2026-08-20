@@ -2,29 +2,49 @@ import os
 import re
 
 # =====================================================
-# Add bookmarkIcon ID to bookmark SVG elements
+# Add bookmarkNav ID to the complete bookmark banner item
 #
 # Scans ALL HTML files recursively.
 #
-# Replaces:
+# Finds the entire bookmark block:
 #
-# <span class="banner-icon">
-#     <svg>
-#         <use href="../assets/banner.svg#bookmark"></use>
-#     </svg>
-# </span>
+# <div class="banner-item">
 #
-# With:
+#     <span class="banner-icon">
 #
-# <span class="banner-icon">
-#     <svg id="bookmarkIcon">
-#         <use href="../assets/banner.svg#bookmark"></use>
-#     </svg>
-# </span>
+#         <svg id="bookmarkIcon">
+#             <use href="../assets/banner.svg#bookmark"></use>
+#         </svg>
+#
+#     </span>
+#
+#     <span class="banner-text">
+#         Bookmarks
+#     </span>
+#
+# </div>
+#
+# And replaces it with:
+#
+# <div class="banner-item" id="bookmarkNav">
+#
+#     <span class="banner-icon">
+#
+#         <svg id="bookmarkIcon">
+#             <use href="../assets/banner.svg#bookmark"></use>
+#         </svg>
+#
+#     </span>
+#
+#     <span class="banner-text">
+#         Bookmarks
+#     </span>
+#
+# </div>
 #
 # Skips:
-# - Pages where bookmarkIcon is already implemented
-# - Pages where the bookmark element does not exist
+# - Pages where bookmarkNav is already implemented
+# - Pages where the complete bookmark block does not exist
 # =====================================================
 
 
@@ -33,15 +53,30 @@ ROOT_DIR = os.path.abspath(".")
 
 
 # =====================================================
-# Regex: Find the existing bookmark element
+# Regex: Find the COMPLETE bookmark banner block
 # =====================================================
 
 BOOKMARK_PATTERN = re.compile(
+    r'<div\s+class=["\']banner-item["\']\s*>\s*'
+    
     r'<span\s+class=["\']banner-icon["\']\s*>\s*'
-    r'<svg\s*>\s*'
+    
+    r'<svg\s+id=["\']bookmarkIcon["\']\s*>\s*'
+    
     r'<use\s+href=["\']\.\./assets/banner\.svg#bookmark["\']\s*>\s*</use>\s*'
+    
     r'</svg>\s*'
-    r'</span>',
+    
+    r'</span>\s*'
+    
+    r'<span\s+class=["\']banner-text["\']\s*>\s*'
+    
+    r'Bookmarks\s*'
+    
+    r'</span>\s*'
+    
+    r'</div>',
+    
     re.IGNORECASE
 )
 
@@ -50,22 +85,30 @@ BOOKMARK_PATTERN = re.compile(
 # Replacement HTML
 # =====================================================
 
-REPLACEMENT = """<span class="banner-icon">
+REPLACEMENT = """<div class="banner-item" id="bookmarkNav">
+
+    <span class="banner-icon">
 
         <svg id="bookmarkIcon">
             <use href="../assets/banner.svg#bookmark"></use>
         </svg>
 
-    </span>"""
+    </span>
+            
+    <span class="banner-text">
+        Bookmarks
+    </span>
+
+</div>"""
 
 
 def already_implemented(content):
     """
-    Check whether bookmarkIcon has already been added.
+    Check whether bookmarkNav has already been added.
     """
 
     return re.search(
-        r'<svg[^>]*\bid=["\']bookmarkIcon["\']',
+        r'<div[^>]*\bid=["\']bookmarkNav["\']',
         content,
         re.IGNORECASE
     ) is not None
@@ -107,16 +150,19 @@ def process_file(filepath):
 
 
     # =================================================
-    # Check whether bookmark element exists
+    # Check whether complete bookmark block exists
     # =================================================
 
     if not BOOKMARK_PATTERN.search(content):
-        print(f"⚪ Bookmark element not found, leaving unchanged: {filepath}")
+        print(
+            f"⚪ Complete bookmark block not found, "
+            f"leaving unchanged: {filepath}"
+        )
         return "not_found"
 
 
     # =================================================
-    # Replace bookmark element
+    # Replace COMPLETE bookmark block
     # =================================================
 
     new_content, count = BOOKMARK_PATTERN.subn(
@@ -139,7 +185,7 @@ def process_file(filepath):
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(new_content)
 
-        print(f"✔ Updated bookmarkIcon: {filepath}")
+        print(f"✔ Added bookmarkNav: {filepath}")
         return "updated"
 
     except PermissionError:
@@ -164,7 +210,7 @@ def scan_all_html(root):
 
 
     print("\n==============================================")
-    print("   BOOKMARK ICON UPDATE SCRIPT")
+    print("   BOOKMARK NAV UPDATE SCRIPT")
     print("==============================================")
     print(f"Root folder: {root}")
     print("Scanning all HTML files recursively...\n")
@@ -216,7 +262,7 @@ def scan_all_html(root):
     print(f"HTML files scanned       : {scanned}")
     print(f"Pages updated            : {updated}")
     print(f"Already implemented      : {already}")
-    print(f"Bookmark element absent  : {not_found}")
+    print(f"Bookmark block absent    : {not_found}")
     print(f"Errors                   : {errors}")
     print("==============================================")
     print("Done.")
