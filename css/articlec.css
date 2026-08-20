@@ -778,8 +778,7 @@ justify-content: space-between;
   height: 100%;
   border-radius: .8rem;
   object-fit: cover;
-  display: none;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 
@@ -849,6 +848,7 @@ justify-content: space-between;
 .blog-post a:hover {
  transform: scale(.960);
 }
+
 
 /* ====== Blogs and Game Cards Styling Ends =======*/
 /* ======= Footer Styles ======== */

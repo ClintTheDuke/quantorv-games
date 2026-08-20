@@ -35,6 +35,7 @@ window.addEventListener("scroll", () => {
 
 
 }); */
+
 // ===== Redirect to home page on Click >>>>>>> (Temporary)
 const bannerHome = document.getElementsByClassName('banner-item')[0];
 if (bannerHome) {
