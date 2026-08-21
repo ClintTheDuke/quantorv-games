@@ -556,5 +556,164 @@ if (shareBtn) {
 
 });
 }
+
+//======= Toasting >>>>>>
+function showToast(message){
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toast.timer);
+
+    toast.timer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+
+}
+
+
+//======= Creating Bookmarks >>>>>>>>>> 
+const bookmarkNav = document.getElementById('bookmarkNav');
+const bookmarkIcon = document.getElementById('bookmarkIcon');
+let isPageBookmarked = false;
+
+//========= Update Bookmark Icon
+function updateBookmarkUi(){
+    const bsvgElem = bookmarkIcon.querySelector('use');
+    if (isPageBookmarked) {
+        bsvgElem.setAttribute('href','../assets/banner.svg#bookmark-filled')
+    }
+    else{
+        bsvgElem.setAttribute('href','../assets/banner.svg#bookmark')
+    }
+    
+}
+
+// ======= Checking Bookmarks Status
+async function checkBookmarkStatus() {
+    const {
+        data:{user},
+        error:bmsError
+    } = await supaDb.auth.getUser();
+    if (bmsError) {
+        console.log('Bookmark Status Error', bmsError);
+        return 0;
+    }
+    if (!user) {
+        console.log('No logged In User');
+        return 0;
+    }
+    
+    const pageUrl = window.location.pathname;
+    
+    const {
+        data:bmTableData,
+        error:bmTableError
+    } = await supaDb.from('Bookmarks').select('id').eq('user_id',user.id).eq('page_url',pageUrl).maybeSingle();
+    
+    if (bmTableError) {
+        console.log('Error Fetching Bookmarks Data', bmTableError);
+        return 0;
+      
+    }
+    if (bmTableData) {
+        isPageBookmarked = true;
+    }
+    else{
+        isPageBookmarked = false;
+    }
+    updateBookmarkUi();
+}
+// ======= if user Clicks Bookmark button 
+if (bookmarkNav && bookmarkIcon) {
+    bookmarkNav.addEventListener('click', async function (){
+        const{
+            data: {user},
+            error: ucbError
+        } = await supaDb.auth.getUser();
+        if (ucbError) {
+            console.log('Error in User Click Bookmark Event', ucbError)
+            return 0;
+        }
+        if (!user) {
+            console.log('user clicked but isn\'t logged in');
+            return 0;
+        }
+        
+        const pageUrl = window.location.pathname;
+        const pageTitle = document.title;
+// ==== if page is bookmarked remove page from bookmarks 
+  
+        if (isPageBookmarked) {
+            const {
+                error: unBookError
+            } = await supaDb.from('Bookmarks').delete().eq('user_id',user.id).eq('page_url', pageUrl)
+            
+            if (unBookError) {
+                console.log('Error Removing Bookmarks', unBookError)
+                return 0;
+            }
+            
+            console.log('page removed from bookmarks');
+             isPageBookmarked = false;
+             showToast('Removed from bookmarks, refresh..')
+        updateBookmarkUi();
+        return 0;
+        }
+        
+// if page isn't bookmarked, add page to bookmarks 
+       const {
+           data: addBookData,
+           error: addBookError
+       } = await supaDb.from('Bookmarks')
+                .insert({
+
+                    user_id: user.id,
+
+                    page_url: pageUrl,
+
+                    page_title: pageTitle
+
+                })
+                .select('id')
+                .single();
+                
+                if (addBookError) {
+
+                console.error(
+                    'Error saving bookmark:',
+                    addBookError
+                );
+
+                return;
+            }
+
+
+            console.log(
+                'Bookmark saved successfully:',
+               addBookData
+            );
+            
+
+
+            isPageBookmarked = true;
+            showToast('Added to Bookmarks, refresh.....')
+            updateBookmarkUi();
+
+        
+        
+    })
+}
+
+if (bookmarkNav && bookmarkIcon) {
+
+    checkBookmarkStatus();
+
+}
+//======= Creating Bookmarks Ends >>>>>>>>>>
+
 })
 //window.onload = setTimeout(loadGame,2000);
