@@ -557,22 +557,6 @@ if (shareBtn) {
 });
 }
 
-//======= Toasting >>>>>>
-function showToast(message){
-
-    const toast = document.getElementById("toast");
-
-    toast.textContent = message;
-
-    toast.classList.add("show");
-
-    clearTimeout(toast.timer);
-
-    toast.timer = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3000);
-
-}
 
 
 //======= Creating Bookmarks >>>>>>>>>> 
