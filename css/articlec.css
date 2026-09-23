@@ -3,7 +3,7 @@ html{
 }
 *{
   padding:0;
-  margin:0;
+  /* margin:0; */
   box-sizing:border-box ;
 }
 :root{
@@ -2193,4 +2193,352 @@ position: relative;
 
     }
 
+}
+
+
+/* =========================================
+   QUANTORV GAMES
+   ARCHERY GAME DIALOG
+   ========================================= */
+
+#archery-modal {
+
+    width: min(500px, 88vw);
+
+    padding: 0;
+
+    border: 1px solid #263b29;
+
+    border-radius: 18px;
+
+    background: #111a12;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.65);
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    transform: scale(0.9);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        display 0.3s ease allow-discrete;
+}
+
+
+/* =========================================
+   BACKDROP
+   ========================================= */
+
+#archery-modal::backdrop {
+
+    background-color: rgba(0, 0, 0, 0);
+
+    transition:
+        background-color 0.3s ease,
+        display 0.3s ease allow-discrete;
+}
+
+
+/* =========================================
+   OPEN STATE
+   ========================================= */
+
+#archery-modal[open] {
+
+    opacity: 1;
+
+    transform: scale(1);
+}
+
+
+#archery-modal[open]::backdrop {
+
+    background-color: rgba(0, 0, 0, 0.72);
+}
+
+
+/* =========================================
+   STARTING STYLE
+   ========================================= */
+
+@starting-style {
+
+    #archery-modal[open] {
+
+        opacity: 0;
+
+        transform: scale(0.9);
+    }
+
+    #archery-modal[open]::backdrop {
+
+        background-color: rgba(0, 0, 0, 0);
+    }
+}
+
+
+/* =========================================
+   GAME IMAGE
+   ========================================= */
+
+.archery-modal-image {
+
+    display: block;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    object-fit: cover;
+}
+
+
+/* =========================================
+   HEADING
+   ========================================= */
+
+#archery-modal h2 {
+
+    margin: 22px 24px 10px;
+
+    color: #ffffff;
+
+    font-size: 25px;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================
+   DESCRIPTION
+   ========================================= */
+
+#archery-modal > p {
+
+    margin: 0 24px 20px;
+
+    color: #b8c2b9;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+#archery-modal strong {
+
+    color: #08d549;
+}
+
+
+/* =========================================
+   FIELDSET
+   ========================================= */
+
+.archery-preference {
+
+    margin: 0 24px 22px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #263b29;
+
+    border-radius: 10px;
+
+    background: #0c130d;
+}
+
+
+/* Legend */
+
+.archery-preference legend {
+
+    padding: 0 8px;
+
+    color: #08d549;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* Checkbox label */
+
+.archery-preference label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #d7ded8;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+/* Checkbox */
+
+.archery-preference input {
+
+    width: 17px;
+
+    height: 17px;
+
+    accent-color: #08d549;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   ACTION AREA
+   ========================================= */
+
+.modal-actions {
+
+    padding: 0 24px 24px;
+}
+
+
+.modal-actions form {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.modal-actions button,
+.modal-actions a {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 100px;
+
+    padding: 11px 18px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+
+/* Cancel */
+
+.btn-secondary {
+
+    border: 1px solid #344a37;
+
+    background: transparent;
+
+    color: #d5ddd6;
+}
+
+
+.btn-secondary:hover {
+
+    background: #1b281d;
+
+    color: #ffffff;
+}
+
+
+/* To Game */
+
+.btn-primary {
+
+    border: 1px solid #08d549;
+
+    background: #08d549;
+
+    color: #071009;
+}
+
+
+.btn-primary:hover {
+
+    background: #39ff6d;
+
+    border-color: #39ff6d;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    #archery-modal {
+
+        width: 92vw;
+
+        border-radius: 15px;
+    }
+
+    #archery-modal h2 {
+
+        margin: 18px 18px 8px;
+
+        font-size: 22px;
+    }
+
+    #archery-modal > p {
+
+        margin: 0 18px 18px;
+
+        font-size: 14px;
+    }
+
+    .archery-preference {
+
+        margin: 0 18px 18px;
+    }
+
+    .modal-actions {
+
+        padding: 0 18px 18px;
+    }
+
+    .modal-actions form {
+
+        flex-direction: column-reverse;
+    }
+
+    .modal-actions button,
+    .modal-actions a {
+
+        width: 100%;
+    }
 }

@@ -36,6 +36,16 @@ window.addEventListener("scroll", () => {
 
 }); */
 
+const arch = document.getElementById("archery-modal");
+    const open = document.getElementById("open");
+    setTimeout(()=>{
+        arch.showModal()
+    },5000);
+    open.addEventListener("click",()=>{
+        arch.showModal();
+    })
+    
+    
 // ===== Redirect to home page on Click >>>>>>> (Temporary)
 const bannerHome = document.getElementsByClassName('banner-item')[0];
 if (bannerHome) {
