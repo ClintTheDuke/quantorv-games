@@ -452,6 +452,8 @@ showSignup.onclick = ()=>{
     // Archery leaderboard loading function >>>>>>>>
     async function loadArcheryLeaderboard() {
     const { data: { user }, error } = await supaDb.auth.getUser();
+    console.log("Leaderboard script is running!");
+
 
 console.log("User:", user);
 console.log("User ID:", user?.id);
