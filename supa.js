@@ -228,16 +228,143 @@ showSignup.onclick = ()=>{
         return 0;
     }
     
-            const { error: archeryHistoryError} = await supaDb.from('GameScores').insert({
+            //typing archery History Record begin >>>>>>
+                // Leaderboard period keys
+    const now = new Date();
+
+    const year = now.getUTCFullYear();
+    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+
+    // ISO week number
+    const tempDate = new Date(Date.UTC(
+        year,
+        now.getUTCMonth(),
+        now.getUTCDate()
+    ));
+
+    const dayNum = tempDate.getUTCDay() || 7;
+    tempDate.setUTCDate(tempDate.getUTCDate() + 4 - dayNum);
+
+    const weekYear = tempDate.getUTCFullYear();
+
+    const yearStart = new Date(Date.UTC(weekYear, 0, 1));
+    const weekNumber = Math.ceil(
+        (((tempDate - yearStart) / 86400000) + 1) / 7
+    );
+
+    const weeklyKey = `${weekYear}-W${String(weekNumber).padStart(2, '0')}`;
+    const monthlyKey = `${year}-${month}`; 
+    
+        // Check current weekly best
+    const { data: weeklyScore, error: weeklyCheckError } = await supaDb
+        .from('GameScores')
+        .select('score')
+        .eq('user_id', user.id)
+        .eq('game_id', archeryGame.id)
+        .eq('period_type', 'weekly')
+        .eq('period_key', weeklyKey)
+        .maybeSingle();
+
+    if (weeklyCheckError) {
+        console.error("Error checking weekly leaderboard:", weeklyCheckError);
+        return 0;
+    }
+
+    // Only save if this is a new weekly best
+    if (!weeklyScore || finalArcheryScore > weeklyScore.score) {
+
+        const { error: weeklyError } = await supaDb
+            .from('GameScores')
+            .upsert({
                 user_id: user.id,
                 game_id: archeryGame.id,
-                score: finalArcheryScore, 
+                period_type: 'weekly',
+                period_key: weeklyKey,
+                score: finalArcheryScore,
+                updated_at: now.toISOString()
+            }, {
+                onConflict: 'user_id,game_id,period_type,period_key'
             });
-            if (archeryHistoryError) {
-                console.error("Error creating archery history record:", archeryHistoryError);
-                return 0;
-            };       
-            // Typing archery History Record 
+
+        if (weeklyError) {
+            console.error("Error updating weekly leaderboard:", weeklyError);
+            return 0;
+        }
+    }
+        // Check current monthly best >>>>>>>>>>>>>>
+    const { data: monthlyScore, error: monthlyCheckError } = await supaDb
+        .from('GameScores')
+        .select('score')
+        .eq('user_id', user.id)
+        .eq('game_id', archeryGame.id)
+        .eq('period_type', 'monthly')
+        .eq('period_key', monthlyKey)
+        .maybeSingle();
+
+    if (monthlyCheckError) {
+        console.error("Error checking monthly leaderboard:", monthlyCheckError);
+        return 0;
+    }
+
+    // Only save if this is a new monthly best
+    if (!monthlyScore || finalArcheryScore > monthlyScore.score) {
+
+        const { error: monthlyError } = await supaDb
+            .from('GameScores')
+            .upsert({
+                user_id: user.id,
+                game_id: archeryGame.id,
+                period_type: 'monthly',
+                period_key: monthlyKey,
+                score: finalArcheryScore,
+                updated_at: now.toISOString()
+            }, {
+                onConflict: 'user_id,game_id,period_type,period_key'
+            });
+
+        if (monthlyError) {
+            console.error("Error updating monthly leaderboard:", monthlyError);
+            return 0;
+        }
+    }
+
+        // Check current all-time best
+    const { data: allTimeScore, error: allTimeCheckError } = await supaDb
+        .from('GameScores')
+        .select('score')
+        .eq('user_id', user.id)
+        .eq('game_id', archeryGame.id)
+        .eq('period_type', 'all_time')
+        .eq('period_key', 'all_time')
+        .maybeSingle();
+
+    if (allTimeCheckError) {
+        console.error("Error checking all-time leaderboard:", allTimeCheckError);
+        return 0;
+    }
+
+    // Only save if this is a new all-time best
+    if (!allTimeScore || finalArcheryScore > allTimeScore.score) {
+
+        const { error: allTimeError } = await supaDb
+            .from('GameScores')
+            .upsert({
+                user_id: user.id,
+                game_id: archeryGame.id,
+                period_type: 'all_time',
+                period_key: 'all_time',
+                score: finalArcheryScore,
+                updated_at: now.toISOString()
+            }, {
+                onConflict: 'user_id,game_id,period_type,period_key'
+            });
+
+        if (allTimeError) {
+            console.error("Error updating all-time leaderboard:", allTimeError);
+            return 0;
+        }
+    }
+            // Typing archery History Record end >>>>>>
     // if the player record no dey, create one >>>>>>
     if (!stats) {
         const{
@@ -256,9 +383,7 @@ showSignup.onclick = ()=>{
         }
 
         console.log("First Archery game recorded!");
-
-
-
+        return;
         
     }
     
