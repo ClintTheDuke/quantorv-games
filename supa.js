@@ -451,14 +451,42 @@ showSignup.onclick = ()=>{
 
     // Archery leaderboard loading function >>>>>>>>
     async function loadArcheryLeaderboard() {
-    const { data: { user }, error } = await supaDb.auth.getUser();
-    console.log("Leaderboard script is running!");
-
-
-console.log("User:", user);
-console.log("User ID:", user?.id);
-console.log("Error:", error);
+    const {
+        data: { user },
+        error: leaderboardUserError
+    } = await supaDb.auth.getUser();
+    if (leaderboardUserError) {
+        console.error("Error getting user for leaderboard:", leaderboardUserError);
+        return;
     }
+    if (!user) {
+        console.log("No logged-in user for leaderboard.");
+        return;
+    }
+
+        const { data, error } = await supaDb
+        .from("GameScores")
+        .select(`
+            user_id,
+            score,
+            period_type,
+            period_key
+        `)
+        .eq("period_type", "all_time")
+        .eq("period_key", "all_time")
+        .order("score", { ascending: false })
+        .limit(100);
+
+    if (error) {
+        console.error("Leaderboard error:", error);
+        return;
+    }
+
+    console.log("Leaderboard:", data);
+
+
+    //function to get leaderboard data ends
+}
     loadArcheryLeaderboard();
 })
 
