@@ -450,12 +450,13 @@ showSignup.onclick = ()=>{
     window.loadArcheryScore = loadArcheryScore;
 
     // Archery leaderboard loading function >>>>>>>>
-    async function loadArcheryLeaderboard(periodType, periodKey) {
+    async function loadArcheryLeaderboard() {
     const { data: { user }, error } = await supaDb.auth.getUser();
 
 console.log("User:", user);
 console.log("User ID:", user?.id);
 console.log("Error:", error);
     }
+    loadArcheryLeaderboard();
 })
 
