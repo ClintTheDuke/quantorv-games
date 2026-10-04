@@ -329,40 +329,27 @@ showSignup.onclick = ()=>{
     }
 
         // Check current all-time best
-    const { data: allTimeScore, error: allTimeCheckError } = await supaDb
+        // All-time best comes from PlayerStats
+    const allTimeBest = stats
+        ? Math.max(stats.best_score, finalArcheryScore)
+        : finalArcheryScore;
+
+    const { error: allTimeError } = await supaDb
         .from('GameScores')
-        .select('score')
-        .eq('user_id', user.id)
-        .eq('game_id', archeryGame.id)
-        .eq('period_type', 'all_time')
-        .eq('period_key', 'all_time')
-        .maybeSingle();
+        .upsert({
+            user_id: user.id,
+            game_id: archeryGame.id,
+            period_type: 'all_time',
+            period_key: 'all_time',
+            score: allTimeBest,
+            updated_at: now.toISOString()
+        }, {
+            onConflict: 'user_id,game_id,period_type,period_key'
+        });
 
-    if (allTimeCheckError) {
-        console.error("Error checking all-time leaderboard:", allTimeCheckError);
+    if (allTimeError) {
+        console.error("Error updating all-time leaderboard:", allTimeError);
         return 0;
-    }
-
-    // Only save if this is a new all-time best
-    if (!allTimeScore || finalArcheryScore > allTimeScore.score) {
-
-        const { error: allTimeError } = await supaDb
-            .from('GameScores')
-            .upsert({
-                user_id: user.id,
-                game_id: archeryGame.id,
-                period_type: 'all_time',
-                period_key: 'all_time',
-                score: finalArcheryScore,
-                updated_at: now.toISOString()
-            }, {
-                onConflict: 'user_id,game_id,period_type,period_key'
-            });
-
-        if (allTimeError) {
-            console.error("Error updating all-time leaderboard:", allTimeError);
-            return 0;
-        }
     }
             // Typing archery History Record end >>>>>>
     // if the player record no dey, create one >>>>>>
