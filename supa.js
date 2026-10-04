@@ -228,6 +228,16 @@ showSignup.onclick = ()=>{
         return 0;
     }
     
+            const { error: archeryHistoryError} = await supaDb.from('GameScores').insert({
+                user_id: user.id,
+                game_id: archeryGame.id,
+                score: finalArcheryScore, 
+            });
+            if (archeryHistoryError) {
+                console.error("Error creating archery history record:", archeryHistoryError);
+                return 0;
+            };       
+            // Typing archery History Record 
     // if the player record no dey, create one >>>>>>
     if (!stats) {
         const{
@@ -239,14 +249,16 @@ showSignup.onclick = ()=>{
                 games_played: 1,
                 last_played: new Date().toISOString()
             });
-            
+                      
        if (archeryRecordError) {
             console.error("Error creating player statistics:", archeryRecordError);
             return 0;
         }
 
         console.log("First Archery game recorded!");
-        return;
+
+
+
         
     }
     
