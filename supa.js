@@ -484,6 +484,14 @@ showSignup.onclick = ()=>{
 
     console.log("Leaderboard:", data);
 
+    // adding ranking using javascript map object in rest and spred rule
+    const rankedLeaderboard = data.map((player, index) => ({
+    ...player,
+    rank: index + 1
+}));
+
+console.log("Ranked leaderboard:", rankedLeaderboard);
+
 
     //function to get leaderboard data ends
 }
