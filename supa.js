@@ -470,7 +470,8 @@ showSignup.onclick = ()=>{
             user_id,
             score,
             period_type,
-            period_key
+            period_key,
+            Profiles(username)
         `)
         .eq("period_type", "all_time")
         .eq("period_key", "all_time")
@@ -494,8 +495,13 @@ console.log("Ranked leaderboard:", rankedLeaderboard);
 const leaderboardContainer =
     document.getElementById("archery-leaderboard");
 
-leaderboardContainer.innerHTML = "<p>Leaderboard loaded!</p>";
-
+leaderboardContainer.innerHTML = rankedLeaderboard.map(player => `
+    <div class="leaderboard-row">
+        <span class="leaderboard-rank">#${player.rank}</span>
+        <span class="leaderboard-username">${player.Profiles.username}</span>
+        <span class="leaderboard-score">${player.score}</span>
+    </div>
+`).join("");
     //function to get leaderboard data ends
 }
     loadArcheryLeaderboard();
