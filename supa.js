@@ -491,10 +491,14 @@ showSignup.onclick = ()=>{
 }));
 
 console.log("Ranked leaderboard:", rankedLeaderboard);
+const leaderboardContainer =
+    document.getElementById("archery-leaderboard");
 
+leaderboardContainer.innerHTML = "<p>Leaderboard loaded!</p>";
 
     //function to get leaderboard data ends
 }
     loadArcheryLeaderboard();
+    
 })
 
