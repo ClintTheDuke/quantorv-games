@@ -136,7 +136,62 @@ if (userError) {
 if(!user){
     console.log('no logged in user')
 }
+// ========== get the users rank ======
+if (user) {
 
+    // Get the logged-in user's score
+    const { data: myScore, error: myScoreError } = await supaDb
+        .from("GameScores")
+        .select("score")
+        .eq("user_id", user.id)
+        .eq("game_id", gameId)
+        .eq("period_type", periodType)
+        .eq("period_key", periodKey)
+        .maybeSingle();
+
+    if (myScoreError) {
+        console.error("Error getting user's score:", myScoreError);
+        return;
+    }
+
+    const myRankElement = document.getElementById("my-rank");
+
+    // User has no score for this leaderboard period
+    if (!myScore) {
+        myRankElement.innerHTML = "";
+        return;
+    }
+
+    // Count players with a higher score
+    const {
+        count: higherScores,
+        error: rankError
+    } = await supaDb
+        .from("GameScores")
+        .select("user_id", { count: "exact", head: true })
+        .eq("game_id", gameId)
+        .eq("period_type", periodType)
+        .eq("period_key", periodKey)
+        .gt("score", myScore.score);
+
+    if (rankError) {
+        console.error("Error calculating user's rank:", rankError);
+        return;
+    }
+
+    const myRank = higherScores + 1;
+
+    console.log("My score:", myScore.score);
+    console.log("My rank:", myRank);
+
+    myRankElement.innerHTML = `
+        <div class="my-rank-content">
+            <span>Your Rank</span>
+            <strong>#${myRank}</strong>
+            <span>${myScore.score} points</span>
+        </div>
+    `;
+}
         const gameId = gameSelect.value;
     const { data, error } = await supaDb
         .from("GameScores")
