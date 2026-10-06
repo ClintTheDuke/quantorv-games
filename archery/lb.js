@@ -136,7 +136,33 @@ if (userError) {
 if(!user){
     console.log('no logged in user')
 }
-// ========== get the users rank ======
+
+        const gameId = gameSelect.value;
+    const { data, error } = await supaDb
+        .from("GameScores")
+        .select(`
+            user_id,
+            score,
+            Profiles(username)
+        `)
+        .eq("period_type", periodType)
+        .eq("period_key", periodKey)
+        .eq("game_id", gameId)
+        .order("score", { ascending: false })
+        .limit(100);
+
+    if (error) {
+        console.error("Leaderboard error:", error);
+        return;
+    }
+
+    console.log("Leaderboard data:", data);
+
+    const rankedLeaderboard = data.map((player, index) => ({
+        ...player,
+        rank: index + 1
+    }));
+        // ========== get the users rank ======
 if (user) {
 
     // Get the logged-in user's score
@@ -192,32 +218,6 @@ if (user) {
         </div>
     `;
 }
-        const gameId = gameSelect.value;
-    const { data, error } = await supaDb
-        .from("GameScores")
-        .select(`
-            user_id,
-            score,
-            Profiles(username)
-        `)
-        .eq("period_type", periodType)
-        .eq("period_key", periodKey)
-        .eq("game_id", gameId)
-        .order("score", { ascending: false })
-        .limit(100);
-
-    if (error) {
-        console.error("Leaderboard error:", error);
-        return;
-    }
-
-    console.log("Leaderboard data:", data);
-
-    const rankedLeaderboard = data.map((player, index) => ({
-        ...player,
-        rank: index + 1
-    }));
-
     leaderboardBody.innerHTML = rankedLeaderboard.map(player => `
         <tr>
             <td class="rank">${player.rank}</td>
