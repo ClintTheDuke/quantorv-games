@@ -37,10 +37,14 @@ async function loadGames() {
 }
 
 // Call loadGames to populate the game selector
-loadGames();
+loadGames().then(() => {
+    const periodInfo = getPeriodInfo("weekly");
 
-
-// ===== get period info ======
+    loadLeaderboard(
+        periodInfo.periodType,
+        periodInfo.periodKey
+    );
+});// ===== get period info ======
 
 function getPeriodInfo(period) {
     const now = new Date();
@@ -111,6 +115,26 @@ gameSelect.addEventListener("change", () => {
 });
     //======== LOAD LEADERBOARD ON PAGE FUNCTION ========//
     async function loadLeaderboard(periodType, periodKey) {
+        leaderboardBody.innerHTML = `
+    <tr>
+        <td colspan="3" class="leaderboard-loading">
+            Loading leaderboard...
+        </td>
+    </tr>
+`;
+
+// ======= get current logged in user id =======
+const {
+    data: { user },
+    error: userError
+} = await supaDb.auth.getUser();
+
+if (userError) {
+    console.error("Error getting current user:", userError);
+    return;
+}
+
+
         const gameId = gameSelect.value;
     const { data, error } = await supaDb
         .from("GameScores")
@@ -147,7 +171,6 @@ gameSelect.addEventListener("change", () => {
 }
 
 // ======= CALLING THE FUNCTION TO LOAD LEADERBOARD FOR THE CURRENT PERIOD ======= //
-loadLeaderboard("all_time", "all_time");
 
 
 
