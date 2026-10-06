@@ -137,6 +137,7 @@ if(!user){
     console.log('no logged in user')
 }
 
+
         const gameId = gameSelect.value;
     const { data, error } = await supaDb
         .from("GameScores")

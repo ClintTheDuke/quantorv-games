@@ -254,3 +254,24 @@
     }
 
 }
+
+.my-rank {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.my-rank-content {
+    padding: 1rem;
+    border: 1px solid #08d549;
+    border-radius: 8px;
+}
+
+.my-rank-content span {
+    display: block;
+}
+
+.my-rank-content strong {
+    display: block;
+    font-size: 1.8rem;
+    margin: 0.3rem 0;
+}
