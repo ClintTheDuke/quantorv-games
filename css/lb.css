@@ -1,0 +1,250 @@
+ /* =========================
+   ARCHERY LEADERBOARD
+   ========================= */
+
+.leaderboard-section {
+    width: min(100%, 850px);
+    margin: 40px auto;
+    padding: 28px;
+    background: #111a12;
+    border: 1px solid #2c382d;
+    border-radius: 14px;
+    box-sizing: border-box;
+    color: #ffffff;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.leaderboard-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.leaderboard-kicker {
+    margin: 0 0 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #d8aa3d;
+}
+
+.leaderboard-header h2 {
+    margin: 0;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 800;
+}
+
+
+/* =========================
+   PERIOD FILTER
+   ========================= */
+
+.leaderboard-filter {
+    margin: 0 0 24px;
+    padding: 0;
+    border: 0;
+}
+
+.leaderboard-filter legend {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #aab3aa;
+}
+
+.period-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 4px;
+    background: #080d09;
+    border: 1px solid #2c382d;
+    border-radius: 10px;
+}
+
+
+/* Hide native radio buttons */
+
+.period-options input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* Segmented buttons */
+
+.period-options label {
+    padding: 11px 14px;
+    text-align: center;
+    border-radius: 7px;
+    color: #aab3aa;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* Hover */
+
+.period-options label:hover {
+    color: #ffffff;
+    background: #1b261c;
+}
+
+
+/* Active period */
+
+.period-options input[type="radio"]:checked + label {
+    background: #d8aa3d;
+    color: #111a12;
+}
+
+
+/* Keyboard accessibility */
+
+.period-options input[type="radio"]:focus-visible + label {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+
+/* =========================
+   TABLE CONTAINER
+   ========================= */
+
+.leaderboard-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #2c382d;
+    border-radius: 10px;
+}
+
+
+/* =========================
+   TABLE
+   ========================= */
+
+.leaderboard-table {
+    width: 100%;
+    background: #111a12;
+    min-width: 500px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+
+/* Table heading */
+
+.leaderboard-table thead {
+    background: #080d09;
+}
+
+.leaderboard-table th {
+    padding: 14px 18px;
+    color: #aab3aa;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #2c382d;
+}
+
+
+/* Table rows */
+
+.leaderboard-table td {
+    padding: 15px 18px;
+    border-bottom: 1px solid #202a21;
+    font-size: 0.95rem;
+}
+
+.leaderboard-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.leaderboard-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+    background: #192319;
+}
+
+
+/* =========================
+   COLUMNS
+   ========================= */
+
+.leaderboard-table th:first-child,
+.leaderboard-table td:first-child {
+    width: 80px;
+    text-align: center;
+}
+
+.leaderboard-table th:last-child,
+.leaderboard-table td:last-child {
+    width: 130px;
+    text-align: right;
+}
+
+
+/* Rank */
+
+.leaderboard-table .rank {
+    color: #d8aa3d;
+    font-weight: 800;
+}
+
+
+/* Username */
+
+.leaderboard-table .username {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+
+/* Score */
+
+.leaderboard-table .score {
+    color: #d8aa3d;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .leaderboard-section {
+        padding: 18px;
+        margin: 25px auto;
+        border-radius: 10px;
+    }
+
+    .period-options {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .period-options label {
+        padding: 10px;
+    }
+
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 13px 12px;
+    }
+
+}

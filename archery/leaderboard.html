@@ -98,7 +98,9 @@
  <script src="../supa.js"></script>
         <script src="../auth.js"></script>
         <script src="../articlej.js" defer></script>
-        <link rel="stylesheet" href="../css/articlec.css">    
+        <script src="lb.js" defer></script>
+        <link rel="stylesheet" href="../css/articlec.css"> 
+        <link rel="stylesheet" href="../css/lb.css">
             
         <title>Quantorv Games | Contact</title>
         <!-- ======= Supabase JavaScript ========= -->
@@ -112,12 +114,14 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3615083464844723"
      crossorigin="anonymous"></script>
 <!-- ======= AdSense Code Ends ====== -->
+ <!-- ======= Temporary CSS for Leaderboard Page ======= -->
+ 
 
 </head>
 <body>
     <header id="header" class="header">
-        <h1><a href="index.html"><img 
-              src="./assets/icons/logo2.png" 
+        <h1><a href="https://quantorv-games.com"><img 
+              src="../assets/icons/logo2.png" 
               alt="Quantorv Games" 
               class="logo-img"
             /></a></h1> 
@@ -172,19 +176,112 @@
   </ul>
 </nav>
 <main>
-  <section class="leaderboard" style = background-color:#f9f9f9; >
-    <h2>Archery Leaderboard</h2>
+   <!-- ARCHERY LEADERBOARD -->
+<section class="leaderboard-section" aria-labelledby="leaderboard-title">
 
-    <div id="archery-leaderboard">
-        <p style = "color: #333;">Loading leaderboard...</p>
+    <div class="leaderboard-header">
+       <div class="game-selector">
+    <label for="game-select">Game</label>
+
+    <select id="game-select">
+        <option value="">Loading games...</option>
+    </select>
+</div>
+ 
     </div>
+   <!-- Period Filter -->
+    <fieldset class="leaderboard-filter">
+        <legend>Leaderboard period</legend>
+
+        <div class="period-options">
+
+            <input
+                type="radio"
+                id="period-week"
+                name="leaderboard-period"
+                value="weekly"
+                checked
+            >
+            <label for="period-week">This Week</label>
+
+            <input
+                type="radio"
+                id="period-month"
+                name="leaderboard-period"
+                value="monthly"
+            >
+            <label for="period-month">This Month</label>
+
+            <input
+                type="radio"
+                id="period-all-time"
+                name="leaderboard-period"
+                value="all_time"
+            >
+            <label for="period-all-time">All-Time Best</label>
+
+        </div>
+    </fieldset>
+
+
+    <!-- Leaderboard Table -->
+    <div class="leaderboard-table-container">
+
+        <table class="leaderboard-table">
+
+            <thead>
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Score</th>
+                </tr>
+            </thead>
+
+            <tbody id="archery-leaderboard-body">
+
+                <!-- Temporary mock data -->
+                <tr>
+                    <td class="rank">1</td>
+                    <td class="username">ArcherOne</td>
+                    <td class="score">985</td>
+                </tr>
+
+                <tr>
+                    <td class="rank">2</td>
+                    <td class="username">Bullseye</td>
+                    <td class="score">921</td>
+                </tr>
+
+                <tr>
+                    <td class="rank">3</td>
+                    <td class="username">ArrowMaster</td>
+                    <td class="score">876</td>
+                </tr>
+
+                <tr>
+                    <td class="rank">4</td>
+                    <td class="username">TargetPro</td>
+                    <td class="score">814</td>
+                </tr>
+
+                <tr>
+                    <td class="rank">5</td>
+                    <td class="username">DeadEye</td>
+                    <td class="score">793</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
 </section>
 </main>
 <section class="related-section">
     <h3>Related Articles</h3>
     <div id="related-posts"></div>
 </section>
-
 
 </body>
 

@@ -494,14 +494,16 @@ showSignup.onclick = ()=>{
 console.log("Ranked leaderboard:", rankedLeaderboard);
 const leaderboardContainer =
     document.getElementById("archery-leaderboard");
-
-leaderboardContainer.innerHTML = rankedLeaderboard.map(player => `
+if (leaderboardContainer) {
+    leaderboardContainer.innerHTML = rankedLeaderboard.map(player => `
     <div class="leaderboard-row">
         <span class="leaderboard-rank">#${player.rank}</span>
         <span class="leaderboard-username">${player.Profiles.username}</span>
         <span class="leaderboard-score">${player.score}</span>
     </div>
 `).join("");
+}
+
     //function to get leaderboard data ends
 }
     loadArcheryLeaderboard();
