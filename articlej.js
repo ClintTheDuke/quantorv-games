@@ -37,10 +37,11 @@ window.addEventListener("scroll", () => {
 }); */
 
 const arch = document.getElementById("archery-modal");
+if (arch) {
     setTimeout(()=>{
         arch.showModal()
     },5000);
-    
+  }
     
     
 // ===== Redirect to home page on Click >>>>>>> (Temporary)

@@ -8,6 +8,66 @@
     opacity: 0.7;
 }
 /* ======== leaderboard  loading styling ends ========= */
+/* =========================
+   GAME SELECTOR
+   ========================= */
+
+.game-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.game-selector label {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+}
+
+#game-select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    background-color: #111a12;
+    color: #fff;
+
+    border: 1px solid #08d549;
+    border-radius: 6px;
+
+    padding: 0.65rem 2.5rem 0.65rem 0.85rem;
+
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    /* Custom dropdown arrow */
+    background-image:
+        linear-gradient(45deg, transparent 50%, #08d549 50%),
+        linear-gradient(135deg, #08d549 50%, transparent 50%);
+    background-position:
+        calc(100% - 16px) 50%,
+        calc(100% - 11px) 50%;
+    background-size:
+        6px 6px,
+        6px 6px;
+    background-repeat: no-repeat;
+}
+
+#game-select:hover {
+    border-color: #08d549;
+}
+
+#game-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(8, 213, 73, 0.2);
+}
+
+/* Dropdown options */
+#game-select option {
+    background-color: #111a12;
+    color: #fff;
+}
 .leaderboard-section {
     width: min(100%, 850px);
     margin: 40px auto;
@@ -128,7 +188,7 @@
 
 .leaderboard-table-container {
     width: 100%;
-    overflow-x: auto;
+    overflow: hidden;
     border: 1px solid #2c382d;
     border-radius: 10px;
 }
@@ -141,8 +201,8 @@
 .leaderboard-table {
     width: 100%;
     background: #111a12;
-    min-width: 500px;
     border-collapse: collapse;
+    table-layout: fixed;
     text-align: left;
 }
 
@@ -191,14 +251,19 @@
 
 .leaderboard-table th:first-child,
 .leaderboard-table td:first-child {
-    width: 80px;
+    width: 60px;
     text-align: center;
 }
 
 .leaderboard-table th:last-child,
 .leaderboard-table td:last-child {
-    width: 130px;
+    width: 100px;
     text-align: right;
+}
+
+.leaderboard-table th:nth-child(2),
+.leaderboard-table td:nth-child(2) {
+    width: auto;
 }
 
 
@@ -215,6 +280,9 @@
 .leaderboard-table .username {
     color: #ffffff;
     font-weight: 600;
+     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 
@@ -234,7 +302,8 @@
 @media (max-width: 600px) {
 
     .leaderboard-section {
-        padding: 18px;
+        width: 100%;
+        padding: 18px 12px;
         margin: 25px auto;
         border-radius: 10px;
     }
@@ -248,30 +317,29 @@
         padding: 10px;
     }
 
-    .leaderboard-table th,
-    .leaderboard-table td {
-        padding: 13px 12px;
+    .leaderboard-table {
+        font-size: 0.9rem;
     }
 
-}
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 12px 8px;
+    }
 
-.my-rank {
-    margin-top: 1.5rem;
-    text-align: center;
-}
+    .leaderboard-table th:first-child,
+    .leaderboard-table td:first-child {
+        width: 45px;
+    }
 
-.my-rank-content {
-    padding: 1rem;
-    border: 1px solid #08d549;
-    border-radius: 8px;
-}
+    .leaderboard-table th:last-child,
+    .leaderboard-table td:last-child {
+        width: 80px;
+    }
 
-.my-rank-content span {
-    display: block;
-}
-
-.my-rank-content strong {
-    display: block;
-    font-size: 1.8rem;
-    margin: 0.3rem 0;
+    .leaderboard-table .username {
+        max-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
