@@ -1,91 +1,657 @@
-  .profile-header{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    margin-bottom:25px;
-}
+/* =========================================================
+   QUANTORV GAMES — AUTHENTICATION
+   ========================================================= */
 
-#profileAvatar{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    border:3px solid #08d549;
-    object-fit:cover;
-    margin-bottom:12px;
-}
-
-#profileGreeting{
-    color:#111a12;
-    font-size:18px;
-    font-weight:bold;
-    text-align:center;
+.auth-page {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    background: #0b110c;
 }
 
 
-.container{
-    width:100%;
-    max-width:380px;
-    background:#fff;
-    border-radius:12px;
-    padding:30px;
+/* =========================================================
+   AUTH CARD
+   ========================================================= */
+
+.auth-card {
+    width: min(100%, 430px);
+    padding: 34px;
+    box-sizing: border-box;
+
+    background: #111a12;
+    border: 1px solid #263329;
+    border-radius: 16px;
+
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.35);
+
+    color: #ffffff;
 }
 
-h2{
-    text-align:center;
-    margin-bottom:20px;
-    color:#111a12;
+
+/* =========================================================
+   FORMS animating the forms switching in and out
+   ========================================================= */
+
+.auth-form {
+    display: none;
 }
 
-.input-group{
-    margin-bottom:15px;
+.auth-form.active {
+    display: block;
+    animation: authFormIn 0.9s ease-out;
 }
 
-.input-group input{
-    width:100%;
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:6px;
-    font-size:15px;
+@keyframes authFormIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .auth-form.active {
+        animation: none;
+    }
 }
 
-button{
-    width:100%;
-    padding:12px;
-    background:#08d549;
-    color:#fff;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:bold;
+/* =========================================================
+   Live password strength indicator
+   ========================================================= */
+   .password-requirements {
+    margin-top: 10px;
 }
 
-button:hover{
-    opacity:.9;
+.requirements-title {
+    margin: 0 0 6px;
+    color: #78837a;
+    font-size: 0.75rem;
 }
 
-.switch-text{
-    text-align:center;
-    margin-top:18px;
-    font-size:14px;
+.requirement {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 3px 0;
+    color: #78837a;
+    font-size: 0.74rem;
+    line-height: 1.4;
+    transition: color 0.2s ease;
 }
 
-.switch-text a{
-    color:#08d549;
-    cursor:pointer;
-    text-decoration:none;
-    font-weight:bold;
+.requirement span {
+    width: 14px;
+    color: #78837a;
+    font-weight: 700;
+    transition: color 0.2s ease;
 }
 
-.form{
-    display:none;
+.requirement.valid {
+    color: #08d549;
 }
 
-.form.active{
-    display:block;
+.requirement.valid span {
+    color: #08d549;
 }
-#msg{
-    margin-top:15px;
-    text-align:center;
-    font-size:14px;
+/* =========================================================
+   PASSWORD confirmation match indicator
+   ========================================================= */
+   .password-match {
+    margin: 7px 0 0;
+    min-height: 16px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.password-match.valid {
+    color: #08d549;
+}
+
+.password-match.invalid {
+    color: #e56b6f;
+}
+
+/* =========================================================
+   TERMS AND CONDITIONS CHECKBOX UI
+   ========================================================= */
+.terms-check.invalid {
+    color: #e56b6f;
+}
+
+.terms-check.invalid input {
+    outline: 2px solid #e56b6f;
+    outline-offset: 1px;
+}   
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.auth-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.auth-kicker {
+    margin: 0 0 8px;
+
+    color: #08d549;
+
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+.auth-header h1 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family: "Chakra Petch", sans-serif;
+    font-size: clamp(1.7rem, 5vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.auth-header p:last-child {
+    margin: 9px 0 0;
+
+    color: #9ca79e;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   INPUT GROUPS
+   ========================================================= */
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group > label,
+.input-label-row label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: #dce3dd;
+
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   LABEL + FORGOT PASSWORD
+   ========================================================= */
+
+.input-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-bottom: 8px;
+}
+
+.input-label-row label {
+    margin-bottom: 0;
+}
+
+.input-label-row a {
+    color: #08d549;
+
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.input-label-row a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.input-group input[type="text"],
+.input-group input[type="email"],
+.input-group input[type="password"] {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 14px;
+
+    box-sizing: border-box;
+
+    background: #0b110c;
+    border: 1px solid #303b32;
+    border-radius: 8px;
+
+    color: #ffffff;
+
+    font-family: "ABeeZee", sans-serif;
+    font-size: 0.95rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.input-group input::placeholder {
+    color: #667168;
+}
+
+.input-group input:hover {
+    border-color: #435146;
+}
+
+.input-group input:focus {
+    background: #0d150e;
+    border-color: #08d549;
+
+    box-shadow:
+        0 0 0 3px rgba(8, 213, 73, 0.12);
+}
+
+
+/* =========================================================
+   PASSWORD INPUT
+   ========================================================= */
+
+.password-input {
+    position: relative;
+}
+
+.password-input input {
+    padding-right: 48px !important;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+
+    width: 34px;
+    height: 34px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+
+    color: #879188;
+
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    color: #08d549;
+    background: #182219;
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid #08d549;
+    outline-offset: 1px;
+}
+
+
+/* =========================================================
+   PASSWORD HINT
+   ========================================================= */
+
+.input-hint {
+    margin: 7px 0 0;
+
+    color: #78837a;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   TERMS CHECKBOX
+   ========================================================= */
+
+.terms-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    margin: 4px 0 20px;
+
+    color: #9ca79e;
+
+    font-size: 0.78rem;
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+.terms-check input {
+    flex: 0 0 auto;
+
+    width: 17px;
+    height: 17px;
+
+    margin-top: 1px;
+
+    accent-color: #08d549;
+
+    cursor: pointer;
+}
+
+.terms-check a {
+    color: #08d549;
+    text-decoration: none;
+}
+
+.terms-check a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   CAPTCHA
+   ========================================================= */
+
+.captcha-container {
+    min-height: 0;
+    margin-bottom: 20px;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.auth-btn {
+    width: 100%;
+    min-height: 48px;
+
+    padding: 12px 20px;
+
+    border: 1px solid #08d549;
+    border-radius: 8px;
+
+    background: #08d549;
+    color: #071009;
+
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+.auth-btn:hover {
+    background: #0bf05a;
+    border-color: #0bf05a;
+
+    box-shadow:
+        0 5px 18px rgba(8, 213, 73, 0.18);
+}
+
+.auth-btn:active {
+    transform: translateY(1px);
+}
+
+.auth-btn:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   AUTH MESSAGES
+   ========================================================= */
+
+.auth-message {
+    min-height: 20px;
+
+    margin: 12px 0 0;
+
+    text-align: center;
+
+    color: #9ca79e;
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   SWITCH BETWEEN SIGN IN / SIGN UP
+   ========================================================= */
+
+.auth-switch {
+    margin: 24px 0 0;
+
+    text-align: center;
+
+    color: #8f9991;
+    font-size: 0.82rem;
+}
+
+.auth-switch a {
+    color: #08d549;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .auth-page {
+        min-height: calc(100vh - 60px);
+        padding: 24px 14px;
+        align-items: center;
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 430px;
+
+        padding: 26px 20px;
+
+        border-radius: 12px;
+    }
+
+    .auth-header {
+        margin-bottom: 25px;
+    }
+
+    .auth-header h1 {
+        font-size: 1.65rem;
+    }
+
+    .auth-header p:last-child {
+        font-size: 0.85rem;
+    }
+
+    .input-group {
+        margin-bottom: 18px;
+    }
+
+    .input-group input[type="text"],
+    .input-group input[type="email"],
+    .input-group input[type="password"] {
+        height: 47px;
+    }
+
+    .auth-btn {
+        min-height: 47px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .auth-page {
+        padding: 18px 10px;
+    }
+
+    .auth-card {
+        padding: 23px 16px;
+        border-radius: 10px;
+    }
+
+    .auth-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .input-label-row a {
+        font-size: 0.73rem;
+    }
+
+    .terms-check {
+        font-size: 0.75rem;
+    }
+}
+
+.recovery-overlay[hidden] {
+    display: none !important;
+}
+
+.recovery-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgb(0 0 0 / 75%);
+}
+
+.recovery-modal {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px 24px;
+    background: #111a12;
+    color: #fff;
+    border: 1px solid #08d549;
+    border-radius: 14px;
+    box-shadow: 0 15px 50px rgb(0 0 0 / 45%);
+}
+
+.recovery-modal h2 {
+    margin: 0 30px 12px 0;
+    color: #08d549;
+    font-size: 1.5rem;
+}
+
+.recovery-modal p {
+    color: #c5cfc6;
+    line-height: 1.6;
+}
+
+.recovery-modal label {
+    display: block;
+    margin: 20px 0 8px;
+    font-weight: 600;
+}
+
+.recovery-modal input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 13px;
+    color: #fff;
+    background: #19251a;
+    border: 1px solid #465747;
+    border-radius: 7px;
+    font: inherit;
+}
+
+.recovery-modal input:focus {
+    outline: 2px solid #08d549;
+    outline-offset: 2px;
+}
+
+#recoverySubmit {
+    width: 100%;
+    margin-top: 16px;
+    padding: 13px;
+    background: #08d549;
+    color: #071009;
+    border: none;
+    border-radius: 7px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#recoverySubmit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.recovery-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    padding: 4px 8px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+#recoveryMessage {
+    overflow-wrap: anywhere;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 420px) {
+    .recovery-modal {
+        padding: 26px 18px;
+    }
 }

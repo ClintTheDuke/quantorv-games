@@ -1,3 +1,9 @@
+const projectKey = 'sb_publishable_g17RMOUGD14_QnxuIbC6NA_Yz3NwOMF';
+    const projectUrl = 'https://gerrwnwfllynvaahgxur.supabase.co';
+
+   
+    window.supaDb = window.supabase.createClient(projectUrl, projectKey)
+
 document.addEventListener('DOMContentLoaded',()=>{
     // ======= Redirect proof Code =========
     const redirectParams = new URLSearchParams(window.location.search);
@@ -14,10 +20,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 // ====== Sign Up Code Starts  =======
 const signupForm = document.getElementById("signupForm");
-//code:
-const projectKey = 'sb_publishable_g17RMOUGD14_QnxuIbC6NA_Yz3NwOMF';
-    const projectUrl = 'https://gerrwnwfllynvaahgxur.supabase.co';
-    window.supaDb = window.supabase.createClient(projectUrl, projectKey)
+//code for project key init was here:
+
 const msg = document.getElementById("msg");
 
 if (signupForm) {
@@ -43,23 +47,92 @@ signupForm.addEventListener("submit", async (e)=>{
         .getElementById("signupPassword")
         .value;
 
+        const signupPasswordConfirm = document
+    .getElementById("signupPasswordConfirm")
+    .value;
+
+    const termsCheckbox =
+    document.getElementById("termsCheckbox");
+
     const usernamePattern = /^[A-Za-z0-9]{5,12}$/;
 
-    if(!usernamePattern.test(signupUsername)){
+if (!usernamePattern.test(signupUsername)) {
 
-        msg.textContent =
-        "Username must be 3-9 letters and numbers only.";
+    msg.textContent =
+    "Username must be 5-12 letters and numbers only.";
 
-        return;
-
-    
-     if (signupPassword.length < 8) {
-    msg.textContent = "Password must be at least 8 characters.";
     return;
 }
-    
-    msg.textContent = "Creating your account... please wait";
-    }
+
+
+// ====== Password Validation ======
+
+const hasUppercase = /[A-Z]/.test(signupPassword);
+const hasLowercase = /[a-z]/.test(signupPassword);
+const hasNumber = /[0-9]/.test(signupPassword);
+const hasSpecial = /[^A-Za-z0-9]/.test(signupPassword);
+
+if (signupPassword.length < 8) {
+    msg.textContent =
+    "Password must be at least 8 characters.";
+
+    return;
+}
+
+if (!hasUppercase) {
+    msg.textContent =
+    "Password must contain at least one uppercase letter.";
+
+    return;
+}
+
+if (!hasLowercase) {
+    msg.textContent =
+    "Password must contain at least one lowercase letter.";
+
+    return;
+}
+
+if (!hasNumber) {
+    msg.textContent =
+    "Password must contain at least one number.";
+
+    return;
+}
+
+if (!hasSpecial) {
+    msg.textContent =
+    "Password must contain at least one special character.";
+
+    return;
+}
+// ====== Password confirmation ======
+if (signupPassword !== signupPasswordConfirm) {
+    msg.textContent =
+    "Passwords do not match.";
+
+    return;
+}
+//========= checking if terms is accepted =============
+if (!termsCheckbox.checked) {
+
+    termsCheckbox
+        .closest(".terms-check")
+        .classList.add("invalid");
+
+    msg.textContent =
+    "Please agree to the Terms & Conditions and Privacy Policy.";
+
+    return;
+}
+
+termsCheckbox
+    .closest(".terms-check")
+    .classList.remove("invalid");
+
+msg.textContent = "Creating your account... please wait";
+
+
     // ====== Authentication account creation =======
     const {
         data: authData,
@@ -95,6 +168,85 @@ signupForm.addEventListener("submit", async (e)=>{
     
     })
    } 
+   // ====== Live Password Requirements ======
+
+const signupPasswordInput =
+    document.getElementById("signupPassword");
+
+if (signupPasswordInput) {
+
+    signupPasswordInput.addEventListener("input", () => {
+
+        const password = signupPasswordInput.value;
+
+        const requirements = {
+            reqLength: password.length >= 8,
+            reqUppercase: /[A-Z]/.test(password),
+            reqLowercase: /[a-z]/.test(password),
+            reqNumber: /[0-9]/.test(password),
+            reqSpecial: /[^A-Za-z0-9]/.test(password)
+        };
+
+        Object.entries(requirements).forEach(
+            ([id, passed]) => {
+
+                const requirement =
+                    document.getElementById(id);
+
+                if (!requirement) return;
+
+                requirement.classList.toggle(
+                    "valid",
+                    passed
+                );
+
+                const indicator =
+                    requirement.querySelector("span");
+
+                if (indicator) {
+                    indicator.textContent =
+                        passed ? "✓" : "○";
+                }
+            }
+        );
+    });
+}
+
+// ====== Live Password Confirmation ======
+
+const signupPasswordConfirm =
+    document.getElementById("signupPasswordConfirm");
+
+const passwordMatch =
+    document.getElementById("passwordMatch");
+
+if (signupPasswordInput && signupPasswordConfirm && passwordMatch) {
+
+    signupPasswordConfirm.addEventListener("input", () => {
+
+        const password = signupPasswordInput.value;
+        const confirmPassword = signupPasswordConfirm.value;
+
+        if (confirmPassword === "") {
+            passwordMatch.textContent = "";
+            passwordMatch.classList.remove("valid", "invalid");
+            return;
+        }
+
+        if (password === confirmPassword) {
+
+            passwordMatch.textContent = "✓ Passwords match";
+            passwordMatch.classList.add("valid");
+            passwordMatch.classList.remove("invalid");
+
+        } else {
+
+            passwordMatch.textContent = "✗ Passwords do not match";
+            passwordMatch.classList.add("invalid");
+            passwordMatch.classList.remove("valid");
+        }
+    });
+}
 // ======= Profiles Database Creation Ends ========
 //======= Sign Up Code Ends ========
 

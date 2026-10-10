@@ -165,111 +165,348 @@
 </nav>
 
 <!-- ======== MAIN SECTION ======-->
-<main>
+<main class="auth-page">
 
-<div class="container">
-<!-- ===== PROFILE HEADER ===== -->
+    <section class="auth-card">
 
-<div class="profile-header">
+        <!-- =========================
+             SIGN IN
+             ========================= -->
 
-    <img
-        id="profileAvatar"
-        src="avatar.png"
-        alt="Profile Avatar">
+        <form class="auth-form active" id="signinForm">
 
-    <h3 id="profileGreeting">
-        Guest User, Sign In?
-    </h3>
+            <div class="auth-header">
+                <p class="auth-kicker">QUANTORV GAMES</p>
+                <h3>Welcome back</h3>
+                <p>Sign in to continue to your account.</p>
+            </div>
 
-</div>
+            <div class="input-group">
+                <label for="signinUsername">Username</label>
+                <input
+                    type="text"
+                    id="signinUsername"
+                    name="username"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required>
+            </div>
 
-<!-- ===== END PROFILE HEADER ===== -->
-    <!-- ====== SIGN UP ======= -->
-    
-    <form class="form active" id="signupForm">
+            <div class="input-group">
+                <div class="input-label-row">
+                    <label for="signinPassword">Password</label>
 
-        <h2>Create Account</h2>
+                    <a href="#" id="forgotPassword">
+                        Forgot password?
+                    </a>
+                </div>
 
-        <div class="input-group">
-            <input
-type="text"
-id="signupUsername"
-name="username"
-placeholder="Username"
-required
-maxlength="12"
-minlength="5"
-pattern="[A-Za-z0-9]+"
-autocomplete="username"
-spellcheck="false"
-autocapitalize="none">
-        </div>
+                <div class="password-input">
+                    <input
+                        type="password"
+                        id="signinPassword"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
 
-        <div class="input-group">
-            <input
-                type="email"
-                id="signupEmail"
-                name ="email"
-                placeholder="Email Address"
-                required>
-        </div>
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        aria-label="Show password">
+                        👁
+                    </button>
+                </div>
+            </div>
 
-        <div class="input-group">
-            <input
-                type="password"
-                id="signupPassword"
-                placeholder="Password"
-                required>
-        </div>
+            <button
+                type="submit"
+                id="signinBtn"
+                class="auth-btn">
+                Sign In
+            </button>
 
-        <button id="signupBtn" type="submit">
-            Sign Up
-        </button>
-        <p id="msg"></p>
+            <p id="msg2" class="auth-message"></p>
 
-        <p class="switch-text">
-            Already have an account?
-            <a id="showSignin">Sign In!</a>
-        </p>
+            <p class="auth-switch">
+                Don't have an account?
+                <a href="#" id="showSignup">Create one</a>
+            </p>
 
-    </form>
-  <!-- ====== SIGN UP Ends ======= -->
-  
-  
-  
-    <!-- SIGN IN -->
+        </form>
 
-    <form class="form" id="signinForm">
 
-    <h2>Welcome Back</h2>
+        <!-- =========================
+             SIGN UP
+             ========================= -->
 
-    <div class="input-group">
-        <input
-            type="text"
-            id="signinUsername"
-            placeholder="Username"
-            required>
-    </div>
+        <form class="auth-form" id="signupForm">
 
-    <div class="input-group">
-        <input
-            type="password"
-            id="signinPassword"
-            placeholder="Password"
-            required>
-    </div>
+            <div class="auth-header">
+                <p class="auth-kicker">QUANTORV GAMES</p>
+                <h3>Create Account</h3>
+                <p>Join Quantorv Games and start playing.</p>
+            </div>
 
-    <button type="submit" id="signinBtn">
-        Sign In
-    </button>
- <p id="msg2"></p>
-    <p class="switch-text">
-        Don't have an account?
-        <a id="showSignup">Sign Up!</a>
+            <div class="input-group">
+                <label for="signupUsername">Username</label>
+                <input
+                    type="text"
+                    id="signupUsername"
+                    name="username"
+                    placeholder="Choose a username"
+                    maxlength="12"
+                    minlength="5"
+                    pattern="[A-Za-z0-9]+"
+                    autocomplete="username"
+                    spellcheck="false"
+                    autocapitalize="none"
+                    required>
+            </div>
+
+            <div class="input-group">
+                <label for="signupEmail">Email</label>
+                <input
+                    type="email"
+                    id="signupEmail"
+                    name="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required>
+            </div>
+
+            <div class="input-group">
+                <label for="signupPassword">Password</label>
+
+                <div class="password-input">
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        aria-label="Show password">
+                        👁
+                    </button>
+                </div>
+
+                <div class="password-requirements" id="passwordRequirements">
+
+    <p class="requirements-title">Password must contain:</p>
+
+    <p class="requirement" id="reqLength">
+        <span>○</span> At least 8 characters
     </p>
 
-</form>
+    <p class="requirement" id="reqUppercase">
+        <span>○</span> One uppercase letter
+    </p>
+
+    <p class="requirement" id="reqLowercase">
+        <span>○</span> One lowercase letter
+    </p>
+
+    <p class="requirement" id="reqNumber">
+        <span>○</span> One number
+    </p>
+
+    <p class="requirement" id="reqSpecial">
+        <span>○</span> One special character
+    </p>
+
+</div>
+            </div>
+
+            <div class="input-group">
+                <label for="signupPasswordConfirm">
+                    Confirm password
+                </label>
+
+                <div class="password-input">
+                    <input
+                        type="password"
+                        id="signupPasswordConfirm"
+                        name="password-confirm"
+                        placeholder="Enter your password again"
+                        autocomplete="new-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        aria-label="Show password">
+                        👁
+                    </button>
+                </div>
+                <p class="password-match" id="passwordMatch"></p>
+            </div>
+
+            <label class="terms-check">
+                <input
+                    type="checkbox"
+                    id="termsCheckbox"
+                    name="terms"
+                    required>
+
+                <span>
+                    I agree to the
+                    <a href="#" id="termsLink">Terms & Conditions</a>
+                    and
+                    <a href="#" id="privacyLink">Privacy Policy</a>.
+                </span>
+            </label>
+
+            <!-- CAPTCHA will go here -->
+
+            <div
+                class="captcha-container"
+                id="signupCaptcha">
+            </div>
+
+            <button
+                type="submit"
+                id="signupBtn"
+                class="auth-btn">
+                Create Account
+            </button>
+
+            <p id="msg" class="auth-message"></p>
+
+            <p class="auth-switch">
+                Already have an account?
+                <a href="#" id="showSignin">Sign in</a>
+            </p>
+
+        </form>
+
+    </section>
+
 </main>
+<!-- Forgot Password Modal -->
+<div id="forgotPasswordModal" class="recovery-overlay" hidden>
+    <section
+        class="recovery-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="recoveryTitle"
+        aria-describedby="recoveryDescription"
+    >
+        <button
+            type="button"
+            id="closeRecoveryModal"
+            class="recovery-close"
+            aria-label="Close dialog"
+        >&times;</button>
+
+        <h2 id="recoveryTitle">Reset Your Password</h2>
+
+        <p id="recoveryDescription">
+            Enter the email address you used to create your Quantorv Games account.
+        </p>
+
+        <form id="recoveryForm">
+            <label for="recoveryEmail">Registered email address</label>
+
+            <input
+                type="email"
+                id="recoveryEmail"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+            >
+
+            <button type="submit" id="recoverySubmit">
+                Send Recovery Link
+            </button>
+
+            <p id="recoveryMessage" role="status" aria-live="polite"></p>
+        </form>
+    </section>
+</div>
+<script>
+// ===== FORGOT PASSWORD MODAL =====
+const forgotPasswordLink = document.getElementById("forgotPassword");
+const recoveryModal = document.getElementById("forgotPasswordModal");
+const closeRecoveryModal = document.getElementById("closeRecoveryModal");
+const recoveryForm = document.getElementById("recoveryForm");
+const recoveryEmail = document.getElementById("recoveryEmail");
+const recoverySubmit = document.getElementById("recoverySubmit");
+const recoveryMessage = document.getElementById("recoveryMessage");
+
+function closeRecovery() {
+    recoveryModal.hidden = true;
+    recoveryForm.reset();
+    recoveryMessage.textContent = "";
+}
+
+forgotPasswordLink?.addEventListener("click", (event) => {
+    event.preventDefault();
+    recoveryModal.hidden = false;
+    recoveryEmail.focus();
+});
+
+closeRecoveryModal?.addEventListener("click", closeRecovery);
+
+recoveryModal?.addEventListener("click", (event) => {
+    if (event.target === recoveryModal) closeRecovery();
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && recoveryModal && !recoveryModal.hidden) {
+        closeRecovery();
+    }
+});
+
+recoveryForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!recoveryForm.reportValidity()) return;
+
+    const email = recoveryEmail.value.trim();
+
+    if (!window.supaDb) {
+        recoveryMessage.textContent =
+            "Password recovery is unavailable. Please try again later.";
+        return;
+    }
+
+    recoverySubmit.disabled = true;
+    recoverySubmit.textContent = "Sending...";
+    recoveryMessage.textContent = "Please wait...";
+
+    try {
+        const { error } = await window.supaDb.auth.resetPasswordForEmail(
+            email,
+            {
+                redirectTo:
+                    "https://quantorv-games.com/reset-password.html"
+            }
+        );
+
+        if (error) throw error;
+
+        recoveryMessage.textContent =
+            "If an account exists for that email, a recovery link will be sent. Check your inbox and spam folder.";
+
+        recoveryForm.reset();
+    } catch (error) {
+        console.error("Password recovery request failed:", error);
+
+        recoveryMessage.textContent =
+            "We couldn't process your request. Please try again later.";
+    } finally {
+        recoverySubmit.disabled = false;
+        recoverySubmit.textContent = "Send Recovery Link";
+    }
+});
+
+</script>
 </body>
 <footer>
   <section>
