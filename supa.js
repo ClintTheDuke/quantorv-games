@@ -17,7 +17,28 @@ document.addEventListener('DOMContentLoaded',()=>{
             window.location.href = 'https://quantorv-games.com/index.html'
         }
     }
+// ====== Cloudflare Turnstile Callbacks ======
 
+let turnstileToken = "";
+
+window.onTurnstileSuccess = function (token) {
+    turnstileToken = token;
+};
+
+window.onTurnstileExpired = function () {
+    turnstileToken = "";
+};
+
+window.onTurnstileError = function () {
+    turnstileToken = "";
+
+    const msg = document.getElementById("msg");
+
+    if (msg) {
+        msg.textContent =
+            "CAPTCHA failed to load. Please try again.";
+    }
+};
 // ====== Sign Up Code Starts  =======
 const signupForm = document.getElementById("signupForm");
 //code for project key init was here:
@@ -133,7 +154,7 @@ termsCheckbox
 msg.textContent = "Creating your account... please wait";
 
 
-    // ====== Authentication account creation =======
+    /*// ====== Authentication account creation =======
     const {
         data: authData,
         error: authError
@@ -147,6 +168,95 @@ msg.textContent = "Creating your account... please wait";
         return
     }
     // ====== Authentication account creation Ends =======
+    */
+   
+    // ====== Authentication account creation =======
+
+    // Ensure the user has completed Turnstile.
+    if (!turnstileToken) {
+        msg.textContent = "Please complete the CAPTCHA first.";
+        return;
+    }
+
+    msg.textContent = "Verifying CAPTCHA and creating your account...";
+
+    const token = turnstileToken;
+    let authData;
+
+    try {
+        const { data, error } = await supaDb.functions.invoke(
+            "signup-with-turnstile",
+            {
+                body: {
+                    email: signupEmail,
+                    password: signupPassword,
+                    token: token
+                }
+            }
+        );
+
+        // The token is single-use, so clear it after the request.
+        turnstileToken = "";
+
+        if (window.turnstile) {
+            window.turnstile.reset();
+        }
+
+        if (error) {
+            console.error("Sign-up function error:", error);
+            msg.textContent =
+                "Sign-up failed. Please try again.";
+            return;
+        }
+
+        authData = data;
+
+        if (!authData || !authData.user?.id) {
+            // The function currently returns the raw Supabase
+            // Auth response, which normally contains user.id.
+            // This also supports a wrapped { user: ... } response.
+            if (authData?.id) {
+                authData = { user: authData };
+            } else {
+                msg.textContent =
+                    authData?.error ||
+                    "Account creation failed. Please try again.";
+                return;
+            }
+        }
+
+        // Restore the Supabase client session when signup returns one.
+        // This matters because the Profiles insert uses your RLS policy.
+        if (data?.access_token && data?.refresh_token) {
+            const { error: sessionError } =
+                await supaDb.auth.setSession({
+                    access_token: data.access_token,
+                    refresh_token: data.refresh_token
+                });
+
+            if (sessionError) {
+                console.error("Session setup error:", sessionError);
+                msg.textContent =
+                    "Account created, but sign-in could not be completed.";
+                return;
+            }
+        }
+
+    } catch (error) {
+        turnstileToken = "";
+
+        if (window.turnstile) {
+            window.turnstile.reset();
+        }
+
+        console.error("Sign-up request failed:", error);
+        msg.textContent =
+            "Unable to complete sign-up. Check your connection and try again.";
+        return;
+    }
+
+    // ====== Authentication account creation Ends =======
+
     // ======= Profiles Database Creation ========
     const {
         data: profileData,

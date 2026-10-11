@@ -99,7 +99,11 @@
 
 <title>Quantorv Games Authentication</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer>
+</script>
 <script src="supa.js"></script>
 <script src="auth.js"></script>
 </head>
@@ -363,10 +367,18 @@
 
             <!-- CAPTCHA will go here -->
 
-            <div
-                class="captcha-container"
-                id="signupCaptcha">
-            </div>
+           
+<!-- Cloudflare Turnstile -->
+<div class="captcha-container" id="signupCaptcha">
+    <div
+        class="cf-turnstile"
+        data-sitekey="0x4AAAAAAFTznjDMMZoB25fK"
+        data-theme="dark"
+        data-callback="onTurnstileSuccess"
+        data-expired-callback="onTurnstileExpired"
+        data-error-callback="onTurnstileError">
+    </div>
+</div>
 
             <button
                 type="submit"
@@ -507,6 +519,9 @@ recoveryForm?.addEventListener("submit", async (event) => {
 });
 
 </script>
+<!-- ====== CAPTCHA ====== -->
+
+
 </body>
 <footer>
   <section>
