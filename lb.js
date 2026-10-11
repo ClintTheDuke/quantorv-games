@@ -164,8 +164,14 @@ if(!user){
         rank: index + 1
     }));
         // ========== get the users rank ======
-if (user) {
 
+const myRankElement = document.getElementById("my-rank");
+
+if (myRankElement) {
+    myRankElement.innerHTML = "";
+}
+
+if (user && myRankElement) {
     // Get the logged-in user's score
     const { data: myScore, error: myScoreError } = await supaDb
         .from("GameScores")
@@ -178,54 +184,47 @@ if (user) {
 
     if (myScoreError) {
         console.error("Error getting user's score:", myScoreError);
-        return;
+    } else if (myScore) {
+        // Count players with a higher score
+        const {
+            count: higherScores,
+            error: rankError
+        } = await supaDb
+            .from("GameScores")
+            .select("user_id", { count: "exact", head: true })
+            .eq("game_id", gameId)
+            .eq("period_type", periodType)
+            .eq("period_key", periodKey)
+            .gt("score", myScore.score);
+
+        if (rankError) {
+            console.error("Error calculating user's rank:", rankError);
+        } else {
+            const myRank = higherScores + 1;
+
+            console.log("My score:", myScore.score);
+            console.log("My rank:", myRank);
+
+            myRankElement.innerHTML = `
+                <div class="my-rank-content">
+                    <span>Your Rank</span>
+                    <strong>#${myRank}</strong>
+                    <span>${myScore.score} points</span>
+                </div>
+            `;
+        }
     }
-
-    const myRankElement = document.getElementById("my-rank");
-
-    // User has no score for this leaderboard period
-    if (!myScore) {
-        myRankElement.innerHTML = "";
-        return;
-    }
-
-    // Count players with a higher score
-    const {
-        count: higherScores,
-        error: rankError
-    } = await supaDb
-        .from("GameScores")
-        .select("user_id", { count: "exact", head: true })
-        .eq("game_id", gameId)
-        .eq("period_type", periodType)
-        .eq("period_key", periodKey)
-        .gt("score", myScore.score);
-
-    if (rankError) {
-        console.error("Error calculating user's rank:", rankError);
-        return;
-    }
-
-    const myRank = higherScores + 1;
-
-    console.log("My score:", myScore.score);
-    console.log("My rank:", myRank);
-
-    myRankElement.innerHTML = `
-        <div class="my-rank-content">
-            <span>Your Rank</span>
-            <strong>#${myRank}</strong>
-            <span>${myScore.score} points</span>
-        </div>
-    `;
 }
-    leaderboardBody.innerHTML = rankedLeaderboard.map(player => `
-        <tr>
-            <td class="rank">${player.rank}</td>
-            <td class="username">${player.Profiles.username}</td>
-            <td class="score">${player.score}</td>
-        </tr>
-    `).join("");
+
+// Always render the leaderboard, even if the user's score is missing
+leaderboardBody.innerHTML = rankedLeaderboard.map(player => `
+    <tr>
+        <td class="rank">${player.rank}</td>
+        <td class="username">${player.Profiles.username}</td>
+        <td class="score">${player.score}</td>
+    </tr>
+`).join("");
+
 }
 
 // ======= CALLING THE FUNCTION TO LOAD LEADERBOARD FOR THE CURRENT PERIOD ======= //
