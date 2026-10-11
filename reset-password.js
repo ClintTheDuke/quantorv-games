@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (event === "PASSWORD_RECOVERY" && session) {
                 recoveryVerified = true;
 
-                clearTimeout(recoveryTimeout);
+                
 
                 resetForm.hidden = false;
                 resetForm.classList.add("active");
