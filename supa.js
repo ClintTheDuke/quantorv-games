@@ -154,24 +154,6 @@ termsCheckbox
 msg.textContent = "Creating your account... please wait";
 
 
-    /*// ====== Authentication account creation =======
-    const {
-        data: authData,
-        error: authError
-    } =
-     await supaDb.auth.signUp({
-        email: signupEmail, 
-        password: signupPassword
-    })
-    if(authError){
-        msg.textContent = authError.message;
-        return
-    }
-    // ====== Authentication account creation Ends =======
-    */
-   
-    // ====== Authentication account creation =======
-
     // Ensure the user has completed Turnstile.
     if (!turnstileToken) {
         msg.textContent = "Please complete the CAPTCHA first.";
@@ -188,6 +170,7 @@ msg.textContent = "Creating your account... please wait";
             "signup-with-turnstile",
             {
                 body: {
+                    username: signupUsername,
                     email: signupEmail,
                     password: signupPassword,
                     token: token
