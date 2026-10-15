@@ -48,7 +48,7 @@ async function eventOnRedirect() {
         window.location.href = fallback;
     }
 }
-
+// redirect helper ends here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // ====== Cloudflare Turnstile Callbacks ======
 
 let turnstileToken = "";

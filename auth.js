@@ -19,6 +19,34 @@ window.profileName =
         if (error) {
             console.log(error);
         }
+            //====== Safe redirect function =======
+        
+function safeRedirect(destination, fallback = "/index.html") {
+    try {
+        const target = new URL(
+            destination || fallback,
+            window.location.origin
+        );
+
+        // Reject external destinations and unsupported protocols.
+        if (
+            target.origin !== window.location.origin ||
+            !["http:", "https:"].includes(target.protocol)
+        ) {
+            window.location.href = fallback;
+            return;
+        }
+
+        // Navigate using only the validated local destination.
+        window.location.href =
+            target.pathname + target.search + target.hash;
+
+    } catch {
+        window.location.href = fallback;
+    }
+}   
+        //====== Check if user is already signed in =======
+ 
         if (data.session) {
             // If user is already signed in and in signing page:
 if(signinForm || signupForm){
@@ -44,13 +72,11 @@ if(signinForm || signupForm){
 
         if(redirectPage){
 
-            window.location.href =
-                redirectPage;
+            safeRedirect(redirectPage);
 
         }else{
 
-            window.location.href =
-                "index.html";
+            safeRedirect("index.html");
 
         }
 
@@ -60,37 +86,46 @@ if(signinForm || signupForm){
 
 }
 
-//====== End of Check if user is already signed in =======
+  //====== End of Check if user is already signed in =======
 
         }
-        if (!data.session) {
-        // No logged in user, change of state
-        if (logOut) {
-            logOut.textContent = 'Login';
-            logOut.addEventListener('click',()=>{
-            window.location.href = "https://quantorv-games.com/signin.html?redirect="+rightPage
-               })
-        }
-        if(profileNav){
+        
+if (!data.session) {
 
-    profileNav.onclick = ()=>{
-    const rightPage = encodeURIComponent(window.location.href);
-    window.location.href = "https://quantorv-games.com/signin.html?redirect="+rightPage
+    function goToSignin() {
+        const signinUrl = new URL(
+            "/signin.html",
+            window.location.origin
+        );
 
-    };
+        signinUrl.searchParams.set(
+            "redirect",
+            window.location.href
+        );
 
-}
+        window.location.href = signinUrl.href;
+    }
 
-if(profileName){
+    if (logOut) {
+        logOut.textContent = "Login";
+        logOut.addEventListener("click", goToSignin);
+    }
+
+    if (profileNav) {
+        profileNav.onclick = goToSignin;
+    }
+
+    if(profileName){
 
     profileName.textContent =
         "Login";
 
 }
+}
             console.log('guest');
             return;
            
-        }
+        
         
             console.log('logged in')
         
@@ -110,8 +145,7 @@ if(profileName){
 
     profileNav.onclick = ()=>{
 
-        window.location.href =
-            "../profile.html";
+        safeRedirect("../profile.html");
 
     };
 
