@@ -9,14 +9,46 @@ document.addEventListener('DOMContentLoaded',()=>{
     const redirectParams = new URLSearchParams(window.location.search);
     const redirectPage = redirectParams.get('redirect');
     //===== Redirect Helper =======
-    function eventOnRedirect(){
-        if(redirectPage){
-            window.location.href = redirectPage;
-        }
-        else{
-            window.location.href = 'https://quantorv-games.com/index.html'
-        }
+    
+async function eventOnRedirect() {
+    const fallback = "/index.html";
+
+    if (!redirectPage) {
+        window.location.href = fallback;
+        return;
     }
+
+    let url;
+
+    try {
+        url = new URL(redirectPage, window.location.origin);
+    } catch {
+        window.location.href = fallback;
+        return;
+    }
+
+    // Reject destinations outside the current origin.
+    if (url.origin !== window.location.origin) {
+        window.location.href = fallback;
+        return;
+    }
+
+    try {
+        const response = await fetch(url.href, {
+            method: "HEAD",
+            redirect: "error"
+        });
+
+        if (response.ok) {
+            window.location.href = url.href;
+        } else {
+            window.location.href = fallback;
+        }
+    } catch {
+        window.location.href = fallback;
+    }
+}
+
 // ====== Cloudflare Turnstile Callbacks ======
 
 let turnstileToken = "";

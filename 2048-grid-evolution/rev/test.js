@@ -9,4 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     .select("email");
 
   console.log({ data, error });
+
+  const redirectParams = new URLSearchParams(window.location.search);
+  console.log(window.location.search);
 });
