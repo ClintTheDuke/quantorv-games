@@ -185,13 +185,66 @@ msg.textContent = "Creating your account... please wait";
             window.turnstile.reset();
         }
 
-        if (error) {
-            console.error("Sign-up function error:", error);
-            msg.textContent =
-                "Sign-up failed. Please try again.";
-            return;
+         // Handle errors from the Edge Function. The function below parses the error response
+        //from the JSON returned by the Edge Function,
+       // which may include a specific error message.
+
+if (error) {
+    console.error("Sign-up function error:", error);
+
+    let errorMessage = "Sign-up failed. Please try again.";
+
+    if (error.context instanceof Response) {
+        const status = error.context.status;
+        let responseData = {};
+
+        try {
+            responseData = await error.context.clone().json();
+        } catch (parseError) {
+            console.warn("Could not parse error response:", parseError);
         }
 
+        console.error("HTTP status:", status);
+        console.error("Edge Function response:", responseData);
+
+        // Use the specific message returned by your Edge Function.
+        if (responseData.error) {
+            errorMessage = responseData.error;
+        } else {
+            switch (status) {
+                case 400:
+                    errorMessage =
+                        "Please check your details and CAPTCHA, then try again.";
+                    break;
+
+                case 403:
+                    errorMessage =
+                        "Your request was blocked. Please refresh the page and try again.";
+                    break;
+
+                case 409:
+                    errorMessage =
+                        "This username or email may already be registered. Check your details or try signing in.";
+                    break;
+
+                case 503:
+                    errorMessage =
+                        "Sign-up verification is temporarily unavailable. Please try again shortly.";
+                    break;
+
+                default:
+                    errorMessage =
+                        "We couldn't create your account. Please try again shortly.";
+            }
+        }
+    }
+
+    msg.textContent = errorMessage;
+    return;
+}
+//Error handling ends here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// If the function returns successfully, it should provide the auth data.
         authData = data;
 
         if (!authData || !authData.user?.id) {
