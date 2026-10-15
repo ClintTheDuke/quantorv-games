@@ -408,32 +408,36 @@ signinForm.addEventListener('submit', async(p)=>{
       const signinUsername = document.getElementById('signinUsername').value.trim();
       const signinPassword = document.getElementById('signinPassword').value;
       
-      const {
-    data,
-    error
-} = await supaDb
-.from("Profiles")
-.select("email").eq('username',signinUsername).single();
+const { data: signinData, error: signinError } =
+    await supaDb.functions.invoke("signin-with-username", {
+        body: {
+            username: signinUsername,
+            password: signinPassword
+        }
+    });
 
-      if (error) {
-          msg2.textContent = error.message;
-          return;
-      }
-      
-      const entryEmail = data.email;
-      
-      const {
-          data: entryData,
-          error: entryError
-      } 
-      = await supaDb.auth.signInWithPassword({
-          email: entryEmail,
-          password: signinPassword
-      })
-      if (entryError) {
-          msg2.textContent = entryError.message;
-          return;
-      }
+if (signinError) {
+    console.error("Sign-in function error:", signinError);
+    msg2.textContent = "Unable to sign in. Please check your details and try again.";
+    return;
+}
+
+if (!signinData?.access_token || !signinData?.refresh_token) {
+    msg2.textContent = "Sign-in failed. Please try again.";
+    return;
+}
+
+const { error: sessionError } = await supaDb.auth.setSession({
+    access_token: signinData.access_token,
+    refresh_token: signinData.refresh_token
+});
+
+if (sessionError) {
+    console.error("Session setup error:", sessionError);
+    msg2.textContent = "Sign-in succeeded, but your session could not be established.";
+    return;
+}
+
       document.getElementById('profileGreeting').textContent='Welcome back ' + signinUsername;
       msg2.textContent =
 "Welcome back!";
