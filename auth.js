@@ -46,7 +46,9 @@ function safeRedirect(destination, fallback = "/index.html") {
     }
 }   
         //====== Check if user is already signed in =======
- 
+        console.log("Current session:", data.session);
+console.log("Sign-in form found:", !!signinForm);
+console.log("Sign-up form found:", !!signupForm);
         if (data.session) {
             // If user is already signed in and in signing page:
 if(signinForm || signupForm){
@@ -92,19 +94,21 @@ if(signinForm || signupForm){
         
 if (!data.session) {
 
-    function goToSignin() {
-        const signinUrl = new URL(
-            "/signin.html",
-            window.location.origin
-        );
+    function goToSignin(event) {
+    event.preventDefault();
 
-        signinUrl.searchParams.set(
-            "redirect",
-            window.location.href
-        );
+    const signinUrl = new URL(
+        "/signin.html",
+        window.location.origin
+    );
 
-        window.location.href = signinUrl.href;
-    }
+    signinUrl.searchParams.set(
+        "redirect",
+        window.location.href
+    );
+
+    window.location.href = signinUrl.href;
+}
 
     if (logOut) {
         logOut.textContent = "Login";
@@ -119,16 +123,18 @@ if (!data.session) {
 
     profileName.textContent =
         "Login";
+         console.log('guest');
 
 }
+
+
 }
-            console.log('guest');
-            return;
+        console.log('logged in')
+           
            
         
         
-            console.log('logged in')
-        
+            
     
     
     const userId = data.session.user.id;
