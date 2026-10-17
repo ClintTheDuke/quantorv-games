@@ -359,9 +359,9 @@
 
                 <span>
                     I agree to the
-                    <a href="#" id="termsLink">Terms & Conditions</a>
+                    <a href="#qvgTermsDialog" id="termsLink">Terms & Conditions</a>
                     and
-                    <a href="#" id="privacyLink">Privacy Policy</a>.
+                    <a href="#qvgPrivacyDialog" id="privacyLink">Privacy Policy</a>.
                 </span>
             </label>
 
@@ -441,6 +441,296 @@
         </form>
     </section>
 </div>
+
+<!-- ========== Privacy Policy Modal ============ -->
+<dialog class="qvg-legal-dialog" id="qvgPrivacyDialog">
+  <div class="qvg-legal-header">
+    <h2 class="qvg-legal-title">Privacy Policy</h2>
+
+    <button
+      type="button"
+      class="qvg-legal-close"
+      aria-label="Close Privacy Policy"
+      onclick="document.getElementById('qvgPrivacyDialog').close()"
+    >&times;</button>
+  </div>
+
+  <div class="qvg-legal-content">
+
+    <h3>1. Who We Are</h3>
+    <p>
+      Quantorv Games is a web-based gaming platform offering puzzle games,
+      math games, brain teasers, and game-related content.
+      The platform is developed and maintained by
+      <a href="https://www.linkedin.com/in/clinton-nwezeaku-505366322" target="_blank">
+        Clinton Nwezeaku Eberechukwu
+      </a>, an independent web developer.
+    </p>
+
+    <h3>2. Information We Collect</h3>
+    <p>
+      Quantorv Games does <strong>not</strong> require users to provide
+      personal information to browse the site or play most games.
+      However, certain information may be collected automatically or optionally.
+    </p>
+
+    <h4>Automatically Collected Information</h4>
+    <ul>
+      <li>Browser type and version</li>
+      <li>Device type and operating system</li>
+      <li>IP address (anonymized where possible)</li>
+      <li>Pages visited and time spent on the site</li>
+    </ul>
+
+    <h4>Optional Account &amp; Sign-In Information</h4>
+    <p>
+      Some games on Quantorv Games may offer an <strong>optional sign-in</strong>
+      feature (for example, signing in with Google) to enable progress tracking,
+      saved scores, or personalized gameplay.
+    </p>
+
+    <ul>
+      <li>Sign-in is optional and not required to use the site</li>
+      <li>Authentication is handled by third-party providers (such as Google)</li>
+      <li>Quantorv Games does not collect or store passwords</li>
+    </ul>
+
+    <h3>3. Cookies &amp; Third-Party Services</h3>
+    <p>
+      Quantorv Games uses cookies and similar technologies to improve
+      functionality and support advertising and analytics services.
+    </p>
+
+    <h4>Google AdSense</h4>
+    <p>
+      Google AdSense uses cookies to display ads to users based on visits
+      to this and other websites. These cookies help serve relevant
+      advertisements and measure ad performance.
+    </p>
+    <p>
+      Users may opt out of personalized advertising by visiting
+      <a href="https://adssettings.google.com/" target="_blank"
+         rel="noopener noreferrer">Google's ad settings</a>.
+    </p>
+
+    <h4>Analytics</h4>
+    <p>
+      Quantorv Games may use analytics services (such as Google Analytics)
+      to understand how users interact with the site and to improve
+      performance and content.
+    </p>
+
+    <h3>Third-Party Advertising Partners &amp; Google AdSense</h3>
+    <p>
+      We intend to implement third-party advertising monetization on our
+      platform. Quantorv Games states that it uses Google AdSense and other
+      third-party vendor platforms to serve advertisements on our website.
+    </p>
+    <p>
+      These third-party ad servers or ad networks may use technologies
+      such as cookies, JavaScript, or web beacons within their advertisements
+      and links, which are sent directly to users' browsers.
+    </p>
+    <p>
+      Google's use of the DART cookie has historically enabled it to serve
+      ads based on users' visits to this and other websites. For current
+      information about Google's advertising technologies and controls,
+      visit
+      <a href="https://policies.google.com/technologies/ads"
+         target="_blank" rel="noopener noreferrer">
+        Google's advertising technologies policy
+      </a>.
+      Quantorv Games does not have access to or control over cookies
+      used by third-party advertisers.
+    </p>
+
+    <h3>4. How Information Is Used</h3>
+    <ul>
+      <li>To operate and maintain the website</li>
+      <li>To improve gameplay experience and site performance</li>
+      <li>To track game progress where sign-in is enabled</li>
+      <li>To display advertisements through third-party services</li>
+      <li>To analyze usage patterns and improve content</li>
+    </ul>
+
+    <h3>5. Third-Party Links</h3>
+    <p>
+      Quantorv Games may contain links to third-party websites or services.
+      These external sites have their own privacy policies, and Quantorv
+      Games is not responsible for their content or practices.
+    </p>
+
+    <h3>6. Children's Information</h3>
+    <p>
+      Quantorv Games does not knowingly collect personal information from
+      children under the age of 13. If you believe that a child has provided
+      personal information on this site, please
+      <a href="mailto:support@quantorv-games.com">contact us</a>
+      so appropriate action can be taken.
+    </p>
+
+    <h3>7. Consent</h3>
+    <p>
+      By using Quantorv Games, you consent to this Privacy Policy and
+      agree to its terms.
+    </p>
+
+    <h3>8. Updates to This Policy</h3>
+    <p>
+      This Privacy Policy may be updated from time to time. Any changes
+      will be posted on this page with an updated revision date.
+    </p>
+
+    <h3>9. Contact</h3>
+    <p>
+      If you have questions about this Privacy Policy or how information
+      is handled, you may contact us at:
+    </p>
+    <p>
+      <strong>Email:</strong>
+      <a href="mailto:support@quantorv-games.com">
+        support@quantorv-games.com
+      </a>
+    </p>
+
+  </div>
+
+  <div class="qvg-legal-footer">
+    <button
+      type="button"
+      class="qvg-legal-action"
+      onclick="document.getElementById('qvgPrivacyDialog').close()"
+    >Close</button>
+  </div>
+</dialog>
+<!-- ========== Privacy Policy Modal Ends ============ -->
+ 
+<!-- ====== Terms of Service Modal ====== -->
+
+<dialog class="qvg-legal-dialog" id="qvgTermsDialog">
+  <div class="qvg-legal-header">
+    <h2 class="qvg-legal-title">Terms &amp; Conditions</h2>
+
+    <button
+      type="button"
+      class="qvg-legal-close"
+      aria-label="Close Terms and Conditions"
+      onclick="document.getElementById('qvgTermsDialog').close()"
+    >&times;</button>
+  </div>
+
+  <div class="qvg-legal-content">
+
+    <h3>1. Acceptance of Terms</h3>
+    <p>
+      By accessing this website, playing games, or using any part of Quantorv
+      Games, you acknowledge that you have read, understood, and agreed to
+      these Terms &amp; Conditions. If you do not agree, please discontinue
+      use of the site.
+    </p>
+
+    <h3>2. Acceptable Use</h3>
+    <p>
+      You agree to use Quantorv Games only for lawful and personal purposes.
+      You must not misuse the site or interfere with its normal operation.
+    </p>
+
+    <ul>
+      <li>Do not attempt to exploit bugs or vulnerabilities</li>
+      <li>Do not use automated scripts, bots, or cheats</li>
+      <li>Do not attempt to disrupt servers or services</li>
+      <li>Do not copy or scrape content without permission</li>
+    </ul>
+
+    <h3>3. Games &amp; Optional Accounts</h3>
+    <p>
+      Some games on Quantorv Games may offer optional sign-in features to
+      enable progress tracking, saved scores, or personalized gameplay.
+    </p>
+
+    <ul>
+      <li>Account creation is optional and not required to play most games</li>
+      <li>Third-party services (such as Google) may be used for authentication</li>
+      <li>Game progress and data may be reset or modified without notice</li>
+    </ul>
+
+    <h3>4. Intellectual Property</h3>
+    <p>
+      All content on Quantorv Games, including games, text, graphics,
+      logos, and site design, is the property of Quantorv Games unless
+      otherwise stated.
+    </p>
+
+    <p>
+      Some games or components may be released as open source under
+      specific licenses. Open source availability does not grant rights
+      to misuse branding, logos, or trademarks associated with Quantorv Games.
+    </p>
+
+    <h3>5. Open Source Content</h3>
+    <p>
+      Where applicable, open source games and code are governed by their
+      respective licenses. Users are responsible for complying with
+      the terms of those licenses when using or redistributing such content.
+    </p>
+
+    <h3>6. Disclaimer</h3>
+    <p>
+      Quantorv Games is provided on an &ldquo;as is&rdquo; and
+      &ldquo;as available&rdquo; basis. Games, content, and features may
+      contain errors, bugs, or inaccuracies.
+    </p>
+
+    <p>
+      Quantorv Games makes no warranties regarding availability,
+      reliability, accuracy, or performance of the site or its content.
+    </p>
+
+    <h3>7. Limitation of Liability</h3>
+    <p>
+      To the fullest extent permitted by law, Quantorv Games shall not be
+      liable for any direct, indirect, incidental, or consequential damages
+      resulting from the use or inability to use this website or its games.
+    </p>
+
+    <h3>8. Third-Party Links</h3>
+    <p>
+      This website may contain links to third-party websites or services.
+      Quantorv Games has no control over and assumes no responsibility
+      for the content, policies, or practices of third-party sites.
+    </p>
+
+    <h3>9. Changes to These Terms</h3>
+    <p>
+      Quantorv Games reserves the right to modify or update these
+      Terms &amp; Conditions at any time. Continued use of the site
+      after changes constitutes acceptance of the updated terms.
+    </p>
+
+    <h3>10. Contact</h3>
+    <p>
+      If you have questions about these Terms &amp; Conditions, you may
+      contact us at:
+    </p>
+
+    <p>
+      <strong>Email:</strong>
+      <a href="mailto:support@quantorv-games.com">
+       support@quantorv-games.com
+      </a>
+    </p>
+
+  </div>
+
+  <div class="qvg-legal-footer">
+    <button
+      type="button"
+      class="qvg-legal-action"
+      onclick="document.getElementById('qvgTermsDialog').close()"
+    >Close</button>
+  </div>
+</dialog>
+<!-- ====== Terms of Service Modal Ends ====== -->
 <script>
 // ===== FORGOT PASSWORD MODAL =====
 const forgotPasswordLink = document.getElementById("forgotPassword");
@@ -517,6 +807,30 @@ recoveryForm?.addEventListener("submit", async (event) => {
         recoverySubmit.textContent = "Send Recovery Link";
     }
 });
+
+// ===== END FORGOT PASSWORD MODAL =====
+// ====== Terms and Privacy modal ======
+
+const privacyDialog = document.getElementById("qvgPrivacyDialog");
+const privacyLink = document.getElementById("privacyLink");
+const termsDialog = document.getElementById("qvgTermsDialog");
+const termsLink = document.getElementById("termsLink");
+
+if (privacyDialog && privacyLink) {
+  privacyLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    privacyDialog.showModal();
+  });
+}
+
+
+if (termsDialog && termsLink) {
+  termsLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    termsDialog.showModal();
+  });
+}
+
 
 </script>
 <!-- ====== CAPTCHA ====== -->

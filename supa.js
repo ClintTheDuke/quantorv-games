@@ -64,7 +64,7 @@ window.onTurnstileExpired = function () {
 window.onTurnstileError = function () {
     turnstileToken = "";
 
-    const msg = document.getElementById("msg");
+    const msg = document.getElementById("msg") || document.getElementById("msg2");
 
     if (msg) {
         msg.textContent =
@@ -75,7 +75,7 @@ window.onTurnstileError = function () {
 const signupForm = document.getElementById("signupForm");
 //code for project key init was here:
 
-const msg = document.getElementById("msg");
+const msg = document.getElementById("msg") || document.getElementById("msg2");
 
 if (signupForm) {
     

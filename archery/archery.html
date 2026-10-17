@@ -175,6 +175,17 @@ class="banner-text">
 
 </div>
 <!-- ======== Site Auth/Navigation Banner End========= -->
+ <script>
+    const bannerHome = document.getElementsByClassName('banner-item')[0];
+if (bannerHome) {
+    bannerHome.addEventListener('click',()=>{
+        window.location.href = 'https://quantorv-games.com/'
+    })
+}
+else{
+    console.log('no home banner')
+}
+ </script>
 <div id="toast" class="toast">
 Link copied to clipboard!
 </div>
