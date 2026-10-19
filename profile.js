@@ -71,6 +71,42 @@ startProfilePresence(user.id);
         // function End 
     }
 
+    // Function to Get games Played data
+    async function getGamesPlayed() {
+    const {
+        data: { user },
+        error: userError
+    } = await supaDb.auth.getUser();
+
+    if (userError || !user) {
+        console.error('Error getting authenticated user:', userError);
+        return;
+    }
+
+    const {
+        data: playedData,
+        error: playedError
+    } = await supaDb
+        .from('PlayerStats')
+        .select('games_played')
+        .eq('user_id', user.id);
+
+    if (playedError) {
+        console.error('Error getting games played:', playedError);
+        return;
+    }
+
+    const totalGamesPlayed = playedData.reduce(
+        (total, row) => total + row.games_played,
+        0
+    );
+
+    const gamesPlayed = document.getElementById('gamesPlayed');
+
+    if (gamesPlayed) {
+        gamesPlayed.textContent = totalGamesPlayed;
+    }
+}
     // Check if user is online  >>>>>>
     
 let profilePresenceChannel = null;
@@ -168,4 +204,5 @@ async function startProfilePresence(userId) {
 // Check if user is already online end >>>>>>
 
     loadBookmarks();
+    getGamesPlayed();
 })
