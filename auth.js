@@ -10,7 +10,7 @@ const signupForm =
 
 window.profileName =
     document.getElementById("profileName");
- 
+ window.profileMsg = document.getElementById("profileMsg");
    
 
         const {
@@ -161,6 +161,9 @@ if (!data.session) {
 }
     if (profileName) {
         profileName.textContent = profileData.username
+    }
+    if (profileMsg) {
+        profileMsg.textContent = "Welcome back, " + profileData.username + "!"
     }
     const profAvatar = document.getElementById("profAvatar");
 
