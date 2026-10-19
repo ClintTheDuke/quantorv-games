@@ -159,6 +159,11 @@ if (!data.session) {
     if (profileName) {
         profileName.textContent = profileData.username
     }
+    const profAvatar = document.getElementById("profAvatar");
+
+if (profAvatar && profileData.username) {
+    profAvatar.textContent = profileData.username.slice(0, 2).toUpperCase();
+}
     
    }
    supaDb.auth.onAuthStateChange((event,session)=>{
