@@ -125,10 +125,13 @@ if (!data.session) {
         "Login";
          console.log('guest');
 
+ }
+ if (profAvatar && profileData.username) {
+    profAvatar.textContent = "QVG"
 }
 
 
-}
+ }
         console.log('logged in')
            
            

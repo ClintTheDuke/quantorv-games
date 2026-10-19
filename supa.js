@@ -534,6 +534,7 @@ window.logOut = document.getElementById('logoutBtn');
 if(logOut) {
     
     logOut.addEventListener('click', async ()=>{
+        window.location.reload();
         const { error: logOutError} = await supaDb.auth.signOut();
         if (logOutError) {
             console.log(logOutError.message);
@@ -543,7 +544,7 @@ if(logOut) {
         window.location.href = 'signin.html'
     })
 }
-// ======= log out code starts ========
+// ======= log out code ends ========
 
 
 const showSignin = document.getElementById("showSignin");
