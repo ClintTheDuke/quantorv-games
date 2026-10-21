@@ -10,87 +10,6 @@
 
 
 
-.player-card{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:20px;
-
-    background:#18231a;
-
-    border:1px solid #2f4634;
-
-    border-radius:14px;
-
-    padding:20px;
-
-}
-
-
-
-.player-avatar img{
-
-    width:90px;
-
-    height:90px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:3px solid #08d549;
-
-}
-
-
-
-.player-info{
-
-    flex:1;
-
-}
-
-
-
-.player-name-row{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-}
-
-
-
-.player-name-row h3{
-
-    color:#08d549;
-
-}
-
-
-
-.edit-btn{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    background:none;
-
-    border:none;
-
-    cursor:pointer;
-
-}
-
-
 
 .dashboard-card{
 
@@ -116,122 +35,99 @@
 
 
 
-.bookmark-item,
+/* ===== Quantorv Games: Bookmarks ===== */
 
-.game-item,
+#bookmarkList {
+    --qvg-bg: #111a12;
+    --qvg-green: #08d549;
+    --qvg-white: #f3f5f0;
+    --qvg-black: #080b08;
+    --qvg-muted: #667166;
 
-.achievement-item{
-
-    padding:12px 0;
-
-    border-bottom:1px solid rgba(255,255,255,.08);
-
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, 250px), 1fr)
+    );
+    gap: 16px;
+    margin-top: 16px;
 }
 
-
-
-.bookmark-item:last-child,
-
-.game-item:last-child,
-
-.achievement-item:last-child{
-
-    border-bottom:none;
-
+/* Individual bookmark cards */
+#bookmarkList .bookmark-item {
+    position: relative;
+    min-width: 0;
+    min-height: 100px;
+    padding: 18px 16px;
+    background: var(--qvg-white);
+    color: var(--qvg-bg);
+    border: 3px solid var(--qvg-black);
+    border-left: 6px solid var(--qvg-green);
+    box-shadow: 5px 5px 0 var(--qvg-black);
+    overflow-wrap: anywhere;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
 }
 
-
-
-.game-item{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    gap:20px;
-
+/* Hover interaction */
+#bookmarkList .bookmark-item:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--qvg-green);
 }
 
-
-
-.game-score strong{
-
-    color:#08d549;
-
+/* Saved article link */
+#bookmarkList .bookmark-item a {
+    display: block;
+    color: var(--qvg-bg);
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.55;
+    text-decoration: none;
+    overflow-wrap: anywhere;
 }
 
+/* Link interaction */
+#bookmarkList .bookmark-item a:hover {
+    color: #087d30;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
 
+/* Keyboard accessibility */
+#bookmarkList .bookmark-item a:focus-visible {
+    outline: 3px solid var(--qvg-green);
+    outline-offset: 4px;
+}
 
-@media(max-width:650px){
+/* Empty bookmarks message */
+#bookmarkList .bookmark-item:has(a:only-child) {
+    cursor: pointer;
+}
 
-    .player-card{
+#bookmarkList .bookmark-item:not(:has(a)) {
+    grid-column: 1 / -1;
+    min-height: auto;
+    padding: 22px;
+    border-left-color: var(--qvg-muted);
+    box-shadow: 5px 5px 0 var(--qvg-green);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
 
-        flex-direction:column;
-
-        text-align:center;
-
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    #bookmarkList .bookmark-item {
+        transition: none;
     }
 
-
-
-    .player-name-row{
-
-        justify-content:center;
-
+    #bookmarkList .bookmark-item:hover {
+        transform: none;
     }
-
-
-
-    .game-item{
-
-        flex-direction:column;
-
-        gap:8px;
-
-    }
-
-}
-.logout-btn{
-
-    margin-top:12px;
-
-    padding:8px 16px;
-
-    background:#111a12;
-
-    color:#08d549;
-
-    border:1px solid #08d549;
-
-    border-radius:20px;
-
-    font-size:13px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.25s;
-
 }
 
-
-
-.logout-btn:hover{
-
-    background:#08d549;
-
-    color:#111a12;
-
-}
-
-
-
-.logout-btn:active{
-
-    transform:scale(.96);
-
-}
 /* Profile Card Styles */
 
 .card-profile {

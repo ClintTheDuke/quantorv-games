@@ -165,6 +165,7 @@ if (recoveryVerified) {
     // ===== SHOW / HIDE PASSWORD CONTROLS =====
 
     document.querySelectorAll("[data-password-toggle]").forEach((button) => {
+        
         button.addEventListener("click", () => {
             const inputId = button.dataset.passwordToggle;
             const passwordInput = document.getElementById(inputId);
