@@ -1,38 +1,150 @@
-.player-dashboard{
 
-    margin-top:40px;
+/* ===== Player Dashboard Layout ===== */
 
-    display:grid;
-
-    gap:25px;
-
+.player-dashboard {
+    display: grid;
+    grid-template-columns: minmax(0, 360px);
+    justify-content: start;
+    gap: 30px;
+    margin-top: 40px;
+    align-items: start;
 }
 
+/* ===== Dashboard Cards ===== */
 
+.dashboard-card {
+    --qvg-bg: #111a12;
+    --qvg-green: #08d549;
+    --qvg-white: #f3f5f0;
+    --qvg-black: #080b08;
 
+    width: 100%;
+    min-width: 0;
+    padding: 20px;
+    box-sizing: border-box;
 
-.dashboard-card{
+    background: var(--qvg-white);
+    color: var(--qvg-bg);
 
-    background:#18231a;
+    border: 4px solid var(--qvg-black);
+    box-shadow: 8px 8px 0 var(--qvg-green);
 
-    border:1px solid #2f4634;
+    border-radius: 0;
 
-    border-radius:14px;
+    position: relative;
+    overflow-wrap: anywhere;
 
-    padding:20px;
-
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-
-
-.dashboard-card h3{
-
-    color:#08d549;
-
-    margin-bottom:15px;
-
+.dashboard-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0 var(--qvg-green);
 }
 
+/* ===== Dashboard Headings ===== */
+
+.dashboard-card h3 {
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+
+    color: var(--qvg-bg);
+    border-bottom: 3px solid var(--qvg-black);
+
+    font-family: "Orbitron", sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-card h3::before {
+    content: "";
+    display: block;
+    width: 38px;
+    height: 5px;
+    margin-bottom: 12px;
+    background: var(--qvg-green);
+}
+
+/* ===== Inner Content ===== */
+
+.dashboard-card #bookmarkList,
+.dashboard-card #gamesList,
+.dashboard-card #achievementList {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    min-width: 0;
+}
+
+/* ===== Individual Items ===== */
+
+.dashboard-card .bookmark-item,
+.dashboard-card .game-item,
+.dashboard-card .achievement-item {
+    min-width: 0;
+    padding: 14px;
+    background: #ffffff;
+    color: var(--qvg-bg);
+    border: 2px solid var(--qvg-black);
+    border-left: 5px solid var(--qvg-green);
+    overflow-wrap: anywhere;
+}
+
+.dashboard-card .bookmark-item a {
+    color: var(--qvg-bg);
+    font-weight: 800;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    text-decoration: none;
+}
+
+.dashboard-card .bookmark-item a:hover {
+    color: #087d30;
+    text-decoration: underline;
+}
+
+.dashboard-card .game-title {
+    display: block;
+    font-weight: 800;
+    line-height: 1.5;
+}
+
+.dashboard-card .game-score {
+    display: block;
+    margin-top: 8px;
+    color: #526052;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+/* ===== Mobile ===== */
+
+@media (max-width: 400px) {
+    .player-dashboard {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .dashboard-card {
+        padding: 15px;
+    }
+}
+
+/* ===== Reduced Motion ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-card {
+        transition: none;
+    }
+
+    .dashboard-card:hover {
+        transform: none;
+    }
+}
 
 
 /* ===== Quantorv Games: Bookmarks ===== */
