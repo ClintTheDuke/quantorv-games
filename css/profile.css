@@ -1,5 +1,56 @@
+/* ========== Profile Background ========= */
+
+/* ===== Quantorv Games Profile Background ===== */
+
+#profile-page {
+    min-height: 100vh;
+    background-color: #111a12;
+    background-image: linear-gradient(
+        135deg,
+        #111a12 0%, #111a12 25%,
+        #151f16 25%, #151f16 50%,
+        #0c120d 50%, #0c120d 75%,
+        #131b14 75%, #131b14 100%
+    );
+    background-size: 80px 80px;
+    animation: qvg-bg-move 12s linear infinite;
+}
+
+@keyframes qvg-bg-move {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 80px 80px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #profile-page {
+        animation: none;
+    }
+}
+
+/* Moving gaming pattern */
+@keyframes qvg-bg-move {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 80px 80px;
+    }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    #profile-page {
+        animation: none;
+    }
+}
 
 /* ===== Player Dashboard Layout ===== */
+
 
 .player-dashboard {
     display: grid;
@@ -143,6 +194,267 @@
 
     .dashboard-card:hover {
         transform: none;
+    }
+}
+
+
+/* ===== Mobile Optimization ===== */
+
+@media (max-width: 600px) {
+    .player-dashboard {
+        grid-template-columns: minmax(0, 360px);
+        justify-content: center;
+        justify-items: center;
+        width: 100%;
+        padding: 0 12px;
+        box-sizing: border-box;
+        gap: 28px;
+    }
+
+    .card-profile,
+    .dashboard-card {
+        width: 100%;
+        max-width: 360px;
+        min-width: 0;
+        margin-inline: auto;
+    }
+
+    .dashboard-card {
+        padding: 16px;
+    }
+
+    .dashboard-card h3 {
+        font-size: 0.95rem;
+    }
+
+    #bookmarkList,
+    #gamesList,
+    #achievementList {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ===== Small Phones ===== */
+
+@media (max-width: 380px) {
+    .player-dashboard {
+        padding-inline: 8px;
+        gap: 24px;
+    }
+
+    .card-profile,
+    .dashboard-card {
+        max-width: 100%;
+    }
+
+    .dashboard-card {
+        padding: 12px;
+    }
+
+    .prof-body {
+        padding-inline: 12px;
+    }
+
+    .prof-stats .psl {
+        font-size: 0.48rem;
+        letter-spacing: 0.04em;
+    }
+}
+
+
+/* ===== Achievements Card ===== */
+
+.achievements-card {
+    --achievement-green: #08d549;
+    --achievement-dark: #111a12;
+    --achievement-muted: #7b857b;
+
+    color: var(--achievement-dark);
+}
+
+.achievements-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.achievements-heading h3 {
+    margin-bottom: 8px;
+}
+
+.achievements-heading h3::before {
+    content: "";
+}
+
+.achievements-subtitle {
+    margin: 0;
+    color: #526052;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.achievement-count {
+    flex-shrink: 0;
+    padding: 7px 10px;
+    border: 2px solid var(--achievement-dark);
+    background: var(--achievement-green);
+    color: var(--achievement-dark);
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+/* Horizontal scrolling track */
+
+.dashboard-card #achievementList.achievement-list {
+    display: flex;
+    gap: 14px;
+    min-width: 0;
+    padding: 4px 2px 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--achievement-green) #dfe5df;
+}
+
+.achievement-list::-webkit-scrollbar {
+    height: 7px;
+}
+
+.achievement-list::-webkit-scrollbar-track {
+    background: #dfe5df;
+    border-radius: 10px;
+}
+
+.achievement-list::-webkit-scrollbar-thumb {
+    background: var(--achievement-green);
+    border-radius: 10px;
+}
+
+/* Individual badge card */
+
+.achievement-item {
+    flex: 0 0 140px;
+    min-width: 0;
+    padding: 14px 10px !important;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+
+    text-align: center;
+    border: 1px solid #cbd3cb !important;
+    border-left: 1px solid #cbd3cb !important;
+    background: #f7f9f6 !important;
+
+    scroll-snap-align: start;
+}
+
+.achievement-art {
+    width: 76px;
+    height: 76px;
+    display: grid;
+    place-items: center;
+
+    border: 2px solid #b7c0b7;
+    border-radius: 50%;
+    background: #e5e9e4;
+    color: #737d73;
+
+    filter: grayscale(1);
+    opacity: 0.65;
+
+    transition:
+        filter 0.2s ease,
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.achievement-art svg {
+    width: 42px;
+    height: 42px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.achievement-item.is-unlocked .achievement-art {
+    color: var(--achievement-green);
+    border-color: var(--achievement-green);
+    background: var(--achievement-dark);
+    filter: none;
+    opacity: 1;
+    box-shadow: 0 0 0 3px #08d54922;
+}
+
+.achievement-item.is-unlocked:hover .achievement-art {
+    transform: translateY(-3px);
+}
+
+.achievement-name {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 900;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.achievement-description {
+    margin: 0;
+    color: #526052;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.achievement-status {
+    margin-top: auto;
+    padding: 4px 8px;
+    border: 1px solid #b7c0b7;
+    border-radius: 20px;
+    color: #667066;
+    font-size: 0.65rem;
+    font-weight: 800;
+}
+
+.achievement-item.is-unlocked .achievement-status {
+    border-color: var(--achievement-green);
+    color: #087d30;
+}
+
+.achievement-loading,
+.achievement-error {
+    margin: 0;
+    padding: 12px 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* Small screens */
+
+@media (max-width: 400px) {
+    .achievement-item {
+        flex-basis: 125px;
+    }
+
+    .achievement-art {
+        width: 68px;
+        height: 68px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .achievement-art {
+        transition: none;
     }
 }
 

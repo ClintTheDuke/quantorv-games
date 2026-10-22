@@ -107,6 +107,91 @@ startProfilePresence(user.id);
         gamesPlayed.textContent = totalGamesPlayed;
     }
 }
+
+// ======= Display the name of games played in player profile =============
+/* ===== Load Games Played ===== */
+
+async function loadGames() {
+
+    // Get the logged-in user
+    const {
+        data: { user },
+        error: userError
+    } = await supaDb.auth.getUser();
+
+    if (userError) {
+        console.error('Error getting user:', userError);
+        return;
+    }
+
+    if (!user) {
+        console.log('No signed-in user');
+        return;
+    }
+
+    // Get the user's game statistics and related game names
+    const {
+        data: games,
+        error: gamesError
+    } = await supaDb
+        .from('PlayerStats')
+        .select(`
+            best_score,
+            games_played,
+            Games (
+                name
+            )
+        `)
+        .eq('user_id', user.id);
+
+    if (gamesError) {
+        console.error('Error loading games:', gamesError);
+        return;
+    }
+
+    // Get the games container
+    const gamesList = document.getElementById('gamesList');
+
+    if (!gamesList) {
+        console.error('Games list element not found');
+        return;
+    }
+
+    // Clear existing content
+    gamesList.replaceChildren();
+
+    // Display an empty state if no games have been played
+    if (!games || games.length === 0) {
+        const message = document.createElement('div');
+        message.className = 'game-item';
+        message.textContent = 'You have not played any games yet.';
+
+        gamesList.appendChild(message);
+        return;
+    }
+
+    // Display each game
+    games.forEach(record => {
+
+        const gameItem = document.createElement('div');
+        gameItem.className = 'game-item';
+
+        const gameTitle = document.createElement('span');
+        gameTitle.className = 'game-title';
+        gameTitle.textContent =
+            record.Games?.name || 'Unknown Game';
+
+        const gameScore = document.createElement('span');
+        gameScore.className = 'game-score';
+        gameScore.textContent =
+            `High Score: ${record.best_score ?? 0}`;
+
+        gameItem.append(gameTitle, gameScore);
+        gamesList.appendChild(gameItem);
+
+    });
+
+}
     // Check if user is online  >>>>>>
     
 let profilePresenceChannel = null;
@@ -203,6 +288,174 @@ async function startProfilePresence(userId) {
 }
 // Check if user is already online end >>>>>>
 
-    loadBookmarks();
-    getGamesPlayed();
+/* achievements */
+
+/* ===== Quantorv Games Achievement Catalogue ===== */
+
+const ACHIEVEMENTS = [
+    {
+        id: 'first_steps',
+        name: 'First Steps',
+        description: 'Complete your first game.',
+        icon: 'gamepad',
+        requirement: 'Complete 1 game'
+    },
+    {
+        id: 'daily_player',
+        name: 'Daily Player',
+        description: 'Log in on 7 consecutive days.',
+        icon: 'calendar',
+        requirement: 'Maintain a 7-day login streak'
+    },
+    {
+        id: 'sharpshooter',
+        name: 'Sharpshooter',
+        description: 'Reach a target score in Archery.',
+        icon: 'target',
+        requirement: 'Reach the required Archery score'
+    },
+    {
+        id: 'high_scorer',
+        name: 'High Scorer',
+        description: 'Set a personal best in any game.',
+        icon: 'trophy',
+        requirement: 'Set a new personal best'
+    },
+    {
+        id: 'explorer',
+        name: 'Explorer',
+        description: 'Play 5 different games.',
+        icon: 'compass',
+        requirement: 'Play 5 different games'
+    },
+    {
+        id: 'loyal_player',
+        name: 'Loyal Player',
+        description: 'Maintain a 30-day daily login streak.',
+        icon: 'flame',
+        requirement: 'Maintain a 30-day login streak'
+    }
+];
+
+
+/* ===== Lightweight SVG Icon Set ===== */
+
+const ACHIEVEMENT_ICONS = {
+    gamepad: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 10h12a4 4 0 0 1 3.8 5.2l-1 3
+            a2 2 0 0 1-3.2 1l-3-2.2h-5.2l-3 2.2
+            a2 2 0 0 1-3.2-1l-1-3A4 4 0 0 1 6 10Z"/>
+            <path d="M7 12v4m-2-2h4m6-1h.01m3 2h.01"/>
+        </svg>
+    `,
+    calendar: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2"/>
+            <path d="M16 3v4M8 3v4M3 10h18M8 14h2m4 0h2m-8 3h2"/>
+        </svg>
+    `,
+    target: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="13" r="8"/>
+            <circle cx="11" cy="13" r="4"/>
+            <circle cx="11" cy="13" r="1"/>
+            <path d="m13 11 8-8m-5 0h5v5"/>
+        </svg>
+    `,
+    trophy: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 21h8m-4-4v4M7 4h10v5a5 5 0
+            0 1-10 0V4ZM7 7H3v2a5 5 0 0 0 5 5
+            m9-7h4v2a5 5 0 0 1-5 5"/>
+        </svg>
+    `,
+    compass: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>
+        </svg>
+    `,
+    flame: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 22a8 8 0 0 0 8-8
+            c0-4-3-6-4-10-2 2-3 4-3 6
+            -2-1-3-3-3-5-4 4-6 7-6 10a8 8
+            0 0 0 8 7Z"/>
+            <path d="M12 22a4 4 0 0 0 4-4
+            c0-2-2-4-3-5 0 2-2 3-2 5
+            a4 4 0 0 0 1 4Z"/>
+        </svg>
+    `
+};
+
+
+/* ===== Render Achievements ===== */
+
+function renderAchievements(unlockedIds = []) {
+    const achievementList =
+        document.getElementById('achievementList');
+
+    const achievementCount =
+        document.getElementById('achievementCount');
+
+    if (!achievementList || !achievementCount) {
+        return;
+    }
+
+    const unlocked = new Set(unlockedIds);
+
+    achievementList.replaceChildren();
+
+    ACHIEVEMENTS.forEach(achievement => {
+        const isUnlocked = unlocked.has(achievement.id);
+
+        const item = document.createElement('div');
+        item.className = 'achievement-item';
+
+        if (isUnlocked) {
+            item.classList.add('is-unlocked');
+        }
+
+        const art = document.createElement('div');
+        art.className = 'achievement-art';
+        art.setAttribute('aria-hidden', 'true');
+
+        // These icons come from our trusted, local catalogue.
+        art.innerHTML =
+            ACHIEVEMENT_ICONS[achievement.icon] || '';
+
+        const name = document.createElement('h4');
+        name.className = 'achievement-name';
+        name.textContent = achievement.name;
+
+        const description = document.createElement('p');
+        description.className = 'achievement-description';
+        description.textContent = achievement.description;
+
+        const status = document.createElement('span');
+        status.className = 'achievement-status';
+        status.textContent = isUnlocked ? 'Unlocked' : 'Locked';
+
+        item.append(art, name, description, status);
+
+        achievementList.appendChild(item);
+    });
+
+    achievementCount.textContent =
+        `${unlocked.size} / ${ACHIEVEMENTS.length}`;
+}
+
+
+/* ===== Initialise Achievement UI ===== */
+
+function loadAchievements() {
+    // UI-only stage: no achievements are awarded yet.
+    renderAchievements();
+}
+
+ loadAchievements();
+ loadGames();
+ loadBookmarks();
+ getGamesPlayed();
 })

@@ -107,7 +107,7 @@
 <!-- ========= Head Ends===========  -->
 
 <!-- ========= HTML BODY ===========  -->
-<body data-page="article" data-category = "gadgets">
+<body id = "profile-page">
     <header id="header" class="header">
         <h1><a href="https://quantorv-games.com/index.html"><img 
               src="https://quantorv-games.com/assets/icons/logo2.png" 
@@ -167,12 +167,13 @@
 
 <!-- ======== MAIN SECTION ======-->
 <main>
-<article class="blog-article dark-theme">
+<!--<article class="blog-article dark-theme">-->
+  <h2 class="article-title">Player Profile</h2>
+  <article>
     <div class="article-container">
       
 
-      <h2 class="article-title">Player Profile</h2>
- 
+      
 
       
 
@@ -285,23 +286,46 @@
 
 
 
-    <!-- Achievements -->
+    
+<!-- Achievements -->
+<div class="dashboard-card achievements-card">
 
-    <div class="dashboard-card">
-
-        <h3>Achievements</h3>
-
-        <div id="achievementList">
-
-            <div class="achievement-item">
-
-                No achievements unlocked.
-
-            </div>
-
+    <div class="achievements-heading">
+        <div>
+            <h3>Achievements</h3>
+            <p class="achievements-subtitle">
+                Track your progress and collect badges.
+            </p>
         </div>
 
+        <span id="achievementCount" class="achievement-count">
+            0 / 6
+        </span>
     </div>
+
+    <div
+        id="achievementList"
+        class="achievement-list"
+        aria-label="Player achievements"
+    >
+        <p class="achievement-loading">
+            Loading achievements...
+        </p>
+    </div>
+
+</div>
+
+    <!-- View Live Leaderboard -->
+     <a href="https://quantorv-games.com/leaderboard">
+     <div class="dashboard-card">
+
+        <h3>View Live Leaderboard</h3>
+
+        
+          Click To View
+        
+    </div>
+     </a>
 
 </section>
  <!-- ================= PLAYER DASHBOARD ENDS ================= -->           
@@ -311,11 +335,6 @@
 </main>
 
 <!-- ======= Main Section Ends ======-->
-<img src="https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/game-type1.jpg" alt="Action Games" width="250">
-<section class="related-section">
-    <h3>Related Articles</h3>
-    <div id="related-posts"></div>
-</section>
 
 </body>
 <footer>
