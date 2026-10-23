@@ -16,6 +16,50 @@ var asrcd = "toky";
 var startPage = document.getElementById("startMenu");
 startPage.addEventListener("click",startGame)
 const gameBanner = document.getElementById('gameBanner')
+// Loading Archery Game Scores Function >>>>>>>>>
+    async function loadArcheryScore(){
+    // Get the user
+    const {
+        data: {user},
+        error: archLoadError
+    } = await supaDb.auth.getUser();
+    
+    if (archLoadError) {
+        console.log('Archery Game User Log in Load Error', archLoadError)
+        return 0;
+    }
+    if (!user) {
+    return 0;
+}
+    // access the Games Table
+    const {
+        data: loadArcheryData,
+        error: loadArcheryError
+    } = await supaDb.from('Games').select('id').eq('slug','archery-game').single()
+    if (loadArcheryError) {
+        console.log("Error Accessing Games Table on Load Function", loadArcheryError);
+        return 0;
+    }
+        // Access Player Records for Best Score
+        
+        const {
+            data: archeryScoreData,
+            error: archeryScoreError
+        } = await supaDb.from('PlayerStats').select('best_score').eq('user_id',user.id).eq('game_id',loadArcheryData.id).maybeSingle();
+        
+       if (archeryScoreError) {
+           console.error('Error Loading Scores', archeryScoreError)
+           return 0;
+       }
+        if (!archeryScoreData) {
+            return 0;
+        }
+        return archeryScoreData.best_score;
+        
+        //end of function 
+    }
+    window.loadArcheryScore = loadArcheryScore;
+
 function startGame(){
     startPage.style.display = "none";
     gameBanner.style.display = "none";
@@ -826,50 +870,7 @@ function celebrate1000() {
     // Save Archery Game Score Function Ends >>>>>>>>
     window.saveArcheryScore = saveArcheryScore;
     
-    // Loading Archery Game Scores Function >>>>>>>>>
-    async function loadArcheryScore(){
-    // Get the user
-    const {
-        data: {user},
-        error: archLoadError
-    } = await supaDb.auth.getUser();
     
-    if (archLoadError) {
-        console.log('Archery Game User Log in Load Error', archLoadError)
-        return 0;
-    }
-    if (!user) {
-    return 0;
-}
-    // access the Games Table
-    const {
-        data: loadArcheryData,
-        error: loadArcheryError
-    } = await supaDb.from('Games').select('id').eq('slug','archery-game').single()
-    if (loadArcheryError) {
-        console.log("Error Accessing Games Table on Load Function", loadArcheryError);
-        return 0;
-    }
-        // Access Player Records for Best Score
-        
-        const {
-            data: archeryScoreData,
-            error: archeryScoreError
-        } = await supaDb.from('PlayerStats').select('best_score').eq('user_id',user.id).eq('game_id',loadArcheryData.id).maybeSingle();
-        
-       if (archeryScoreError) {
-           console.error('Error Loading Scores', archeryScoreError)
-           return 0;
-       }
-        if (!archeryScoreData) {
-            return 0;
-        }
-        return archeryScoreData.best_score;
-        
-        //end of function 
-    }
-    window.loadArcheryScore = loadArcheryScore;
-
     // Archery leaderboard loading function >>>>>>>>
     // The LeaderBoard is for All Games.
     // ===== The Leaderboard fn was here.
