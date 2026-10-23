@@ -218,7 +218,7 @@ function celebrate1000() {
             uScore.style.opacity = 0;
             uScore.style.top = "50%";
             uScore.style.left = "70%";
-        },1000);
+        },5000);
     }
 
 
