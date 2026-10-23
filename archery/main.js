@@ -151,7 +151,7 @@ function celebrate1000() {
     }
 
     const startTime = performance.now();
-    const duration = 3200;
+    const duration = 8200;
 
     function animateConfetti(now) {
         confettiCtx.clearRect(0, 0, w, h);
