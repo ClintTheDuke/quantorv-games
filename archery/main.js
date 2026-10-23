@@ -87,6 +87,9 @@ function loadGame(){
     var gameScore = document.getElementById("score");
     var totalScore = 0;
     var autoMove = false;
+    var celebrated1000 = false;
+    var celebrationSound = new Audio("https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/applause-sound.mp3");
+    celebrationSound.volume = 0.7;
 
 
     var w = window.innerWidth;
@@ -100,6 +103,89 @@ function loadGame(){
         w = nh;
         
     }
+
+    // ======= Celebration Confetti (celebrate1000)
+    
+function celebrate1000() {
+    const container = document.getElementById("mainContainer");
+
+    // Create a separate canvas for the confetti.
+    const confettiCanvas = document.createElement("canvas");
+    const confettiCtx = confettiCanvas.getContext("2d");
+
+    confettiCanvas.width = w;
+    confettiCanvas.height = h;
+
+    Object.assign(confettiCanvas.style, {
+        position: "absolute",
+        left: "0",
+        top: "0",
+        width: w + "px",
+        height: h + "px",
+        pointerEvents: "none",
+        zIndex: "20"
+    });
+
+    container.appendChild(confettiCanvas);
+
+    // Play the celebration sound without stopping other sounds.
+    celebrationSound.currentTime = 0;
+    celebrationSound.play().catch(function () {});
+
+    // Create the confetti particles.
+    const colors = ["#08d549", "#ffffff", "#ffd700", "#00bfff"];
+    const particles = [];
+
+    for (let i = 0; i < 140; i++) {
+        particles.push({
+            x: w / 2,
+            y: h * 0.55,
+            vx: (Math.random() - 0.5) * 14,
+            vy: -Math.random() * 11 - 3,
+            gravity: 0.22,
+            size: Math.random() * 7 + 4,
+            rotation: Math.random() * Math.PI,
+            spin: (Math.random() - 0.5) * 0.2,
+            color: colors[Math.floor(Math.random() * colors.length)]
+        });
+    }
+
+    const startTime = performance.now();
+    const duration = 3200;
+
+    function animateConfetti(now) {
+        confettiCtx.clearRect(0, 0, w, h);
+
+        particles.forEach(function (p) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += p.gravity;
+            p.rotation += p.spin;
+
+            confettiCtx.save();
+            confettiCtx.translate(p.x, p.y);
+            confettiCtx.rotate(p.rotation);
+            confettiCtx.fillStyle = p.color;
+            confettiCtx.fillRect(
+                -p.size / 2,
+                -p.size / 2,
+                p.size,
+                p.size * 0.65
+            );
+            confettiCtx.restore();
+        });
+
+        if (now - startTime < duration) {
+            requestAnimationFrame(animateConfetti);
+        } else {
+            confettiCtx.clearRect(0, 0, w, h);
+            confettiCanvas.remove();
+        }
+    }
+
+    requestAnimationFrame(animateConfetti);
+}
+
     
 
     var updatePointArea = document.getElementById("showPoint");
@@ -358,6 +444,11 @@ function loadGame(){
                             
                                 totalScore += currentScore;
                                 gameScore.innerHTML = totalScore;
+                                //======= Achievement if score is up to 1000
+                                if(totalScore >= 10 && !celebrated1000){
+                                    celebrated1000 = true;
+                                    celebrate1000();
+                                }
                             
                                 animateScore(currentScore,totalArr);
                             
