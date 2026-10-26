@@ -195,9 +195,9 @@ function celebrate1000() {
     }
 
     const startTime = performance.now();
-    const duration = 8200;
+    const duration = 3200;
 
-    function animateConfetti(now) {
+   function animateConfetti(now) {
         confettiCtx.clearRect(0, 0, w, h);
 
         particles.forEach(function (p) {
@@ -489,9 +489,9 @@ function celebrate1000() {
                                 totalScore += currentScore;
                                 gameScore.innerHTML = totalScore;
                                 //======= Achievement if score is up to 1000
-                                if(totalScore >= 10 && !celebrated1000){
+                                if(totalScore >= 1000 && !celebrated1000){
                                     celebrated1000 = true;
-                                    celebrate1000();
+                                  celebrate1000()
                                 }
                             
                                 animateScore(currentScore,totalArr);
@@ -611,6 +611,8 @@ function celebrate1000() {
           arc.y+=arc.dy;
     }
 
+    
+
     function shoot(){
           if(arrow1.vis && arrow2.vis && arrows != -1){
             moveArrowCheck = true;
@@ -639,6 +641,7 @@ function celebrate1000() {
     }
 
     document.getElementById("animCanvas").addEventListener("click",shoot);
+    
      document.body.addEventListener("keydown",shoot);
 
     var intv = setInterval(function(){

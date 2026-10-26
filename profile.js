@@ -392,23 +392,29 @@ const ACHIEVEMENT_ICONS = {
 
 /* ===== Render Achievements ===== */
 
-function renderAchievements(unlockedIds = []) {
+
+function renderAchievements(
+    achievements = ACHIEVEMENTS,
+    unlockedIds = []
+) {
     const achievementList =
         document.getElementById('achievementList');
 
     const achievementCount =
         document.getElementById('achievementCount');
 
-    if (!achievementList || !achievementCount) {
-        return;
-    }
+    if (!achievementList || !achievementCount) return;
 
     const unlocked = new Set(unlockedIds);
 
     achievementList.replaceChildren();
 
-    ACHIEVEMENTS.forEach(achievement => {
+    let unlockedCount = 0;
+
+    achievements.forEach(achievement => {
         const isUnlocked = unlocked.has(achievement.id);
+
+        if (isUnlocked) unlockedCount++;
 
         const item = document.createElement('div');
         item.className = 'achievement-item';
@@ -421,7 +427,6 @@ function renderAchievements(unlockedIds = []) {
         art.className = 'achievement-art';
         art.setAttribute('aria-hidden', 'true');
 
-        // These icons come from our trusted, local catalogue.
         art.innerHTML =
             ACHIEVEMENT_ICONS[achievement.icon] || '';
 
@@ -438,21 +443,95 @@ function renderAchievements(unlockedIds = []) {
         status.textContent = isUnlocked ? 'Unlocked' : 'Locked';
 
         item.append(art, name, description, status);
-
         achievementList.appendChild(item);
     });
 
     achievementCount.textContent =
-        `${unlocked.size} / ${ACHIEVEMENTS.length}`;
+        `${unlockedCount} / ${achievements.length}`;
 }
 
 
 /* ===== Initialise Achievement UI ===== */
 
-function loadAchievements() {
-    // UI-only stage: no achievements are awarded yet.
-    renderAchievements();
+
+async function loadAchievements() {
+    const achList =
+        document.getElementById('achievementList');
+
+    if (!achList) return;
+
+    try {
+        if (!window.supaDb) {
+            throw new Error('Supabase client unavailable.');
+        }
+
+        const {
+            data: { user },
+            error: authError
+        } = await window.supaDb.auth.getUser();
+
+        if (authError) throw authError;
+
+        // Load active achievement definitions.
+        const {
+            data: definitions,
+            error: definitionsError
+        } = await window.supaDb
+            .from('AchievementDef')
+            .select('id, name, description, icon')
+            .eq('is_active', true);
+
+        if (definitionsError) throw definitionsError;
+
+        // No user means all achievements remain locked.
+        if (!user) {
+            renderAchievements(definitions || [], []);
+            return;
+        }
+
+        // Load this user's unlocked achievements.
+        const {
+            data: awards,
+            error: awardsError
+        } = await window.supaDb
+            .from('PlayerAchievements')
+            .select('achievement_id')
+            .eq('user_id', user.id);
+
+        if (awardsError) throw awardsError;
+
+        const unlockedIds = (awards || [])
+            .map(award => award.achievement_id);
+
+        renderAchievements(
+            definitions || [],
+            unlockedIds
+        );
+
+    } catch (error) {
+        console.error('Failed to load achievements:', error);
+
+        achList.replaceChildren();
+
+        const message = document.createElement('p');
+        message.className = 'achievement-loading';
+        message.textContent =
+            'Unable to load achievements. Please try again later.';
+
+        achList.appendChild(message);
+    }
 }
+
+/* ===== Test Achievement UI ===== 
+
+function loadAchievements() {
+    renderAchievements([
+        'first_steps',
+        'high_scorer'
+    ]);
+}
+
+===== Test Achievement UI Ends ===== */
 
  loadAchievements();
  loadGames();

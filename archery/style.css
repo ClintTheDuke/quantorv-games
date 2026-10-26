@@ -8,19 +8,9 @@ body {
     width: 100vw;
 }
 
-#buymeacoffee {
-    z-index: 10000;
-    position: relative;
-    top: 10px;
-    width: 100%;
-    display: block;
-    text-align: center;
-}
 
-#buymeacoffee img {
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-}
+
+
 
 #mainContainer {
     transform-origin:0% 0%;
