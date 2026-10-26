@@ -533,6 +533,183 @@ function loadAchievements() {
 
 ===== Test Achievement UI Ends ===== */
 
+/* ===== Achievement Celebration Effects ===== */
+
+function launchAchievementConfetti() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) return;
+
+    Object.assign(canvas.style, {
+        position: 'fixed',
+        inset: '0',
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: '10000'
+    });
+
+    document.body.appendChild(canvas);
+
+    const resizeCanvas = () => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    resizeCanvas();
+
+    const colors = ['#08d549', '#ffffff', '#ffd700', '#00bfff'];
+    const particles = [];
+
+    for (let i = 0; i < 150; i++) {
+        particles.push({
+            x: window.innerWidth / 2,
+            y: window.innerHeight * 0.38,
+            vx: (Math.random() - 0.5) * 15,
+            vy: -Math.random() * 12 - 2,
+            gravity: 0.24,
+            size: Math.random() * 7 + 3,
+            rotation: Math.random() * Math.PI,
+            spin: (Math.random() - 0.5) * 0.2,
+            color: colors[Math.floor(Math.random() * colors.length)]
+        });
+    }
+
+    const startTime = performance.now();
+    const duration = 3200;
+
+    function animate(now) {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += p.gravity;
+            p.rotation += p.spin;
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(
+                -p.size / 2,
+                -p.size / 2,
+                p.size,
+                p.size * 0.65
+            );
+            ctx.restore();
+        });
+
+        if (now - startTime < duration) {
+            requestAnimationFrame(animate);
+        } else {
+            canvas.remove();
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+
+function showAchievementCelebration(achievement) {
+    const modal = document.getElementById('achievementCelebration');
+    const title = document.getElementById('celebrationTitle');
+    const description = document.getElementById('celebrationDescription');
+    const icon = document.getElementById('celebrationIcon');
+
+    if (!modal || !title || !description || !icon) return;
+
+    title.textContent = achievement.name;
+    description.textContent = achievement.description;
+    icon.innerHTML = ACHIEVEMENT_ICONS[achievement.icon] || '';
+
+    modal.hidden = false;
+
+    launchAchievementConfetti();
+
+    document.getElementById('viewAchievementsBtn')?.focus();
+}
+/* ===== Achievement Celebration Effects Ends ===== */
+ 
+/*======== Set up achievements celebration ========*/
+function setupAchievementCelebration() {
+    const modal = document.getElementById('achievementCelebration');
+    const cancelBtn = document.getElementById('cancelCelebrationBtn');
+    const viewBtn = document.getElementById('viewAchievementsBtn');
+
+    if (!modal || !cancelBtn || !viewBtn) return;
+
+    let currentAchievementId = null;
+
+    // Keep track of the achievement currently being celebrated.
+    const originalShow = showAchievementCelebration;
+
+    showAchievementCelebration = function (achievement) {
+        currentAchievementId = achievement.id;
+        originalShow(achievement);
+    };
+
+    async function dismissCelebration(viewAchievements) {
+        if (!currentAchievementId) {
+            modal.hidden = true;
+            return;
+        }
+
+        const {
+            data: { user }
+        } = await window.supaDb.auth.getUser();
+
+        if (user) {
+            const key = `qvg_seen_achievement_celebrations_${user.id}`;
+
+            let seen = [];
+
+            try {
+                seen = JSON.parse(localStorage.getItem(key) || '[]');
+            } catch {
+                seen = [];
+            }
+
+            if (!Array.isArray(seen)) seen = [];
+
+            if (!seen.includes(currentAchievementId)) {
+                seen.push(currentAchievementId);
+                localStorage.setItem(key, JSON.stringify(seen));
+            }
+        }
+
+        modal.hidden = true;
+
+        if (viewAchievements) {
+            const section = document.getElementById('achievementList');
+
+            if (section) {
+                section.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+
+        currentAchievementId = null;
+    }
+
+    cancelBtn.addEventListener('click', () => {
+        dismissCelebration(false);
+    });
+
+    viewBtn.addEventListener('click', () => {
+        dismissCelebration(true);
+    });
+}
+ 
+/*======== Set up achievements celebration Ends ========*/
+setupAchievementCelebration();
  loadAchievements();
  loadGames();
  loadBookmarks();
