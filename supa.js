@@ -124,37 +124,6 @@ const hasUppercase = /[A-Z]/.test(signupPassword);
 const hasLowercase = /[a-z]/.test(signupPassword);
 const hasNumber = /[0-9]/.test(signupPassword);
 const hasSpecial = /[^A-Za-z0-9]/.test(signupPassword);
-
- // ===== SHOW / HIDE PASSWORD CONTROLS =====
-
-    document.querySelectorAll("[data-password-toggle]").forEach((button) => {
-        button.addEventListener("click", () => {
-            const inputId = button.dataset.passwordToggle;
-            const passwordInput = document.getElementById(inputId);
-
-            if (!passwordInput) return;
-
-            const showingPassword = passwordInput.type === "password";
-
-            passwordInput.type = showingPassword ? "text" : "password";
-
-            button.textContent = showingPassword ? "Hide" : "Show";
-
-            button.setAttribute(
-                "aria-label",
-                showingPassword
-                    ? "Hide password"
-                    : "Show password"
-            );
-
-            button.setAttribute(
-                "aria-pressed",
-                String(showingPassword)
-            );
-        });
-    });
-
-
 if (signupPassword.length < 8) {
     msg.textContent =
     "Password must be at least 8 characters.";

@@ -340,18 +340,29 @@
                 <div class="password-input">
                     <input
                         type="password"
+                        class="password-toggle"
                         id="signupPasswordConfirm"
                         name="password-confirm"
-                        placeholder="Enter your password again"
+                        placeholder="Enter your password again"                       
                         autocomplete="new-password"
                         required>
 
                     <button
                         type="button"
                         class="password-toggle"
+                        data-password-toggle="signupPasswordConfirm"
                         aria-label="Show password">
                         👁
                     </button>
+                   <!-- <button
+                        type="button"
+                        data-password-toggle="signupPassword"
+                        aria-pressed="false"
+                        class="password-toggle"
+                        aria-label="Show password"
+                        disabled>
+                        👁
+                    </button>-->
                 </div>
                 <p class="password-match" id="passwordMatch"></p>
             </div>
