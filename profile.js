@@ -707,6 +707,16 @@ function loadAchievements() {
 /* ===== Achievement Celebration Effects ===== */
 
 let currentCelebrationAchievementId = null;
+const achievementSound = new Audio('https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/sounds/universfield-level-up-08-402152.mp3');
+achievementSound.volume = 0.5;
+
+function playAchievementSound() {
+    achievementSound.currentTime = 0;
+
+    achievementSound.play().catch(error => {
+        console.warn('[Celebration] Sound playback was blocked:', error);
+    });
+}
 
 function launchAchievementConfetti() {
     console.log('[Celebration] Starting confetti.');
@@ -843,7 +853,7 @@ function showAchievementCelebration(achievement) {
         achievement.id,
         achievement.name
     );
-
+    playAchievementSound();
     launchAchievementConfetti();
 
     document.getElementById('viewAchievementsBtn')?.focus();
