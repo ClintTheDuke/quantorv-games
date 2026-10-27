@@ -533,96 +533,135 @@ function loadAchievements() {
 
 ===== Test Achievement UI Ends ===== */
 
+/* ======== set up achievements celebration ===== */
+
 /* ===== Achievement Celebration Effects ===== */
 
+let currentCelebrationAchievementId = null;
+
 function launchAchievementConfetti() {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    console.log('[Celebration] Starting confetti.');
 
-    if (!ctx) return;
+    try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
-    Object.assign(canvas.style, {
-        position: 'fixed',
-        inset: '0',
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: '10000'
-    });
-
-    document.body.appendChild(canvas);
-
-    const resizeCanvas = () => {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    resizeCanvas();
-
-    const colors = ['#08d549', '#ffffff', '#ffd700', '#00bfff'];
-    const particles = [];
-
-    for (let i = 0; i < 150; i++) {
-        particles.push({
-            x: window.innerWidth / 2,
-            y: window.innerHeight * 0.38,
-            vx: (Math.random() - 0.5) * 15,
-            vy: -Math.random() * 12 - 2,
-            gravity: 0.24,
-            size: Math.random() * 7 + 3,
-            rotation: Math.random() * Math.PI,
-            spin: (Math.random() - 0.5) * 0.2,
-            color: colors[Math.floor(Math.random() * colors.length)]
-        });
-    }
-
-    const startTime = performance.now();
-    const duration = 3200;
-
-    function animate(now) {
-        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-        particles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.vy += p.gravity;
-            p.rotation += p.spin;
-
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rotation);
-            ctx.fillStyle = p.color;
-            ctx.fillRect(
-                -p.size / 2,
-                -p.size / 2,
-                p.size,
-                p.size * 0.65
-            );
-            ctx.restore();
-        });
-
-        if (now - startTime < duration) {
-            requestAnimationFrame(animate);
-        } else {
-            canvas.remove();
+        if (!ctx) {
+            console.error('[Celebration] Could not create 2D canvas context.');
+            return;
         }
-    }
 
-    requestAnimationFrame(animate);
+        Object.assign(canvas.style, {
+            position: 'fixed',
+            inset: '0',
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            zIndex: '10000'
+        });
+
+        document.body.appendChild(canvas);
+        console.log('[Celebration] Confetti canvas added to the page.');
+
+        const resizeCanvas = () => {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        };
+
+        resizeCanvas();
+
+        const colors = ['#08d549', '#ffffff', '#ffd700', '#00bfff'];
+        const particles = [];
+
+        for (let i = 0; i < 150; i++) {
+            particles.push({
+                x: window.innerWidth / 2,
+                y: window.innerHeight * 0.38,
+                vx: (Math.random() - 0.5) * 15,
+                vy: -Math.random() * 12 - 2,
+                gravity: 0.24,
+                size: Math.random() * 7 + 3,
+                rotation: Math.random() * Math.PI,
+                spin: (Math.random() - 0.5) * 0.2,
+                color: colors[Math.floor(Math.random() * colors.length)]
+            });
+        }
+
+        console.log(`[Celebration] Created ${particles.length} confetti particles.`);
+
+        const startTime = performance.now();
+        const duration = 3200;
+
+        function animate(now) {
+            try {
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += p.gravity;
+                    p.rotation += p.spin;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(
+                        -p.size / 2,
+                        -p.size / 2,
+                        p.size,
+                        p.size * 0.65
+                    );
+                    ctx.restore();
+                });
+
+                if (now - startTime < duration) {
+                    requestAnimationFrame(animate);
+                } else {
+                    canvas.remove();
+                    console.log('[Celebration] Confetti animation completed.');
+                }
+            } catch (error) {
+                canvas.remove();
+                console.error('[Celebration] Confetti animation failed:', error);
+            }
+        }
+
+        requestAnimationFrame(animate);
+    } catch (error) {
+        console.error('[Celebration] Could not launch confetti:', error);
+    }
 }
 
 
 function showAchievementCelebration(achievement) {
+    console.log('[Celebration] Requested for achievement:', achievement);
+
     const modal = document.getElementById('achievementCelebration');
     const title = document.getElementById('celebrationTitle');
     const description = document.getElementById('celebrationDescription');
     const icon = document.getElementById('celebrationIcon');
 
-    if (!modal || !title || !description || !icon) return;
+    if (!modal || !title || !description || !icon) {
+        console.error('[Celebration] Required modal elements are missing.', {
+            modalFound: Boolean(modal),
+            titleFound: Boolean(title),
+            descriptionFound: Boolean(description),
+            iconFound: Boolean(icon)
+        });
+        return;
+    }
+
+    if (!achievement?.id) {
+        console.error('[Celebration] Achievement has no ID:', achievement);
+        return;
+    }
+
+    currentCelebrationAchievementId = achievement.id;
 
     title.textContent = achievement.name;
     description.textContent = achievement.description;
@@ -630,73 +669,230 @@ function showAchievementCelebration(achievement) {
 
     modal.hidden = false;
 
+    console.log(
+        '[Celebration] Modal displayed for:',
+        achievement.id,
+        achievement.name
+    );
+
     launchAchievementConfetti();
 
     document.getElementById('viewAchievementsBtn')?.focus();
 }
-/* ===== Achievement Celebration Effects Ends ===== */
- 
-/*======== Set up achievements celebration ========*/
-function setupAchievementCelebration() {
-    const modal = document.getElementById('achievementCelebration');
-    const cancelBtn = document.getElementById('cancelCelebrationBtn');
-    const viewBtn = document.getElementById('viewAchievementsBtn');
 
-    if (!modal || !cancelBtn || !viewBtn) return;
 
-    let currentAchievementId = null;
+/* ===== Load Achievements and Find Pending Celebrations ===== */
 
-    // Keep track of the achievement currently being celebrated.
-    const originalShow = showAchievementCelebration;
+async function loadAchievements() {
+    console.log('[Achievements] Loading started.');
 
-    showAchievementCelebration = function (achievement) {
-        currentAchievementId = achievement.id;
-        originalShow(achievement);
-    };
+    const achList = document.getElementById('achievementList');
 
-    async function dismissCelebration(viewAchievements) {
-        if (!currentAchievementId) {
-            modal.hidden = true;
+    if (!achList) {
+        console.error('[Achievements] #achievementList was not found.');
+        return;
+    }
+
+    try {
+        if (!window.supaDb) {
+            throw new Error('Supabase client unavailable: window.supaDb is missing.');
+        }
+
+        const {
+            data: { user },
+            error: authError
+        } = await window.supaDb.auth.getUser();
+
+        if (authError) {
+            console.error('[Achievements] Could not retrieve current user:', authError);
+            throw authError;
+        }
+
+        console.log(
+            '[Achievements] Current user:',
+            user ? user.id : 'No authenticated user'
+        );
+
+        const {
+            data: definitions,
+            error: definitionsError
+        } = await window.supaDb
+            .from('AchievementDef')
+            .select('id, name, description, icon')
+            .eq('is_active', true);
+
+        if (definitionsError) {
+            console.error('[Achievements] Definition query failed:', definitionsError);
+            throw definitionsError;
+        }
+
+        console.log('[Achievements] Active definitions received:', definitions);
+
+        if (!user) {
+            renderAchievements(definitions || [], []);
+            console.log('[Achievements] Logged-out view rendered; no celebration check.');
             return;
         }
 
         const {
-            data: { user }
-        } = await window.supaDb.auth.getUser();
+            data: awards,
+            error: awardsError
+        } = await window.supaDb
+            .from('PlayerAchievements')
+            .select('achievement_id, unlocked_at, celebration_seen_at')
+            .eq('user_id', user.id)
+            .order('unlocked_at', { ascending: true });
 
-        if (user) {
-            const key = `qvg_seen_achievement_celebrations_${user.id}`;
-
-            let seen = [];
-
-            try {
-                seen = JSON.parse(localStorage.getItem(key) || '[]');
-            } catch {
-                seen = [];
-            }
-
-            if (!Array.isArray(seen)) seen = [];
-
-            if (!seen.includes(currentAchievementId)) {
-                seen.push(currentAchievementId);
-                localStorage.setItem(key, JSON.stringify(seen));
-            }
+        if (awardsError) {
+            console.error('[Achievements] Player award query failed:', awardsError);
+            throw awardsError;
         }
 
-        modal.hidden = true;
+        const playerAwards = awards || [];
+
+        console.log('[Achievements] Awards retrieved:', playerAwards);
+
+        const unlockedIds = playerAwards.map(
+            award => award.achievement_id
+        );
+
+        renderAchievements(definitions || [], unlockedIds);
+
+        const pendingAwards = playerAwards.filter(
+            award => award.celebration_seen_at === null
+        );
+
+        console.log('[Achievements] Awards awaiting celebration:', pendingAwards);
+
+        if (pendingAwards.length === 0) {
+            console.log('[Achievements] No pending celebrations.');
+            return;
+        }
+
+        // Show the oldest unacknowledged award first.
+        const pendingAward = pendingAwards[0];
+
+        const achievement = (definitions || []).find(
+            item => item.id === pendingAward.achievement_id
+        );
+
+        if (!achievement) {
+            console.warn(
+                '[Achievements] A pending award has no matching active definition:',
+                pendingAward.achievement_id
+            );
+            return;
+        }
+
+        console.log('[Achievements] Opening celebration for:', achievement.id);
+
+        showAchievementCelebration(achievement);
+
+    } catch (error) {
+        console.error('[Achievements] Loading failed:', error);
+
+        achList.replaceChildren();
+
+        const message = document.createElement('p');
+        message.className = 'achievement-loading';
+        message.textContent =
+            'Unable to load achievements. Please try again later.';
+
+        achList.appendChild(message);
+    }
+}
+
+
+/* ===== Acknowledge Celebration in Supabase ===== */
+
+function setupAchievementCelebration() {
+    console.log('[Celebration] Setting up modal controls.');
+
+    const modal = document.getElementById('achievementCelebration');
+    const cancelBtn = document.getElementById('cancelCelebrationBtn');
+    const viewBtn = document.getElementById('viewAchievementsBtn');
+
+    if (!modal || !cancelBtn || !viewBtn) {
+        console.error('[Celebration] Cannot set up controls; required elements are missing.', {
+            modalFound: Boolean(modal),
+            cancelButtonFound: Boolean(cancelBtn),
+            viewButtonFound: Boolean(viewBtn)
+        });
+        return;
+    }
+
+    async function dismissCelebration(viewAchievements) {
+        const achievementId = currentCelebrationAchievementId;
+
+        console.log('[Celebration] Dismissal requested:', {
+            achievementId,
+            viewAchievements
+        });
+
+        if (!achievementId) {
+            console.warn('[Celebration] No active achievement ID; closing modal only.');
+            modal.hidden = true;
+            return;
+        }
+
+        try {
+            if (!window.supaDb) {
+                throw new Error('Supabase client unavailable.');
+            }
+
+            const {
+                data: { user },
+                error: authError
+            } = await window.supaDb.auth.getUser();
+
+            if (authError) throw authError;
+
+            if (!user) {
+                throw new Error('Cannot acknowledge celebration: no authenticated user.');
+            }
+
+            console.log('[Celebration] Acknowledging award in Supabase:', achievementId);
+
+            const { data, error } = await window.supaDb.rpc(
+                'acknowledge_achievement_celebration',
+                { p_achievement_id: achievementId }
+            );
+
+            if (error) {
+                console.error('[Celebration] Supabase acknowledgement failed:', error);
+                throw error;
+            }
+
+            console.log('[Celebration] Supabase acknowledgement response:', data);
+
+        } catch (error) {
+            console.error(
+                '[Celebration] Could not save acknowledgement. It may appear again on the next visit:',
+                error
+            );
+        } finally {
+            // Close the modal even if the acknowledgement request fails.
+            // If it fails, the database row remains pending and can be retried later.
+            modal.hidden = true;
+            currentCelebrationAchievementId = null;
+
+            console.log('[Celebration] Modal closed.');
+        }
 
         if (viewAchievements) {
             const section = document.getElementById('achievementList');
 
             if (section) {
+                console.log('[Celebration] Scrolling to the achievements section.');
+
                 section.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
                 });
+            } else {
+                console.error('[Celebration] Cannot scroll: #achievementList was not found.');
             }
         }
-
-        currentAchievementId = null;
     }
 
     cancelBtn.addEventListener('click', () => {
@@ -706,8 +902,30 @@ function setupAchievementCelebration() {
     viewBtn.addEventListener('click', () => {
         dismissCelebration(true);
     });
+
+    console.log('[Celebration] Modal controls ready.');
 }
- 
+
+
+/* ===== Initialize ===== */
+
+function initializeAchievementSystem() {
+    console.log('[Achievements] Initializing achievement system.');
+
+    setupAchievementCelebration();
+    loadAchievements();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener(
+        'DOMContentLoaded',
+        initializeAchievementSystem,
+        { once: true }
+    );
+} else {
+    initializeAchievementSystem();
+}
+
 /*======== Set up achievements celebration Ends ========*/
 setupAchievementCelebration();
  loadAchievements();
