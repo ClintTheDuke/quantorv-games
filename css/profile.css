@@ -933,3 +933,113 @@
         transition: none;
     }
 }
+
+/* ===============Badges and Rank Progression ============
+
+
+/* Badge rank progression */
+
+.badge-progression {
+    margin: 16px 0 20px;
+    padding: 14px 16px;
+    background: #111a12;
+    border: 1px solid rgba(8, 213, 73, 0.25);
+    border-radius: 10px;
+}
+
+.badge-rank-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.badge-rank-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #a6b5a8;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.badge-rank-row h4 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+
+
+.badge-encouragement {
+    margin: 12px 0 0;
+    color: #d4ded5;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .badge-progression {
+        padding: 12px;
+    }
+
+    .badge-rank-row {
+        gap: 10px;
+    }
+
+    .badge-rank-row h4 {
+        font-size: 0.9rem;
+    }
+}
+
+.badge-icon {
+  width: 56px;
+  height: 56px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+
+.badge-rank-details {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.badge-icon {
+    width: 42px;
+    height: 42px;
+    display: block;
+    flex-shrink: 0;
+}
+
+.badge-next-rank {
+  color: #858985;
+  text-align: right;
+}
+.nextBadgeRank{
+    color: #858985;
+}
+.currentBadgeRank{
+color: #08d549;
+}
+
+.badge-next-rank .badge-icon {
+  filter: grayscale(100%) blur(1px);
+  opacity: 0.55;
+}
+
+.badge-icon[hidden] {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .badge-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .badge-rank-details {
+        gap: 6px;
+    }
+}
+

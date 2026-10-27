@@ -287,6 +287,7 @@
 
 
     
+
 <!-- Achievements -->
 <div class="dashboard-card achievements-card">
 
@@ -299,9 +300,53 @@
         </div>
 
         <span id="achievementCount" class="achievement-count">
-            0 / 6
+            0 / 4
         </span>
     </div>
+
+    <!-- Badge rank progression -->
+    
+<div class="badge-progression">
+    <div class="badge-rank-row">
+
+        <div class="badge-rank">
+            <span class="badge-rank-label">CURRENT RANK</span>
+
+            <div class="badge-rank-details">
+                <svg id="currentBadgeIcon"
+                     class="badge-icon"
+                     viewBox="0 0 64 64"
+                     role="img"
+                     aria-label="Current rank badge">
+                    <use href="/assets/badges.svg#rising-star"></use>
+                </svg>
+
+                <h4 id="currentBadgeRank" class="currentBadgeRank">Rising Star</h4>
+            </div>
+        </div>
+
+        <div class="badge-rank badge-next-rank">
+            <span class="badge-rank-label">NEXT RANK</span>
+
+            <div class="badge-rank-details">
+                <svg id="nextBadgeIcon"
+                     class="badge-icon"
+                     viewBox="0 0 64 64"
+                     role="img"
+                     aria-label="Next rank badge">
+                    <use href="/assets/badges.svg#achiever"></use>
+                </svg>
+
+                <h4 id="nextBadgeRank" class="nextBadgeRank">Achiever</h4>
+            </div>
+        </div>
+
+    </div>
+
+    <p id="badgeEncouragement" class="badge-encouragement">
+        Every game is a new opportunity to earn achievements.
+    </p>
+</div>
 
     <div
         id="achievementList"

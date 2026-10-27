@@ -390,6 +390,175 @@ const ACHIEVEMENT_ICONS = {
 };
 
 
+/* ===== Badge Rank System ===== */
+
+const BADGE_RANKS = [
+    {
+        name: 'Rising Star',
+        threshold: 0,
+        description: 'Your achievement journey starts here.'
+    },
+    {
+        name: 'Achiever',
+        threshold: 5,
+        description: 'You are building a record of accomplishments.'
+    },
+    {
+        name: 'Trailblazer',
+        threshold: 10,
+        description: 'Keep exploring and collecting achievements.'
+    },
+    {
+        name: 'Champion',
+        threshold: 20,
+        description: 'Your dedication is starting to stand out.'
+    },
+    {
+        name: 'Elite',
+        threshold: 50,
+        description: 'You have established an impressive record.'
+    },
+    {
+        name: 'Legend',
+        threshold: 100,
+        description: 'You are becoming a Quantorv Games legend.'
+    },
+    {
+        name: 'Grandmaster',
+        threshold: 250,
+        description: 'Your persistence is taking you to the top.'
+    },
+    {
+        name: 'Icon',
+        threshold: 500,
+        description: 'You have reached an exceptional milestone.'
+    },
+    {
+        name: 'Quantorv Immortal',
+        threshold: 1000,
+        description: 'A truly extraordinary achievement record.'
+    }
+];
+
+function getBadgeRank(unlockedCount) {
+    const count = Math.max(0, Number(unlockedCount) || 0);
+
+    return BADGE_RANKS
+        .filter(rank => count >= rank.threshold)
+        .at(-1);
+}
+
+function getNextBadgeRank(unlockedCount) {
+    const count = Math.max(0, Number(unlockedCount) || 0);
+
+    return BADGE_RANKS.find(
+        rank => count < rank.threshold
+    ) || null;
+}
+
+
+function updateBadgeProgression(unlockedCount) {
+    const count = Math.max(0, Number(unlockedCount) || 0);
+
+    const currentRank = getBadgeRank(count);
+    const nextRank = getNextBadgeRank(count);
+    const nextIcon = document.getElementById('nextBadgeIcon');
+if (nextIcon) nextIcon.hidden = !nextRank;
+
+    const countElement =
+        document.getElementById('achievementCount');
+
+    const currentElement =
+        document.getElementById('currentBadgeRank');
+
+    const nextElement =
+        document.getElementById('nextBadgeRank');
+
+    const encouragementElement =
+        document.getElementById('badgeEncouragement');
+
+    if (currentElement) {
+        currentElement.textContent = currentRank.name;
+    }
+
+    setBadgeIcon('currentBadgeIcon', currentRank.name);
+
+    if (nextRank) {
+        if (nextElement) {
+            nextElement.textContent =
+                `${nextRank.name} · ${nextRank.threshold}`;
+        }
+
+        setBadgeIcon('nextBadgeIcon', nextRank.name);
+
+        if (countElement) {
+            countElement.textContent =
+                `${count} / ${nextRank.threshold - 1}`;
+        }
+
+        if (encouragementElement) {
+            const remaining = nextRank.threshold - count;
+
+            encouragementElement.textContent =
+                `${currentRank.description} Unlock ${remaining} more ` +
+                `achievement${remaining === 1 ? '' : 's'} to reach ` +
+                `${nextRank.name}. Keep playing!`;
+        }
+    } else {
+        if (nextElement) {
+            nextElement.textContent = 'Highest rank reached!';
+        }
+
+        // There is no next badge after the final rank.
+        const nextIcon = document.getElementById('nextBadgeIcon');
+        if (nextIcon) nextIcon.hidden = true;
+
+        if (countElement) {
+            countElement.textContent = `${count}+`;
+        }
+
+        if (encouragementElement) {
+            encouragementElement.textContent =
+                'You have reached the highest badge rank. ' +
+                'Keep playing and collecting achievements!';
+        }
+    }
+}
+
+
+const BADGE_ICONS = {
+    'Rising Star': 'rising-star',
+    'Achiever': 'achiever',
+    'Trailblazer': 'trailblazer',
+    'Champion': 'champion',
+    'Elite': 'elite',
+    'Legend': 'legend',
+    'Grandmaster': 'grandmaster',
+    'Icon': 'icon',
+    'Quantorv Immortal': 'quantorv-immortal'
+};
+// ========== set badge icon =====
+function setBadgeIcon(elementId, rankName) {
+    const svg = document.getElementById(elementId);
+    if (!svg) return;
+
+    const symbolId = BADGE_ICONS[rankName];
+
+    if (!symbolId) return;
+
+    const use = svg.querySelector('use');
+    if (!use) return;
+
+    use.setAttribute(
+        'href',
+        `/assets/badges.svg#${symbolId}`
+    );
+
+    svg.setAttribute('aria-label', `${rankName} badge`);
+}
+
+/* ===== Badge Rank System Ends ===== */
+
 /* ===== Render Achievements ===== */
 
 
@@ -447,7 +616,7 @@ function renderAchievements(
     });
 
     achievementCount.textContent =
-        `${unlockedCount} / ${achievements.length}`;
+      updateBadgeProgression(unlocked.size);
 }
 
 
