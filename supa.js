@@ -805,6 +805,65 @@ showSignup.onclick = ()=>{
     }
     window.loadArcheryScore = loadArcheryScore;
 
+    async function loadArcheryLeaderboard() {
+    const {
+        data: { user },
+        error: leaderboardUserError
+    } = await supaDb.auth.getUser();
+    if (leaderboardUserError) {
+        console.error("Error getting user for leaderboard:", leaderboardUserError);
+        return;
+    }
+    if (!user) {
+        console.log("No logged-in user for leaderboard.");
+        return;
+    }
+
+        const { data, error } = await supaDb
+        .from("GameScores")
+        .select(`
+            user_id,
+            score,
+            period_type,
+            period_key,
+            Profiles(username)
+        `)
+        .eq("period_type", "all_time")
+        .eq("period_key", "all_time")
+        .order("score", { ascending: false })
+        .limit(100);
+
+    if (error) {
+        console.error("Leaderboard error:", error);
+        return;
+    }
+
+    console.log("Leaderboard:", data);
+
+    // adding ranking using javascript map object in rest and spred rule
+    const rankedLeaderboard = data.map((player, index) => ({
+    ...player,
+    rank: index + 1
+}));
+
+console.log("Ranked leaderboard:", rankedLeaderboard);
+const leaderboardContainer =
+    document.getElementById("archery-leaderboard");
+if (leaderboardContainer) {
+    leaderboardContainer.innerHTML = rankedLeaderboard.map(player => `
+    <div class="leaderboard-row">
+        <span class="leaderboard-rank">#${player.rank}</span>
+        <span class="leaderboard-username">${player.Profiles.username}</span>
+        <span class="leaderboard-score">${player.score}</span>
+    </div>
+`).join("");
+}
+
+    //function to get leaderboard data ends
+}
+    loadArcheryLeaderboard();
+
+
     
 })
 
