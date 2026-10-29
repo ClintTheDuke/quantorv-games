@@ -71,7 +71,50 @@ successSound.src = "https://"+asrcd+".000webhostapp.com/snd/bell.ogg";
 var highScoreSound = new Audio();
 highScoreSound.src = "https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/applause-sound.mp3";
 
+/* ===== Record Completed Game Session ===== */
 
+async function recordCompletedGameSession() {
+    console.log('[Game Streak] Completion handler reached.');
+
+    try {
+        if (!window.supaDb) {
+            throw new Error('Supabase client is unavailable.');
+        }
+
+        // Confirm the player has an authenticated session.
+        const {
+            data: { session },
+            error: sessionError
+        } = await window.supaDb.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        console.log('[Game Streak] Auth session:', {
+            authenticated: Boolean(session),
+            userId: session?.user?.id || null
+        });
+
+        if (!session) {
+            throw new Error('No authenticated session found.');
+        }
+
+        console.log('[Game Streak] Sending RPC request...');
+
+        const { data, error } = await window.supaDb.rpc(
+            'record_completed_game_session'
+        );
+
+        if (error) {
+            console.error('[Game Streak] RPC returned an error:', error);
+            return;
+        }
+
+        console.log('[Game Streak] RPC succeeded:', data);
+
+    } catch (error) {
+        console.error('[Game Streak] Unexpected failure:', error);
+    }
+}
         
 
 function loadGame(){
@@ -481,16 +524,8 @@ function celebrate1000() {
                                 document.getElementById("title").innerHTML = "Your Score<br>"+totalScore;
     // Supabase Score Saving >>>>>>                     
    window.saveArcheryScore(totalScore);
-   window.supaDb
-    .rpc('record_completed_game_session')
-    .then(({ error }) => {
-        if (error) {
-            console.error(
-                '[Game Streak] Session recording failed:',
-                error
-            );
-        }
-    });
+    recordCompletedGameSession()
+   
                                 if(bestScore < totalScore){
                                     bestScore = totalScore;
                                     try{
