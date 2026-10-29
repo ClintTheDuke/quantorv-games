@@ -1148,6 +1148,140 @@ function setupAchievementCelebration() {
     console.log('[Celebration] Modal controls ready.');
 }
 
+/* ===== Game Session Streak ===== */
+
+async function loadGameStreak() {
+    const streakNumber =
+        document.getElementById('currentStreak');
+
+    const streakStatus =
+        document.getElementById('streakStatus');
+
+    const progressLabel =
+        document.getElementById('streakProgressLabel');
+
+    const progressBar =
+        document.getElementById('streakProgressBar');
+
+    const progressFill =
+        document.getElementById('streakProgressFill');
+
+    if (
+        !streakNumber ||
+        !streakStatus ||
+        !progressLabel ||
+        !progressBar ||
+        !progressFill
+    ) return;
+
+    try {
+        const {
+            data: { user },
+            error: authError
+        } = await window.supaDb.auth.getUser();
+
+        if (authError) throw authError;
+
+        if (!user) {
+            streakNumber.textContent = '0';
+            streakStatus.textContent = 'Log in to track your streak.';
+            return;
+        }
+
+        const { data, error } = await window.supaDb
+            .from('PlayerActivity')
+            .select('activity_date, games_completed')
+            .eq('user_id', user.id)
+            .order('activity_date', { ascending: false });
+
+        if (error) throw error;
+
+        const activities = data || [];
+
+        // Use UTC consistently with the database function.
+        const today = new Date().toISOString().slice(0, 10);
+
+        const yesterdayDate = new Date();
+        yesterdayDate.setUTCDate(
+            yesterdayDate.getUTCDate() - 1
+        );
+
+        const yesterday =
+            yesterdayDate.toISOString().slice(0, 10);
+
+        const activeDates = new Set(
+            activities
+                .filter(activity =>
+                    activity.games_completed > 0
+                )
+                .map(activity => activity.activity_date)
+        );
+
+        const completedToday = activeDates.has(today);
+
+        const latestDate = activities.find(activity =>
+            activity.games_completed > 0
+        )?.activity_date;
+
+        let streak = 0;
+
+        // A streak remains active through today if the
+        // most recent qualifying day was yesterday.
+        if (
+            latestDate === today ||
+            latestDate === yesterday
+        ) {
+            const cursor = new Date(
+                `${latestDate}T00:00:00Z`
+            );
+
+            while (
+                activeDates.has(
+                    cursor.toISOString().slice(0, 10)
+                )
+            ) {
+                streak++;
+
+                cursor.setUTCDate(
+                    cursor.getUTCDate() - 1
+                );
+            }
+        }
+
+        streakNumber.textContent = String(streak);
+
+        if (completedToday) {
+            streakStatus.textContent =
+                'Nice work! Your streak is secured for today.';
+        } else if (streak > 0) {
+            streakStatus.textContent =
+                'Complete a game today to keep your streak alive!';
+        } else {
+            streakStatus.textContent =
+                'Complete a game to start your streak!';
+        }
+
+        progressLabel.textContent =
+            completedToday ? '1 / 1' : '0 / 1';
+
+        progressBar.setAttribute(
+            'aria-valuenow',
+            completedToday ? '1' : '0'
+        );
+
+        progressFill.style.width =
+            completedToday ? '100%' : '0%';
+
+    } catch (error) {
+        console.error(
+            '[Game Streak] Failed to load streak:',
+            error
+        );
+
+        streakStatus.textContent =
+            'Unable to load your streak right now.';
+    }
+}
 
 /* ===== Initialize ===== */
 

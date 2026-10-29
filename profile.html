@@ -254,6 +254,47 @@
 
     </div>
 
+    <!-- Game Session Streak -->
+<div class="dashboard-card streak-card">
+
+    <h3>Game Streak</h3>
+
+    <div class="streak-summary">
+        <div class="streak-flame" aria-hidden="true">🔥</div>
+
+        <div class="streak-details">
+            <p class="streak-number">
+                <strong id="currentStreak">0</strong>
+                <span>days</span>
+            </p>
+
+            <p id="streakStatus" aria-live="polite">
+                Complete a game to start your streak!
+            </p>
+        </div>
+    </div>
+
+    <div class="streak-progress">
+        <div class="streak-progress-header">
+            <span>Today's activity</span>
+            <span id="streakProgressLabel">0 / 1</span>
+        </div>
+
+        <div
+            class="streak-progress-track"
+            role="progressbar"
+            aria-label="Today's game completion"
+            aria-valuemin="0"
+            aria-valuemax="1"
+            aria-valuenow="0"
+            id="streakProgressBar"
+        >
+            <div id="streakProgressFill"></div>
+        </div>
+    </div>
+
+</div>
+
 
 
     <!-- Played Games -->

@@ -481,6 +481,16 @@ function celebrate1000() {
                                 document.getElementById("title").innerHTML = "Your Score<br>"+totalScore;
     // Supabase Score Saving >>>>>>                     
    window.saveArcheryScore(totalScore);
+   window.supaDb
+    .rpc('record_completed_game_session')
+    .then(({ error }) => {
+        if (error) {
+            console.error(
+                '[Game Streak] Session recording failed:',
+                error
+            );
+        }
+    });
                                 if(bestScore < totalScore){
                                     bestScore = totalScore;
                                     try{

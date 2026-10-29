@@ -1043,3 +1043,90 @@ color: #08d549;
     }
 }
 
+
+/* ===== Game Streak Card ===== */
+
+.streak-card {
+    border: 1px solid #2f4634;
+}
+
+.streak-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.streak-flame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #111a12;
+    border: 1px solid #2f4634;
+    font-size: 30px;
+}
+
+.streak-details {
+    min-width: 0;
+}
+
+.streak-number {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    margin: 0 0 5px;
+    color: #08d549;
+}
+
+.streak-number strong {
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.streak-number span {
+    font-size: 14px;
+    color: #b8c5ba;
+}
+
+#streakStatus {
+    margin: 0;
+    color: #b8c5ba;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.streak-progress {
+    margin-top: 18px;
+}
+
+.streak-progress-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 9px;
+    color: #d5dfd6;
+    font-size: 12px;
+}
+
+#streakProgressLabel {
+    color: #08d549;
+}
+
+.streak-progress-track {
+    height: 7px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #080b08;
+}
+
+#streakProgressFill {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: #08d549;
+    transition: width 0.3s ease;
+}
