@@ -1290,6 +1290,7 @@ function initializeAchievementSystem() {
 
     setupAchievementCelebration();
     loadAchievements();
+    loadGameStreak();
 }
 
 if (document.readyState === 'loading') {
