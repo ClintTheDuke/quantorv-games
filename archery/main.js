@@ -47,17 +47,17 @@ document.getElementById("best").innerHTML = bestScore;
 var runCount = 0;
         
 var startSound = new Audio();
-startSound.src = "https://"+asrcd+".000webhostapp.com/snd/whistlestart.ogg";
+startSound.src = "https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/sounds/whistle-start.wav";
 startSound.volume = 0.6;
         
 var shootSound = new Audio();
 shootSound.src = "https://"+asrcd+".000webhostapp.com/snd/arrow.ogg";
         
 var hitSound = new Audio();
-hitSound.src = "https://"+asrcd+".000webhostapp.com/snd/arrowhit.ogg";
+hitSound.src = "https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/sounds/click.wav";
         
 var bgSound = new Audio();
-bgSound.src = "https://"+asrcd+".000webhostapp.com/snd/bg.mp3"//"music2.ogg";
+bgSound.src = "https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/sounds/armonicamente-game-setting-fantasy-141319.mp3";
 bgSound.loop = true;
 //bgSound.volume = 0.8;
         
@@ -69,7 +69,9 @@ var successSound = new Audio();
 successSound.src = "https://"+asrcd+".000webhostapp.com/snd/bell.ogg";
         
 var highScoreSound = new Audio();
-highScoreSound.src = "https://"+asrcd+".000webhostapp.com/snd/crowdcheer.ogg";
+highScoreSound.src = "https://cdn.jsdelivr.net/gh/ClintTheDuke/qvg@main/qvg226/applause-sound.mp3";
+
+
         
 
 function loadGame(){
