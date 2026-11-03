@@ -1,5 +1,4 @@
 
-import { syncBestToCloud } from './fire1.js';
 document.addEventListener("DOMContentLoaded", () => {
 window.initGame = initGame;
 

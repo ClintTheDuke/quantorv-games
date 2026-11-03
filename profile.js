@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded',()=>{
+
+// Code reviewed on 10/30/2026
+// ====== Section 1: Load Bookmarks and display =========
     async function loadBookmarks() {
     // Get Logged in User >>>>>
         const{
@@ -70,7 +73,7 @@ startProfilePresence(user.id);
 
         // function End 
     }
-
+    // ========= SECTION 2 GET GAMES PLAYED===========
     // Function to Get games Played data
     async function getGamesPlayed() {
     const {
@@ -107,7 +110,7 @@ startProfilePresence(user.id);
         gamesPlayed.textContent = totalGamesPlayed;
     }
 }
-
+// ========= Section 3: Display the name of the games played =======
 // ======= Display the name of games played in player profile =============
 /* ===== Load Games Played ===== */
 
@@ -192,6 +195,9 @@ async function loadGames() {
     });
 
 }
+
+// ===== Section 3 end =======
+// ====== Section 4: User online activity =======
     // Check if user is online  >>>>>>
     
 let profilePresenceChannel = null;
@@ -287,7 +293,7 @@ async function startProfilePresence(userId) {
     });
 }
 // Check if user is already online end >>>>>>
-
+// ========= SECTION 5: ACHIEVEMENTS AND BADGES 1 =======
 /* achievements */
 
 /* ===== Quantorv Games Achievement Catalogue ===== */
@@ -753,17 +759,8 @@ async function loadAchievements() {
         achList.appendChild(message);
     }
 }
-
-/* ===== Test Achievement UI ===== 
-
-function loadAchievements() {
-    renderAchievements([
-        'first_steps',
-        'high_scorer'
-    ]);
-}
-
-===== Test Achievement UI Ends ===== */
+/* ===== ACHIEVEMENTS AND BADGES PART 1 ENDS =====*/
+/* ===== ACHIEVEMENTS AND BADGES PART 2 =====*/
 
 /* ======== set up achievements celebration ===== */
 
