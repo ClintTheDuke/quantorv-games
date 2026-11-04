@@ -7,10 +7,10 @@ window.gameReady = new Promise((resolve) =>{
 window.gameResolve = resolve;
     //Resolve at initGame;
 });
-
-Promise.all([window.gameReady, window.firebaseReady]).then(() => {
-  document.getElementById('loading-screen').style.display = 'none';
+window.gameReady.then(() => {
+    document.getElementById('loading-screen').style.display = 'none';
 });
+
 // ====== redirect to home on click event ========
 const bannerHome = document.getElementsByClassName('banner-item')[0];
 if (bannerHome) {
@@ -321,9 +321,10 @@ if (musicEnabled && soundEnabled) {
   playMusic('bgm');
 }
   // ========= Cloud Saving =========
-  let cloudDirty = false;
+
   // ======= TTR2048 =======
   let hasRecorded2048 = false;
+  let gameOverHandled = false;
    // ======================
     // TIMER LOGIC (NO LOOPS)
     // ======================
@@ -540,6 +541,7 @@ bestEl.textContent = best;
     spawnTile();
     render();
     hasRecorded2048 = false;
+    gameOverHandled = false;
    setTimeout(()=>{
        window.gameResolve();
    },500) 
@@ -752,7 +754,7 @@ if (matrix.flat().every(v => v === 0)) {
   playSound('highscore');
   updateMenuDifficulty();  
   
-  cloudDirty = true; // for cloud Saving
+ 
 }
       
       spawnTile();
@@ -930,7 +932,7 @@ function checkWin() {
 
     if (improved) {
       playSound('highscore'); // optional special sound
-      cloudDirty = true;
+      
     } else {
       playSound('win');
     }
@@ -967,65 +969,153 @@ document.getElementById("confirmEnd").addEventListener("click", () => {
 
 // ===== End Session Code Ends =====
 
-
 async function gameOver() {
-  stopMusic('bgm');
-  playSound('gameover');
-  const time = formatTime(getElapsedSeconds());
-const elapsedSeconds = getElapsedSeconds();
-  const highestTile = Math.max(...matrix.flat().filter(v => v > 1));
- 
 
-  // Save records
-  if (saveLongestSession(elapsedSeconds)) {
-    cloudDirty = true;
-  }
+    // Prevent duplicate game-over execution
+    if (gameOverHandled) return;
 
-  if (saveHighestTile(highestTile)) {
-    cloudDirty = true;
-  }
-  
-if (saveBestForLevel(score)) {
-  cloudDirty = true;
+    gameOverHandled = true;
+
+    stopMusic('bgm');
+    playSound('gameover');
+
+    const elapsedSeconds = getElapsedSeconds();
+    const time = formatTime(elapsedSeconds);
+
+    // Highest tile in the completed game
+    const highestTile = Math.max(
+        0,
+        ...matrix.flat().filter(value => value > 1)
+    );
+
+    // ==================================
+    // SAVE LOCAL RECORDS
+    // ==================================
+
+    saveLongestSession(elapsedSeconds);
+    saveHighestTile(highestTile);
+    saveBestForLevel(score);
+
+    if (
+        highestTile >= 2048 &&
+        saveFastest2048(elapsedSeconds)
+    ) {
+        playSound('highscore');
+    }
+
+    // ==================================
+    // SAVE TO SUPABASE
+    // ==================================
+
+    if (typeof window.save2048Score === 'function') {
+
+        const saved = await window.save2048Score({
+            score: score,
+            highestTile: highestTile,
+            difficulty: currentLevel
+        });
+
+        if (saved) {
+            console.log('2048 cloud statistics saved!');
+        } else {
+            console.log('2048 cloud statistics were not saved.');
+        }
+
+    } else {
+        console.error('save2048Score() is not available.');
+    }
+
+    const timeFormatted = formatTime(elapsedSeconds);
+
+    // ==================================
+    // GAME OVER SCREEN
+    // ==================================
+
+    setTimeout(() => {
+
+        const ov = document.createElement('div');
+
+        ov.className = 'overlay';
+
+        ov.style.cssText = `
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.95);
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            color:#00ffff;
+            font-size:2rem;
+            z-index:9999;
+        `;
+
+        ov.innerHTML = `
+            <h2 style="font-size:5rem; margin:20px;">
+                GAME OVER
+            </h2>
+
+            <p style="margin:10px;">
+                Score:
+                <span style="color:#39ff14; font-size:2.5rem;">
+                    ${score}
+                </span>
+            </p>
+
+            <p style="margin:10px;">
+                Time:
+                <span style="color:#39ff14; font-size:2.5rem;">
+                    ${timeFormatted}
+                </span>
+            </p>
+
+            <p style="margin:10px;">
+                Highest Tile:
+                <span style="color:#39ff14; font-size:2.5rem;">
+                    ${highestTile || '-'}
+                </span>
+            </p>
+
+            <p style="margin:20px 0; color:#aaa;">
+                ${
+                    currentLevel === 'super-easy'
+                        ? 'Super-Easy'
+                        : currentLevel === 'normal'
+                        ? 'Normal'
+                        : 'Hard'
+                } Mode
+            </p>
+
+            <button
+                id="restart-game-over"
+                style="
+                    margin:30px;
+                    padding:18px 50px;
+                    background:#00ffff;
+                    color:#000;
+                    font-size:1.6rem;
+                    border:none;
+                    border-radius:50px;
+                    cursor:pointer;
+                    box-shadow:0 0 30px #00ffff;
+                "
+            >
+                RESTART GRID
+            </button>
+        `;
+
+        document.body.appendChild(ov);
+
+        ov.querySelector('#restart-game-over')
+            .addEventListener('click', () => {
+                ov.remove();
+                initGame();
+            });
+
+    }, 500);
 }
 
-if (highestTile >= 2048 && saveFastest2048(elapsedSeconds)) {
-  cloudDirty = true;
-}
 
-  if (window.currentUser && cloudDirty) {
-    await syncBestToCloud();
-    cloudDirty = false;
-  }
-
-  const timeFormatted = formatTime(elapsedSeconds);
-  
-  // Show overlay after a small delay
-  setTimeout(() => {
-    const ov = document.createElement('div');
-    ov.className = 'overlay';
-    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#00ffff;font-size:2rem;z-index:9999;';
-    ov.innerHTML = `
-      <h2 style="font-size:5rem; margin:20px;">GAME OVER</h2>
-      <p style="margin:10px;">Score: <span style="color:#39ff14; font-size:2.5rem;">${score}</span></p>
-      <p style="margin:10px;">Time: <span style="color:#39ff14; font-size:2.5rem;">${time}s</span></p>
-       <p style="margin:10px;">Highest Tile:<span style="color:#39ff14; font-size:2.5rem;">${highestTile || '-'}</span></p>
-      <p style="margin:20px 0; color:#aaa;">
-        ${currentLevel === 'super-easy' ? 'Super-Easy' : currentLevel === 'normal' ? 'Normal' : 'Hard'} Mode
-      </p>
-      <button id="restart-game-over" style="margin:30px;padding:18px 50px;background:#00ffff;color:#000;font-size:1.6rem;border:none;border-radius:50px;cursor:pointer; box-shadow:0 0 30px #00ffff;">
-        RESTART GRID
-      </button>
-    `;
-
-    document.body.appendChild(ov);
-
-    ov.querySelector('#restart-game-over').addEventListener('click', () => {
-      ov.remove();
-      initGame();
-    });
-  }, 500);
-}
   // ========== Themes =============
   function setTheme(themeName) {
   const grid = document.getElementById("grid");
@@ -1080,6 +1170,63 @@ function updateMenuDifficulty() {
     }
   });
 }
+
+
+// ======================================
+// LOAD CLOUD RECORDS INTO LOCAL STORAGE
+// ======================================
+
+async function sync2048StatsFromCloud() {
+
+    if (typeof window.load2048Stats !== 'function') {
+        console.error('load2048Stats() is not available.');
+        return;
+    }
+
+    const cloudStats = await window.load2048Stats();
+
+    if (!cloudStats) return;
+
+    cloudStats.forEach(stat => {
+
+        const scoreKey = `best-${stat.difficulty}`;
+        const tileKey = `tile-${stat.difficulty}`;
+
+        const localBest = Number(
+            localStorage.getItem(scoreKey)
+        ) || 0;
+
+        const localTile = Number(
+            localStorage.getItem(tileKey)
+        ) || 0;
+
+        // Keep whichever score is higher
+        localStorage.setItem(
+            scoreKey,
+            Math.max(localBest, stat.best_score)
+        );
+
+        // Keep whichever tile is higher
+        localStorage.setItem(
+            tileKey,
+            Math.max(localTile, stat.highest_tile)
+        );
+
+    });
+
+    // Refresh currently selected difficulty
+    best = getBestForLevel();
+    bestEl.textContent = best;
+
+    updateMenuDifficulty();
+
+    console.log('2048 cloud records synchronized.');
+}
+
+
+// Load cloud records
+sync2048StatsFromCloud();
+
 
 // Call it on load and after every high score
 updateMenuDifficulty();  

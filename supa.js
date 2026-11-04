@@ -863,7 +863,216 @@ if (leaderboardContainer) {
 }
     loadArcheryLeaderboard();
 
-
+// ========== 2048 Game Load and Save Logic =============
     
+// ======================================
+// 2048 GAME — SUPABASE INTEGRATION
+// ======================================
+
+// IMPORTANT: Use the exact slug in your Games table.
+const GAME_2048_SLUG = 'play-2048-free';
+
+const VALID_2048_LEVELS = [
+    'super-easy',
+    'normal',
+    'hard'
+];
+
+
+// ======================================
+// GET 2048 GAME ID
+// ======================================
+
+async function get2048GameId() {
+
+    const { data, error } = await window.supaDb
+        .from('Games')
+        .select('id')
+        .eq('slug', GAME_2048_SLUG)
+        .single();
+
+    if (error) {
+        console.error('Error retrieving 2048 game ID:', error);
+        return null;
+    }
+
+    return data.id;
+}
+
+
+// ======================================
+// SAVE 2048 GAME STATISTICS
+// ======================================
+
+async function save2048Score({
+    score,
+    highestTile,
+    difficulty
+}) {
+
+    // Validate the supplied data
+    if (!VALID_2048_LEVELS.includes(difficulty)) {
+        console.error('Invalid 2048 difficulty:', difficulty);
+        return false;
+    }
+
+    if (
+        !Number.isInteger(score) ||
+        !Number.isInteger(highestTile) ||
+        score < 0 ||
+        highestTile < 0
+    ) {
+        console.error('Invalid 2048 score data.');
+        return false;
+    }
+
+    // Get authenticated user
+    const {
+        data: { user },
+        error: authError
+    } = await window.supaDb.auth.getUser();
+
+    if (authError) {
+        console.error('Error retrieving authenticated user:', authError);
+        return false;
+    }
+
+    if (!user) {
+        console.log('No logged-in user. 2048 stats not saved.');
+        return false;
+    }
+
+    // Get game ID
+    const gameId = await get2048GameId();
+
+    if (!gameId) return false;
+
+    // Check existing difficulty record
+    const {
+        data: existingStats,
+        error: fetchError
+    } = await window.supaDb
+        .from('PlayerGameDifficultyStats')
+        .select('id, best_score, highest_tile, games_played')
+        .eq('user_id', user.id)
+        .eq('game_id', gameId)
+        .eq('difficulty', difficulty)
+        .maybeSingle();
+
+    if (fetchError) {
+        console.error('Error retrieving 2048 statistics:', fetchError);
+        return false;
+    }
+
+    const now = new Date().toISOString();
+
+    // First game on this difficulty
+    if (!existingStats) {
+
+        const { error: insertError } = await window.supaDb
+            .from('PlayerGameDifficultyStats')
+            .insert({
+                user_id: user.id,
+                game_id: gameId,
+                difficulty: difficulty,
+                best_score: score,
+                highest_tile: highestTile,
+                games_played: 1,
+                last_played: now,
+                updated_at: now
+            });
+
+        if (insertError) {
+            console.error('Error creating 2048 statistics:', insertError);
+            return false;
+        }
+
+        console.log(`First 2048 ${difficulty} game saved!`);
+        return true;
+    }
+
+    // Existing record: preserve the best values
+    const updatedStats = {
+        best_score: Math.max(existingStats.best_score, score),
+
+        highest_tile: Math.max(
+            existingStats.highest_tile,
+            highestTile
+        ),
+
+        games_played: existingStats.games_played + 1,
+        last_played: now,
+        updated_at: now
+    };
+
+    const { error: updateError } = await window.supaDb
+        .from('PlayerGameDifficultyStats')
+        .update(updatedStats)
+        .eq('id', existingStats.id);
+
+    if (updateError) {
+        console.error('Error updating 2048 statistics:', updateError);
+        return false;
+    }
+
+    console.log(`2048 ${difficulty} statistics updated!`);
+
+    return true;
+}
+
+
+// ======================================
+// LOAD 2048 GAME STATISTICS
+// ======================================
+
+async function load2048Stats() {
+
+    // Get authenticated user
+    const {
+        data: { user },
+        error: authError
+    } = await window.supaDb.auth.getUser();
+
+    if (authError) {
+        console.error('Error retrieving user for 2048:', authError);
+        return null;
+    }
+
+    if (!user) {
+        console.log('No logged-in user. No cloud stats available.');
+        return null;
+    }
+
+    // Get game ID
+    const gameId = await get2048GameId();
+
+    if (!gameId) return null;
+
+    // Retrieve all difficulty records
+    const {
+        data,
+        error
+    } = await window.supaDb
+        .from('PlayerGameDifficultyStats')
+        .select('difficulty, best_score, highest_tile, games_played')
+        .eq('user_id', user.id)
+        .eq('game_id', gameId);
+
+    if (error) {
+        console.error('Error loading 2048 statistics:', error);
+        return null;
+    }
+
+    return data;
+}
+
+
+// ======================================
+// EXPOSE FUNCTIONS TO GAME JS
+// ======================================
+
+window.save2048Score = save2048Score;
+window.load2048Stats = load2048Stats;
+
 })
 
