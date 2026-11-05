@@ -184,80 +184,108 @@
   </ul>
 </nav>
 <main>
-   <!-- ARCHERY LEADERBOARD -->
-<section class="leaderboard-section" aria-labelledby="leaderboard-title">
+    <section class="leaderboard-section" aria-labelledby="leaderboard-title">
 
-    <div class="leaderboard-header">
-       <div class="game-selector">
-    <label for="game-select">Game</label>
-
-    <select id="game-select">
-        <option value="">Loading games...</option>
-    </select>
-</div>
- 
-    </div>
-   <!-- Period Filter -->
-    <fieldset class="leaderboard-filter">
-        <legend>Leaderboard period</legend>
-
-        <div class="period-options">
-
-            <input
-                type="radio"
-                id="period-week"
-                name="leaderboard-period"
-                value="weekly"
-                checked
-            >
-            <label for="period-week">This Week</label>
-
-            <input
-                type="radio"
-                id="period-month"
-                name="leaderboard-period"
-                value="monthly"
-            >
-            <label for="period-month">This Month</label>
-
-            <input
-                type="radio"
-                id="period-all-time"
-                name="leaderboard-period"
-                value="all_time"
-            >
-            <label for="period-all-time">All-Time Best</label>
-
+        <div class="leaderboard-header">
+            <div class="game-selector">
+                <label for="game-select">Game</label>
+                <select id="game-select">
+                    <option value="">Loading games...</option>
+                </select>
+            </div>
         </div>
-    </fieldset>
 
+        <!-- 2048 Difficulty Filter -->
+        <fieldset id="difficulty-filter" class="leaderboard-filter" hidden>
+            <legend>2048 difficulty</legend>
 
-    <!-- Leaderboard Table -->
-    <div class="leaderboard-table-container">
+            <div class="period-options">
+                <input
+                    type="radio"
+                    id="difficulty-super-easy"
+                    name="leaderboard-difficulty"
+                    value="super-easy"
+                >
+                <label for="difficulty-super-easy">Super-Easy</label>
 
-        <table class="leaderboard-table">
+                <input
+                    type="radio"
+                    id="difficulty-normal"
+                    name="leaderboard-difficulty"
+                    value="normal"
+                    checked
+                >
+                <label for="difficulty-normal">Normal</label>
 
-            <thead>
-                <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Score</th>
-                </tr>
-            </thead>
+                <input
+                    type="radio"
+                    id="difficulty-hard"
+                    name="leaderboard-difficulty"
+                    value="hard"
+                >
+                <label for="difficulty-hard">Hard</label>
+            </div>
+        </fieldset>
 
-            <tbody id="archery-leaderboard-body">
+        <!-- Period Filter -->
+        <fieldset class="leaderboard-filter">
+            <legend>Leaderboard period</legend>
 
-                
-            </tbody>
+            <div class="period-options">
+                <input
+                    type="radio"
+                    id="period-week"
+                    name="leaderboard-period"
+                    value="weekly"
+                    checked
+                >
+                <label for="period-week">This Week</label>
 
-        </table>
-        <div id="my-rank" class="my-rank"></div>
+                <input
+                    type="radio"
+                    id="period-month"
+                    name="leaderboard-period"
+                    value="monthly"
+                >
+                <label for="period-month">This Month</label>
 
-    </div>
+                <input
+                    type="radio"
+                    id="period-all-time"
+                    name="leaderboard-period"
+                    value="all_time"
+                >
+                <label for="period-all-time">All-Time Best</label>
+            </div>
+        </fieldset>
 
-</section>
+        <!-- Leaderboard Table -->
+        <div class="leaderboard-table-container">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Rank</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Difficulty</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">Highest Tile</th>
+                    </tr>
+                </thead>
+
+                <tbody id="archery-leaderboard-body">
+                    <tr>
+                        <td colspan="5" class="leaderboard-loading">
+                            Loading leaderboard...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div id="my-rank" class="my-rank"></div>
+        </div>
+
+    </section>
 </main>
-
 </body>
 
 <footer>

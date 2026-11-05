@@ -899,9 +899,133 @@ async function get2048GameId() {
     return data.id;
 }
 
+// ======================================
+// GET 2048 LEADERBOARD PERIODS
+// ======================================
+
+function get2048LeaderboardPeriods(date = new Date()) {
+
+    const year = date.getFullYear();
+
+    // Weekly period — matches the existing leaderboard calculation.
+    const startOfYear = new Date(year, 0, 1);
+
+    const daysSinceStartOfYear = Math.floor(
+        (date - startOfYear) / 86400000
+    );
+
+    const weekNumber = Math.ceil(
+        (daysSinceStartOfYear + startOfYear.getDay() + 1) / 7
+    );
+
+    const weeklyKey =
+        `${year}-W${String(weekNumber).padStart(2, '0')}`;
+
+    // Monthly period.
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+
+    const monthlyKey = `${year}-${month}`;
+
+    return [
+        {
+            periodType: 'weekly',
+            periodKey: weeklyKey
+        },
+        {
+            periodType: 'monthly',
+            periodKey: monthlyKey
+        },
+        {
+            periodType: 'all_time',
+            periodKey: 'all_time'
+        }
+    ];
+}
 
 // ======================================
-// SAVE 2048 GAME STATISTICS
+// SAVE 2048 LEADERBOARD RECORDS
+// ======================================
+
+async function save2048LeaderboardRecords({
+    userId,
+    gameId,
+    score,
+    highestTile,
+    difficulty
+}) {
+
+    const periods = get2048LeaderboardPeriods();
+
+    for (const period of periods) {
+
+        // Include difficulty in the period key.
+        const periodKey = `${period.periodKey}:${difficulty}`;
+
+        // Find the player's existing record.
+        const {
+            data: existingRecord,
+            error: fetchError
+        } = await window.supaDb
+            .from('GameScores')
+            .select('id, score, highest_tile')
+            .eq('user_id', userId)
+            .eq('game_id', gameId)
+            .eq('period_type', period.periodType)
+            .eq('period_key', periodKey)
+            .maybeSingle();
+
+        if (fetchError) {
+            console.error(
+                `Error retrieving ${period.periodType} 2048 leaderboard:`,
+                fetchError
+            );
+            return false;
+        }
+
+        // Preserve the highest values for this period.
+        const leaderboardRecord = {
+            user_id: userId,
+            game_id: gameId,
+            difficulty: difficulty,
+            period_type: period.periodType,
+            period_key: periodKey,
+
+            score: Math.max(
+                existingRecord?.score || 0,
+                score
+            ),
+
+            highest_tile: Math.max(
+                existingRecord?.highest_tile || 0,
+                highestTile
+            ),
+
+            updated_at: new Date().toISOString()
+        };
+
+        const { error: saveError } = await window.supaDb
+            .from('GameScores')
+            .upsert(leaderboardRecord, {
+                onConflict: 'user_id,game_id,period_type,period_key'
+            });
+
+        if (saveError) {
+            console.error(
+                `Error saving ${period.periodType} 2048 leaderboard:`,
+                saveError
+            );
+            return false;
+        }
+    }
+
+    console.log(
+        `2048 ${difficulty} leaderboard records saved successfully.`
+    );
+
+    return true;
+}
+// ======================================
+// SAVE 2048 GAME STATISTICS + LEADERBOARD
 // ======================================
 
 async function save2048Score({
@@ -910,12 +1034,13 @@ async function save2048Score({
     difficulty
 }) {
 
-    // Validate the supplied data
+    // Validate difficulty.
     if (!VALID_2048_LEVELS.includes(difficulty)) {
         console.error('Invalid 2048 difficulty:', difficulty);
         return false;
     }
 
+    // Validate score data.
     if (
         !Number.isInteger(score) ||
         !Number.isInteger(highestTile) ||
@@ -926,7 +1051,7 @@ async function save2048Score({
         return false;
     }
 
-    // Get authenticated user
+    // Get authenticated user.
     const {
         data: { user },
         error: authError
@@ -942,12 +1067,12 @@ async function save2048Score({
         return false;
     }
 
-    // Get game ID
+    // Get 2048 game ID.
     const gameId = await get2048GameId();
 
     if (!gameId) return false;
 
-    // Check existing difficulty record
+    // Retrieve existing personal statistics.
     const {
         data: existingStats,
         error: fetchError
@@ -966,60 +1091,73 @@ async function save2048Score({
 
     const now = new Date().toISOString();
 
-    // First game on this difficulty
-    if (!existingStats) {
-
-        const { error: insertError } = await window.supaDb
-            .from('PlayerGameDifficultyStats')
-            .insert({
-                user_id: user.id,
-                game_id: gameId,
-                difficulty: difficulty,
-                best_score: score,
-                highest_tile: highestTile,
-                games_played: 1,
-                last_played: now,
-                updated_at: now
-            });
-
-        if (insertError) {
-            console.error('Error creating 2048 statistics:', insertError);
-            return false;
-        }
-
-        console.log(`First 2048 ${difficulty} game saved!`);
-        return true;
-    }
-
-    // Existing record: preserve the best values
+    // Prepare personal statistics.
     const updatedStats = {
-        best_score: Math.max(existingStats.best_score, score),
+        user_id: user.id,
+        game_id: gameId,
+        difficulty: difficulty,
+
+        best_score: Math.max(
+            existingStats?.best_score || 0,
+            score
+        ),
 
         highest_tile: Math.max(
-            existingStats.highest_tile,
+            existingStats?.highest_tile || 0,
             highestTile
         ),
 
-        games_played: existingStats.games_played + 1,
+        games_played: (existingStats?.games_played || 0) + 1,
         last_played: now,
         updated_at: now
     };
 
-    const { error: updateError } = await window.supaDb
-        .from('PlayerGameDifficultyStats')
-        .update(updatedStats)
-        .eq('id', existingStats.id);
+    // Save personal statistics.
+    let statsError;
 
-    if (updateError) {
-        console.error('Error updating 2048 statistics:', updateError);
+    if (existingStats) {
+
+        const { error } = await window.supaDb
+            .from('PlayerGameDifficultyStats')
+            .update(updatedStats)
+            .eq('id', existingStats.id);
+
+        statsError = error;
+
+    } else {
+
+        const { error } = await window.supaDb
+            .from('PlayerGameDifficultyStats')
+            .insert(updatedStats);
+
+        statsError = error;
+    }
+
+    if (statsError) {
+        console.error('Error saving 2048 statistics:', statsError);
         return false;
     }
 
-    console.log(`2048 ${difficulty} statistics updated!`);
+    console.log(`2048 ${difficulty} personal statistics saved.`);
+
+    // Save leaderboard records.
+    const leaderboardSaved = await save2048LeaderboardRecords({
+        userId: user.id,
+        gameId: gameId,
+        score: score,
+        highestTile: highestTile,
+        difficulty: difficulty
+    });
+
+    if (!leaderboardSaved) {
+        console.error(
+            'Personal statistics saved, but leaderboard update failed.'
+        );
+        return false;
+    }
 
     return true;
 }
-
 
 // ======================================
 // LOAD 2048 GAME STATISTICS
