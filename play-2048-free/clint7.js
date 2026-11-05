@@ -394,24 +394,42 @@ bestEl.textContent = best;
   let matrix = [];
   let score = 0;
   // PER-LEVEL BEST SCORES — SAFE & WORKING
-function getBestForLevel() {
-  return parseInt(localStorage.getItem(`best-${currentLevel}`) || '0');
+// ==================== ACCOUNT-SCOPED STORAGE ====================
+
+// Guest records and each signed-in player's records stay separate.
+let scoreStorageScope = 'guest';
+
+function getScoreStorageKey(type, difficulty) {
+    return `${type}-${scoreStorageScope}-${difficulty}`;
 }
+
+// ==================== PER-LEVEL BEST SCORES ====================
+
+function getBestForLevel() {
+    return Number(
+        localStorage.getItem(
+            getScoreStorageKey('best', currentLevel)
+        )
+    ) || 0;
+}
+
 function saveBestForLevel(newScore) {
-  const key = `best-${currentLevel}`;
-  const current = getBestForLevel();
-  if (newScore > current) {
-    localStorage.setItem(key, newScore);
-    return true;
-  }
-  return false;
+    const key = getScoreStorageKey('best', currentLevel);
+    const current = getBestForLevel();
+
+    if (newScore > current) {
+        localStorage.setItem(key, newScore);
+        return true;
+    }
+
+    return false;
 }
 
 // ==================== TIME & TILE RECORDS ====================
 
 // Longest session (seconds)
 function saveLongestSession(seconds) {
-  const key = `time-${currentLevel}`;
+  const key = getScoreStorageKey('time', currentLevel);
   const prev = Number(localStorage.getItem(key)) || 0;
 
   if (seconds > prev) {
@@ -423,7 +441,7 @@ function saveLongestSession(seconds) {
 
 // Fastest time to reach 2048 (seconds)
 function saveFastest2048(seconds) {
-  const key = `fastest2048-${currentLevel}`;
+ const key = getScoreStorageKey('fastest2048', currentLevel);
   const prev = Number(localStorage.getItem(key));
 
   if (!prev || seconds < prev) {
@@ -435,7 +453,7 @@ function saveFastest2048(seconds) {
 
 // Highest tile achieved
 function saveHighestTile(tile) {
-  const key = `tile-${currentLevel}`;
+  const key = getScoreStorageKey('tile', currentLevel);
   const prev = Number(localStorage.getItem(key)) || 0;
 
   if (tile > prev) {
@@ -445,7 +463,7 @@ function saveHighestTile(tile) {
   return false;
 }
 
-let best = getBestForLevel();
+let best = 0;
 window.best = best;
 bestEl.textContent = best;
 
@@ -459,7 +477,7 @@ bestEl.textContent = best;
   let doomedCell = null;
   let attackTimer = null;
 
-  initGame();
+ // initGame();
 
   // ==================== CORE FUNCTIONS ====================
   
@@ -1153,89 +1171,122 @@ document.querySelectorAll('.diff-item').forEach(btn => {
 document.querySelector(`.diff-item[data-level="${currentLevel}"]`)?.classList.add('active'); 
 
 // UPDATE MENU SCORES + ACTIVE STATE
+// UPDATE MENU SCORES + ACTIVE STATE
 function updateMenuDifficulty() {
-  document.querySelectorAll('.diff-item').forEach(item => {
-    const lvl = item.dataset.level;
-    
-    // Update best score
-    const best = parseInt(localStorage.getItem(`best-${lvl}`) || '0');
-    const scoreSpan = item.querySelector('.best-score');
-    if (scoreSpan) scoreSpan.textContent = best.toLocaleString();
-    
-    // Highlight current level
-    if (lvl === currentLevel) {
-      item.classList.add('active');
-    } else {
-      item.classList.remove('active');
-    }
-  });
-}
+    document.querySelectorAll('.diff-item').forEach(item => {
+        const lvl = item.dataset.level;
 
+        // Read the best score belonging to the current account.
+        const best = Number(
+            localStorage.getItem(
+                getScoreStorageKey('best', lvl)
+            )
+        ) || 0;
+
+        const scoreSpan = item.querySelector('.best-score');
+
+        if (scoreSpan) {
+            scoreSpan.textContent = best.toLocaleString();
+        }
+
+        // Highlight the currently selected difficulty.
+        item.classList.toggle('active', lvl === currentLevel);
+    });
+}
 // ======================================
 // LOAD CLOUD RECORDS INTO LOCAL STORAGE
 // ======================================
 
-async function sync2048StatsFromCloud() {
+// ======================================
+// ACCOUNT-AWARE 2048 INITIALIZATION
+// ======================================
+
+async function initialize2048Scores() {
 
     try {
-        // Check whether Supabase exposed the function.
-        if (typeof window.load2048Stats !== 'function') {
-            console.warn('load2048Stats() is not available.');
-            return;
+        // 1. Identify the currently authenticated user.
+        const supabase = window.supaDb;
+
+        if (supabase?.auth?.getUser) {
+            const {
+                data: { user },
+                error
+            } = await supabase.auth.getUser();
+
+            if (error) {
+                console.error('Error identifying 2048 player:', error);
+            }
+
+            // Each account gets its own localStorage namespace.
+            scoreStorageScope = user?.id || 'guest';
+
+        } else {
+            console.warn('Supabase authentication unavailable. Using guest storage.');
+            scoreStorageScope = 'guest';
         }
 
-        // Retrieve the signed-in user's records.
-        const cloudStats = await window.load2048Stats();
+        // 2. Load cloud records for signed-in players only.
+        if (
+            scoreStorageScope !== 'guest' &&
+            typeof window.load2048Stats === 'function'
+        ) {
+            const cloudStats = await window.load2048Stats();
 
-        if (!cloudStats || !Array.isArray(cloudStats)) {
-            console.log('No cloud records found.');
-            return;
+            if (Array.isArray(cloudStats)) {
+
+                // Cloud records are authoritative for this account.
+                Object.keys(LEVELS).forEach(difficulty => {
+
+                    const stat = cloudStats.find(
+                        item => item.difficulty === difficulty
+                    );
+
+                    const bestScore = Number(stat?.best_score) || 0;
+                    const highestTile = Number(stat?.highest_tile) || 0;
+
+                    localStorage.setItem(
+                        getScoreStorageKey('best', difficulty),
+                        bestScore
+                    );
+
+                    localStorage.setItem(
+                        getScoreStorageKey('tile', difficulty),
+                        highestTile
+                    );
+                });
+
+                console.log('2048 cloud records synchronized.');
+
+            } else {
+                // Keep this account's existing local cache if cloud loading fails.
+                console.warn('2048 cloud records unavailable. Using account-specific local cache.');
+            }
+
+        } else if (scoreStorageScope !== 'guest') {
+            console.warn('load2048Stats() is unavailable.');
         }
 
-        cloudStats.forEach(stat => {
-
-            const scoreKey = `best-${stat.difficulty}`;
-            const tileKey = `tile-${stat.difficulty}`;
-
-            const localBest = Number(
-                localStorage.getItem(scoreKey)
-            ) || 0;
-
-            const localTile = Number(
-                localStorage.getItem(tileKey)
-            ) || 0;
-
-            // Merge best scores.
-            localStorage.setItem(
-                scoreKey,
-                Math.max(localBest, Number(stat.best_score) || 0)
-            );
-
-            // Merge highest tiles.
-            localStorage.setItem(
-                tileKey,
-                Math.max(localTile, Number(stat.highest_tile) || 0)
-            );
-
-        });
-
-        // Refresh currently selected difficulty.
+        // 3. Load the correct account's current difficulty score.
         best = getBestForLevel();
-        window.best = best;
-        bestEl.textContent = best.toLocaleString();
 
+        window.best = best;
+        bestEl.textContent = best;
+
+        // 4. Refresh difficulty menu scores.
         updateMenuDifficulty();
 
-        console.log('2048 cloud records synchronized.');
-
     } catch (error) {
-        console.error('2048 cloud synchronization failed:', error);
+        console.error('2048 initialization error:', error);
+
+    } finally {
+        // 5. Initialize the board only after account identification.
+        initGame();
     }
 }
 
+// Start the game after account-aware score initialization.
+initialize2048Scores();
 
-// Initial menu update using local records.
-updateMenuDifficulty();
 console.log('Supabase client:', !!window.supaDb);
 
 console.log(
@@ -1245,12 +1296,18 @@ console.log(
 // Retrieve and merge cloud records.
 sync2048StatsFromCloud();
 
-if (localStorage.getItem('fastest2048-super-easy') !== null) {
-    console.log('Key exists!');
+if (
+    localStorage.getItem(
+        getScoreStorageKey('fastest2048', 'super-easy')
+    ) !== null
+) {
+    console.log('Fastest 2048 record exists for this account.');
 } else {
-    console.log('Key does not exist');
+    console.log('No fastest 2048 record for this account yet.');
 }
-// RESTART BUTTON — FINAL & FLAWLESS
+
+
+// RESTART BUTTON — FINAL IMPLEMENTATION NO B.S
 document.getElementById('restart-btn')?.addEventListener('click', () => {
   document.getElementById('menu-overlay').classList.remove('active');
   location.reload()
