@@ -1171,65 +1171,79 @@ function updateMenuDifficulty() {
   });
 }
 
-
 // ======================================
 // LOAD CLOUD RECORDS INTO LOCAL STORAGE
 // ======================================
 
 async function sync2048StatsFromCloud() {
 
-    if (typeof window.load2048Stats !== 'function') {
-        console.error('load2048Stats() is not available.');
-        return;
+    try {
+        // Check whether Supabase exposed the function.
+        if (typeof window.load2048Stats !== 'function') {
+            console.warn('load2048Stats() is not available.');
+            return;
+        }
+
+        // Retrieve the signed-in user's records.
+        const cloudStats = await window.load2048Stats();
+
+        if (!cloudStats || !Array.isArray(cloudStats)) {
+            console.log('No cloud records found.');
+            return;
+        }
+
+        cloudStats.forEach(stat => {
+
+            const scoreKey = `best-${stat.difficulty}`;
+            const tileKey = `tile-${stat.difficulty}`;
+
+            const localBest = Number(
+                localStorage.getItem(scoreKey)
+            ) || 0;
+
+            const localTile = Number(
+                localStorage.getItem(tileKey)
+            ) || 0;
+
+            // Merge best scores.
+            localStorage.setItem(
+                scoreKey,
+                Math.max(localBest, Number(stat.best_score) || 0)
+            );
+
+            // Merge highest tiles.
+            localStorage.setItem(
+                tileKey,
+                Math.max(localTile, Number(stat.highest_tile) || 0)
+            );
+
+        });
+
+        // Refresh currently selected difficulty.
+        best = getBestForLevel();
+        window.best = best;
+        bestEl.textContent = best.toLocaleString();
+
+        updateMenuDifficulty();
+
+        console.log('2048 cloud records synchronized.');
+
+    } catch (error) {
+        console.error('2048 cloud synchronization failed:', error);
     }
-
-    const cloudStats = await window.load2048Stats();
-
-    if (!cloudStats) return;
-
-    cloudStats.forEach(stat => {
-
-        const scoreKey = `best-${stat.difficulty}`;
-        const tileKey = `tile-${stat.difficulty}`;
-
-        const localBest = Number(
-            localStorage.getItem(scoreKey)
-        ) || 0;
-
-        const localTile = Number(
-            localStorage.getItem(tileKey)
-        ) || 0;
-
-        // Keep whichever score is higher
-        localStorage.setItem(
-            scoreKey,
-            Math.max(localBest, stat.best_score)
-        );
-
-        // Keep whichever tile is higher
-        localStorage.setItem(
-            tileKey,
-            Math.max(localTile, stat.highest_tile)
-        );
-
-    });
-
-    // Refresh currently selected difficulty
-    best = getBestForLevel();
-    bestEl.textContent = best;
-
-    updateMenuDifficulty();
-
-    console.log('2048 cloud records synchronized.');
 }
 
 
-// Load cloud records
+// Initial menu update using local records.
+updateMenuDifficulty();
+console.log('Supabase client:', !!window.supaDb);
+
+console.log(
+    'load2048Stats available:',
+    typeof window.load2048Stats
+);
+// Retrieve and merge cloud records.
 sync2048StatsFromCloud();
-
-
-// Call it on load and after every high score
-updateMenuDifficulty();  
 
 if (localStorage.getItem('fastest2048-super-easy') !== null) {
     console.log('Key exists!');
