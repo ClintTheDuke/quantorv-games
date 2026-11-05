@@ -1294,7 +1294,7 @@ console.log(
     typeof window.load2048Stats
 );
 // Retrieve and merge cloud records.
-sync2048StatsFromCloud();
+
 
 if (
     localStorage.getItem(
