@@ -2,95 +2,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =========================
        GET HTML ELEMENTS
-    ========================= */
+       ========================= */
 
     const gameSelect = document.getElementById("game-select");
+
+    const difficultySelector =
+        document.getElementById("difficulty-selector");
+
+    const difficultySelect =
+        document.getElementById("difficulty-select");
+
+    const difficultyHeading =
+        document.getElementById("difficulty-heading");
+
+    const highestTileHeading =
+        document.getElementById("highest-tile-heading");
 
     const leaderboardBody =
         document.getElementById("archery-leaderboard-body");
 
-    const periodInputs =
-        document.querySelectorAll('input[name="leaderboard-period"]');
-
-    const difficultyInputs =
-        document.querySelectorAll('input[name="leaderboard-difficulty"]');
-
-    const difficultyFilter =
-        document.getElementById("difficulty-filter");
-
     const myRankElement =
         document.getElementById("my-rank");
 
+    const periodInputs =
+        document.querySelectorAll(
+            'input[name="leaderboard-period"]'
+        );
 
-    /* =========================
-       GET SELECTED FILTERS
-    ========================= */
+    // Store the games retrieved from Supabase.
+    let games = [];
 
-    function getSelectedPeriod() {
-        return document.querySelector(
-            'input[name="leaderboard-period"]:checked'
-        )?.value || "weekly";
-    }
-
-    function getSelectedDifficulty() {
-        return document.querySelector(
-            'input[name="leaderboard-difficulty"]:checked'
-        )?.value || "normal";
-    }
-
-    function is2048Selected() {
-        return gameSelect.selectedOptions[0]?.dataset.slug === "play-2048-free";
-    }
+    // 2048 game identifier.
+    const GAME_2048_SLUG = "play-2048-free";
 
 
     /* =========================
-       PERIOD INFORMATION
-    ========================= */
+       HELPER: ESCAPE HTML
+       ========================= */
 
-    function getPeriodInfo(period) {
-        const now = new Date();
-
-        if (period === "all_time") {
-            return {
-                periodType: "all_time",
-                periodKey: "all_time"
-            };
-        }
-
-        if (period === "monthly") {
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, "0");
-
-            return {
-                periodType: "monthly",
-                periodKey: `${year}-${month}`
-            };
-        }
-
-        if (period === "weekly") {
-            const year = now.getFullYear();
-
-            const startOfYear = new Date(year, 0, 1);
-
-            const daysSinceStartOfYear =
-                Math.floor((now - startOfYear) / 86400000);
-
-            const weekNumber =
-                Math.ceil(
-                    (daysSinceStartOfYear + startOfYear.getDay() + 1) / 7
-                );
-
-            return {
-                periodType: "weekly",
-                periodKey: `${year}-W${String(weekNumber).padStart(2, "0")}`
-            };
-        }
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[char]);
     }
 
 
     /* =========================
-       LOAD AVAILABLE GAMES
-    ========================= */
+       LOAD GAMES
+       ========================= */
 
     async function loadGames() {
 
@@ -101,52 +64,185 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (error) {
             console.error("Error loading games:", error);
-            return;
+            return false;
         }
 
-        gameSelect.innerHTML = data.map(game => `
-            <option
-                value="${game.id}"
-                data-slug="${game.slug}"
-            >
-                ${game.name}
+        games = data || [];
+
+        gameSelect.innerHTML = games.map(game => `
+            <option value="${game.id}">
+                ${escapeHTML(game.name)}
             </option>
         `).join("");
 
-        console.log("Games loaded:", data);
+        console.log("Games loaded:", games);
 
-        updateDifficultyFilter();
+        return true;
+    }
 
-        const periodInfo = getPeriodInfo(getSelectedPeriod());
 
-        loadLeaderboard(
-            periodInfo.periodType,
-            periodInfo.periodKey
+    /* =========================
+       GET SELECTED GAME
+       ========================= */
+
+    function getSelectedGame() {
+
+        return games.find(
+            game => String(game.id) === gameSelect.value
         );
     }
 
 
     /* =========================
-       SHOW / HIDE DIFFICULTY
-    ========================= */
+       DETECT 2048
+       ========================= */
 
-    function updateDifficultyFilter() {
+    function is2048Selected() {
 
-        const showDifficulty = is2048Selected();
+        const selectedGame = getSelectedGame();
 
-        difficultyFilter.hidden = !showDifficulty;
+        return selectedGame?.slug === GAME_2048_SLUG;
+    }
+
+
+    /* =========================
+       UPDATE LEADERBOARD UI
+       ========================= */
+
+    function updateLeaderboardUI() {
+
+        const is2048 = is2048Selected();
+
+        // Show difficulty selector only for 2048.
+        difficultySelector.hidden = !is2048;
+
+        // Show 2048-specific table columns.
+        difficultyHeading.hidden = !is2048;
+        highestTileHeading.hidden = !is2048;
+    }
+
+
+    /* =========================
+       GET PERIOD INFORMATION
+       ========================= */
+
+    function getPeriodInfo(period) {
+
+        const now = new Date();
+
+        if (period === "all_time") {
+            return {
+                periodType: "all_time",
+                periodKey: "all_time"
+            };
+        }
+
+        if (period === "monthly") {
+
+            const year = now.getFullYear();
+
+            const month = String(
+                now.getMonth() + 1
+            ).padStart(2, "0");
+
+            return {
+                periodType: "monthly",
+                periodKey: `${year}-${month}`
+            };
+        }
+
+        if (period === "weekly") {
+
+            const year = now.getFullYear();
+
+            const startOfYear = new Date(year, 0, 1);
+
+            const daysSinceStartOfYear = Math.floor(
+                (now - startOfYear) / 86400000
+            );
+
+            const weekNumber = Math.ceil(
+                (
+                    daysSinceStartOfYear +
+                    startOfYear.getDay() + 1
+                ) / 7
+            );
+
+            return {
+                periodType: "weekly",
+                periodKey: `${year}-W${String(weekNumber).padStart(2, "0")}`
+            };
+        }
+    }
+
+
+    /* =========================
+       GET CURRENT FILTERS
+       ========================= */
+
+    function getCurrentFilters() {
+
+        const selectedPeriod = document.querySelector(
+            'input[name="leaderboard-period"]:checked'
+        ).value;
+
+        const periodInfo = getPeriodInfo(selectedPeriod);
+
+        const is2048 = is2048Selected();
+
+        const difficulty = is2048
+            ? difficultySelect.value
+            : null;
+
+        // 2048 stores difficulty inside period_key.
+        const periodKey = is2048
+            ? `${periodInfo.periodKey}:${difficulty}`
+            : periodInfo.periodKey;
+
+        return {
+            periodType: periodInfo.periodType,
+            periodKey: periodKey,
+            difficulty: difficulty,
+            is2048: is2048
+        };
+    }
+
+
+    /* =========================
+       APPLY LEADERBOARD FILTERS
+       ========================= */
+
+    function applyLeaderboardFilters(query, filters) {
+
+        query = query
+            .eq("game_id", gameSelect.value)
+            .eq("period_type", filters.periodType)
+            .eq("period_key", filters.periodKey);
+
+        // Difficulty filtering applies only to 2048.
+        if (filters.is2048) {
+            query = query.eq("difficulty", filters.difficulty);
+        }
+
+        return query;
     }
 
 
     /* =========================
        LOAD LEADERBOARD
-    ========================= */
+       ========================= */
 
-    async function loadLeaderboard(periodType, periodKey) {
+    async function loadLeaderboard() {
+
+        updateLeaderboardUI();
+
+        const filters = getCurrentFilters();
+
+        const colspan = filters.is2048 ? 5 : 3;
 
         leaderboardBody.innerHTML = `
             <tr>
-                <td colspan="5" class="leaderboard-loading">
+                <td colspan="${colspan}" class="leaderboard-loading">
                     Loading leaderboard...
                 </td>
             </tr>
@@ -156,27 +252,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const gameId = gameSelect.value;
 
-        if (!gameId) {
-            return;
-        }
+        if (!gameId) return;
 
-        const is2048 = is2048Selected();
-
-        const difficulty = is2048
-            ? getSelectedDifficulty()
-            : null;
-
-        // Keep the existing period key format for other games.
-        // Append difficulty only for 2048.
-        const databasePeriodKey = is2048
-            ? `${periodKey}:${difficulty}`
-            : periodKey;
-
-
-        /* =========================
-           GET CURRENT USER
-        ========================= */
-
+        // Get the logged-in user.
         const {
             data: { user },
             error: userError
@@ -186,12 +264,16 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error getting current user:", userError);
         }
 
+        if (!user) {
+            console.log("No logged-in user.");
+        }
+
 
         /* =========================
-           FETCH LEADERBOARD DATA
-        ========================= */
+           FETCH LEADERBOARD RECORDS
+           ========================= */
 
-        let leaderboardQuery = supaDb
+        let query = supaDb
             .from("GameScores")
             .select(`
                 user_id,
@@ -199,24 +281,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 difficulty,
                 highest_tile,
                 Profiles(username)
-            `)
-            .eq("period_type", periodType)
-            .eq("period_key", databasePeriodKey)
-            .eq("game_id", gameId);
+            `);
 
-        if (is2048) {
-            leaderboardQuery = leaderboardQuery.eq(
-                "difficulty",
-                difficulty
-            );
-        } else {
-            leaderboardQuery = leaderboardQuery.is(
-                "difficulty",
-                null
-            );
-        }
+        query = applyLeaderboardFilters(query, filters);
 
-        const { data, error } = await leaderboardQuery
+        const { data, error } = await query
             .order("score", { ascending: false })
             .limit(100);
 
@@ -225,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             leaderboardBody.innerHTML = `
                 <tr>
-                    <td colspan="5">
+                    <td colspan="${colspan}">
                         Unable to load leaderboard.
                     </td>
                 </tr>
@@ -238,8 +307,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =========================
-           ADD RANKINGS
-        ========================= */
+           ASSIGN PLAYER RANKS
+           ========================= */
 
         const rankedLeaderboard = data.map((player, index) => ({
             ...player,
@@ -248,30 +317,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =========================
-           GET CURRENT USER'S RANK
-        ========================= */
+           GET CURRENT PLAYER'S RANK
+           ========================= */
 
         if (user) {
 
             let myScoreQuery = supaDb
                 .from("GameScores")
-                .select("score, highest_tile, difficulty")
-                .eq("user_id", user.id)
-                .eq("game_id", gameId)
-                .eq("period_type", periodType)
-                .eq("period_key", databasePeriodKey);
+                .select("score")
+                .eq("user_id", user.id);
 
-            if (is2048) {
-                myScoreQuery = myScoreQuery.eq(
-                    "difficulty",
-                    difficulty
-                );
-            } else {
-                myScoreQuery = myScoreQuery.is(
-                    "difficulty",
-                    null
-                );
-            }
+            myScoreQuery = applyLeaderboardFilters(
+                myScoreQuery,
+                filters
+            );
 
             const {
                 data: myScore,
@@ -279,40 +338,38 @@ document.addEventListener("DOMContentLoaded", function () {
             } = await myScoreQuery.maybeSingle();
 
             if (myScoreError) {
-                console.error("Error getting user's score:", myScoreError);
+
+                console.error(
+                    "Error getting user's score:",
+                    myScoreError
+                );
 
             } else if (myScore) {
 
-                let higherScoresQuery = supaDb
+                // Count players with a higher score.
+                let rankQuery = supaDb
                     .from("GameScores")
                     .select("user_id", {
                         count: "exact",
                         head: true
-                    })
-                    .eq("game_id", gameId)
-                    .eq("period_type", periodType)
-                    .eq("period_key", databasePeriodKey)
-                    .gt("score", myScore.score);
+                    });
 
-                if (is2048) {
-                    higherScoresQuery = higherScoresQuery.eq(
-                        "difficulty",
-                        difficulty
-                    );
-                } else {
-                    higherScoresQuery = higherScoresQuery.is(
-                        "difficulty",
-                        null
-                    );
-                }
+                rankQuery = applyLeaderboardFilters(
+                    rankQuery,
+                    filters
+                );
 
                 const {
                     count: higherScores,
                     error: rankError
-                } = await higherScoresQuery;
+                } = await rankQuery.gt("score", myScore.score);
 
                 if (rankError) {
-                    console.error("Error calculating user's rank:", rankError);
+
+                    console.error(
+                        "Error calculating user's rank:",
+                        rankError
+                    );
 
                 } else {
 
@@ -322,13 +379,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="my-rank-content">
                             <span>Your Rank</span>
                             <strong>#${myRank}</strong>
-                            <span>${myScore.score.toLocaleString()} points</span>
-
-                            ${is2048 ? `
-                                <span>Highest Tile: ${
-                                    myScore.highest_tile.toLocaleString()
-                                }</span>
-                            ` : ""}
+                            <span>
+                                ${Number(myScore.score).toLocaleString()}
+                                points
+                            </span>
                         </div>
                     `;
                 }
@@ -337,14 +391,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* =========================
-           DISPLAY LEADERBOARD ROWS
-        ========================= */
+           RENDER LEADERBOARD
+           ========================= */
 
         if (!rankedLeaderboard.length) {
+
             leaderboardBody.innerHTML = `
                 <tr>
-                    <td colspan="5">
-                        No leaderboard records yet.
+                    <td colspan="${colspan}">
+                        No leaderboard records found.
                     </td>
                 </tr>
             `;
@@ -352,85 +407,77 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        leaderboardBody.innerHTML = rankedLeaderboard.map(player => `
-            <tr>
-                <td class="rank">#${player.rank}</td>
+        leaderboardBody.innerHTML = rankedLeaderboard.map(player => {
 
-                <td class="username">
-                    ${player.Profiles?.username || "Unknown Player"}
-                </td>
+            const username = escapeHTML(
+                player.Profiles?.username || "Unknown"
+            );
 
-                <td class="difficulty">
-                    ${
-                        player.difficulty
-                            ? player.difficulty.replace("-", " ")
-                            : "—"
-                    }
-                </td>
+            const score = Number(player.score).toLocaleString();
 
-                <td class="score">
-                    ${Number(player.score).toLocaleString()}
-                </td>
+            if (filters.is2048) {
 
-                <td class="highest-tile">
-                    ${
-                        player.highest_tile
-                            ? Number(player.highest_tile).toLocaleString()
-                            : "—"
-                    }
-                </td>
-            </tr>
-        `).join("");
+                const difficulty = escapeHTML(
+                    player.difficulty || filters.difficulty
+                );
+
+                const highestTile = Number(
+                    player.highest_tile || 0
+                ).toLocaleString();
+
+                return `
+                    <tr>
+                        <td class="rank">#${player.rank}</td>
+                        <td class="username">${username}</td>
+                        <td class="difficulty">${difficulty}</td>
+                        <td class="score">${score}</td>
+                        <td class="highest-tile">${highestTile}</td>
+                    </tr>
+                `;
+            }
+
+            // Existing Archery-style display.
+            return `
+                <tr>
+                    <td class="rank">#${player.rank}</td>
+                    <td class="username">${username}</td>
+                    <td class="score">${score}</td>
+                </tr>
+            `;
+
+        }).join("");
+
     }
 
 
     /* =========================
-       FILTER EVENT LISTENERS
-    ========================= */
+       EVENT LISTENERS
+       ========================= */
 
+    // Change game.
+    gameSelect.addEventListener("change", loadLeaderboard);
+
+    // Change 2048 difficulty.
+    difficultySelect.addEventListener("change", loadLeaderboard);
+
+    // Change leaderboard period.
     periodInputs.forEach(input => {
-        input.addEventListener("change", () => {
 
-            const periodInfo = getPeriodInfo(input.value);
+        input.addEventListener("change", loadLeaderboard);
 
-            loadLeaderboard(
-                periodInfo.periodType,
-                periodInfo.periodKey
-            );
-        });
-    });
-
-
-    difficultyInputs.forEach(input => {
-        input.addEventListener("change", () => {
-
-            const periodInfo = getPeriodInfo(getSelectedPeriod());
-
-            loadLeaderboard(
-                periodInfo.periodType,
-                periodInfo.periodKey
-            );
-        });
-    });
-
-
-    gameSelect.addEventListener("change", () => {
-
-        updateDifficultyFilter();
-
-        const periodInfo = getPeriodInfo(getSelectedPeriod());
-
-        loadLeaderboard(
-            periodInfo.periodType,
-            periodInfo.periodKey
-        );
     });
 
 
     /* =========================
-       INITIALIZE
-    ========================= */
+       INITIALIZE LEADERBOARD
+       ========================= */
 
-    loadGames();
+    loadGames().then(success => {
+
+        if (success) {
+            loadLeaderboard();
+        }
+
+    });
 
 });

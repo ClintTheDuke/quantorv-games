@@ -183,55 +183,41 @@
     <!--ext123-->
   </ul>
 </nav>
+
 <main>
+    <!-- GENERAL GAME LEADERBOARD -->
     <section class="leaderboard-section" aria-labelledby="leaderboard-title">
 
         <div class="leaderboard-header">
+
+            <!-- GAME SELECTOR -->
             <div class="game-selector">
                 <label for="game-select">Game</label>
+
                 <select id="game-select">
                     <option value="">Loading games...</option>
                 </select>
             </div>
+
+            <!-- 2048 DIFFICULTY SELECTOR -->
+            <div class="difficulty-selector" id="difficulty-selector" hidden>
+                <label for="difficulty-select">Difficulty</label>
+
+                <select id="difficulty-select">
+                    <option value="super-easy">Super-Easy</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+
         </div>
 
-        <!-- 2048 Difficulty Filter -->
-        <fieldset id="difficulty-filter" class="leaderboard-filter" hidden>
-            <legend>2048 difficulty</legend>
-
-            <div class="period-options">
-                <input
-                    type="radio"
-                    id="difficulty-super-easy"
-                    name="leaderboard-difficulty"
-                    value="super-easy"
-                >
-                <label for="difficulty-super-easy">Super-Easy</label>
-
-                <input
-                    type="radio"
-                    id="difficulty-normal"
-                    name="leaderboard-difficulty"
-                    value="normal"
-                    checked
-                >
-                <label for="difficulty-normal">Normal</label>
-
-                <input
-                    type="radio"
-                    id="difficulty-hard"
-                    name="leaderboard-difficulty"
-                    value="hard"
-                >
-                <label for="difficulty-hard">Hard</label>
-            </div>
-        </fieldset>
-
-        <!-- Period Filter -->
+        <!-- PERIOD FILTER -->
         <fieldset class="leaderboard-filter">
             <legend>Leaderboard period</legend>
 
             <div class="period-options">
+
                 <input
                     type="radio"
                     id="period-week"
@@ -256,32 +242,35 @@
                     value="all_time"
                 >
                 <label for="period-all-time">All-Time Best</label>
+
             </div>
         </fieldset>
 
-        <!-- Leaderboard Table -->
+        <!-- LEADERBOARD TABLE -->
         <div class="leaderboard-table-container">
+
             <table class="leaderboard-table">
+
                 <thead>
                     <tr>
                         <th scope="col">Rank</th>
                         <th scope="col">Username</th>
-                        <th scope="col">Difficulty</th>
+                       <th scope="col" id="difficulty-heading" hidden>Difficulty</th>
                         <th scope="col">Score</th>
-                        <th scope="col">Highest Tile</th>
+                        <th scope="col" id="highest-tile-heading" hidden>
+                            Highest Tile
+                        </th>
                     </tr>
                 </thead>
 
                 <tbody id="archery-leaderboard-body">
-                    <tr>
-                        <td colspan="5" class="leaderboard-loading">
-                            Loading leaderboard...
-                        </td>
-                    </tr>
+                    <!-- JavaScript renders leaderboard rows here -->
                 </tbody>
+
             </table>
 
             <div id="my-rank" class="my-rank"></div>
+
         </div>
 
     </section>
