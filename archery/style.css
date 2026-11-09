@@ -315,3 +315,148 @@ body {
 
 }
 
+
+/* ==========================================
+   ARCHERY GAME SEO ARTICLE
+========================================== */
+
+.game-seo-article {
+    box-sizing: border-box;
+    width: min(100% - 32px, 1050px);
+    margin: 45px auto 100px;
+    padding: clamp(22px, 5vw, 55px);
+
+    background: #111a12;
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+/* Keep sizing isolated from the game UI */
+
+.game-seo-article *,
+.game-seo-article *::before,
+.game-seo-article *::after {
+    box-sizing: border-box;
+}
+
+/* Article header */
+
+.game-seo-article .seo-article-header {
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.game-seo-article .seo-category {
+    color: #08d549;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.game-seo-article h2 {
+    color: #ffffff;
+    font-size: clamp(25px, 4vw, 36px);
+    line-height: 1.3;
+    margin: 0 0 20px;
+}
+
+.game-seo-article h3 {
+    color: #08d549;
+    font-size: clamp(19px, 3vw, 23px);
+    line-height: 1.4;
+    margin: 35px 0 15px;
+}
+
+.game-seo-article p {
+    color: #e0e6e0;
+    margin: 0 0 18px;
+    font-size: 15px;
+}
+
+.game-seo-article .seo-intro {
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+/* Lists */
+
+.game-seo-article ul,
+.game-seo-article ol {
+    padding-left: 25px;
+    margin: 15px 0 25px;
+}
+
+.game-seo-article li {
+    color: #e0e6e0;
+    margin-bottom: 13px;
+    padding-left: 5px;
+    font-size: 15px;
+}
+
+.game-seo-article li::marker {
+    color: #08d549;
+}
+
+.game-seo-article strong {
+    color: #ffffff;
+}
+
+/* Final call to action */
+
+.game-seo-article .seo-play-cta {
+    margin-top: 40px;
+    padding: 25px;
+    background: rgba(8, 213, 73, 0.07);
+    border-left: 4px solid #08d549;
+    border-radius: 6px;
+}
+
+.game-seo-article .seo-play-cta h3 {
+    margin-top: 0;
+}
+
+/* Article footer */
+
+.game-seo-article .seo-article-footer {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.game-seo-article .seo-article-footer p {
+    color: #9ca99d;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+/* Mobile responsiveness */
+
+@media (max-width: 600px) {
+
+    .game-seo-article {
+        width: calc(100% - 20px);
+        margin: 25px auto 85px;
+        padding: 22px 17px;
+        border-radius: 10px;
+        font-size: 15px;
+    }
+
+    .game-seo-article p,
+    .game-seo-article li {
+        font-size: 14px;
+    }
+
+    .game-seo-article .seo-play-cta {
+        padding: 18px;
+    }
+}
