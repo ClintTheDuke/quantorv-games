@@ -1022,26 +1022,33 @@ async function gameOver() {
     }
 
     // ==================================
-    // SAVE TO SUPABASE
-    // ==================================
+// SAVE TO SUPABASE
+// ==================================
 
-    if (typeof window.save2048Score === 'function') {
+if (typeof window.save2048Score === 'function') {
 
-        const saved = await window.save2048Score({
-            score: score,
-            highestTile: highestTile,
-            difficulty: currentLevel
-        });
+    const saved = await window.save2048Score({
+        score: score,
+        highestTile: highestTile,
+        difficulty: currentLevel
+    });
 
-        if (saved) {
-            console.log('2048 cloud statistics saved!');
-        } else {
-            console.log('2048 cloud statistics were not saved.');
-        }
-
+    if (saved) {
+        console.log('2048 cloud statistics saved!');
     } else {
-        console.error('save2048Score() is not available.');
+        console.log('2048 cloud statistics were not fully saved.');
     }
+
+    // Record the completed session independently.
+    const activitySaved = await recordCompletedGameSession();
+
+    if (activitySaved) {
+        console.log('2048 game activity recorded!');
+    }
+
+} else {
+    console.error('save2048Score() is not available.');
+}
 
     const timeFormatted = formatTime(elapsedSeconds);
 
@@ -1133,6 +1140,53 @@ async function gameOver() {
     }, 500);
 }
 
+// ======================================
+// RECORD COMPLETED GAME SESSION
+// ======================================
+
+async function recordCompletedGameSession() {
+    console.log('[Game Streak] Completion handler reached.');
+
+    try {
+        if (!window.supaDb) {
+            throw new Error('Supabase client is unavailable.');
+        }
+
+        const {
+            data: { session },
+            error: sessionError
+        } = await window.supaDb.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        if (!session) {
+            throw new Error('No authenticated session found.');
+        }
+
+        console.log('[Game Streak] Sending RPC request...');
+
+        const { data, error } = await window.supaDb.rpc(
+            'record_completed_game_session'
+        );
+
+        if (error) {
+            console.error('[Game Streak] RPC returned an error:', error);
+            return false;
+        }
+
+        console.log('[Game Streak] RPC succeeded:', data);
+
+        return true;
+
+    } catch (error) {
+        console.error(
+            '[Game Streak] Unexpected failure:',
+            error
+        );
+
+        return false;
+    }
+}
 
   // ========== Themes =============
   function setTheme(themeName) {

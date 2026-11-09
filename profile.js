@@ -74,8 +74,9 @@ startProfilePresence(user.id);
         // function End 
     }
     // ========= SECTION 2 GET GAMES PLAYED===========
-    // Function to Get games Played data
-    async function getGamesPlayed() {
+    // Function to Get games Played data from relevant tables
+    
+async function getGamesPlayed() {
     const {
         data: { user },
         error: userError
@@ -86,37 +87,67 @@ startProfilePresence(user.id);
         return;
     }
 
+    // Fetch games played from PlayerStats
     const {
-        data: playedData,
-        error: playedError
+        data: generalStats,
+        error: generalError
     } = await supaDb
         .from('PlayerStats')
         .select('games_played')
         .eq('user_id', user.id);
 
-    if (playedError) {
-        console.error('Error getting games played:', playedError);
-        return;
+    // Fetch games played from PlayerGameDifficultyStats
+    const {
+        data: difficultyStats,
+        error: difficultyError
+    } = await supaDb
+        .from('PlayerGameDifficultyStats')
+        .select('games_played')
+        .eq('user_id', user.id);
+
+    if (generalError) {
+        console.error('Error getting general game stats:', generalError);
     }
 
-    const totalGamesPlayed = playedData.reduce(
-        (total, row) => total + row.games_played,
+    if (difficultyError) {
+        console.error('Error getting difficulty game stats:', difficultyError);
+    }
+
+    // Stop if both queries failed
+    if (generalError && difficultyError) return;
+
+    // Calculate totals from both tables
+    const generalTotal = (generalStats || []).reduce(
+        (total, row) => total + Number(row.games_played || 0),
         0
     );
 
+    const difficultyTotal = (difficultyStats || []).reduce(
+        (total, row) => total + Number(row.games_played || 0),
+        0
+    );
+
+    const totalGamesPlayed = generalTotal + difficultyTotal;
+
+    // Update profile UI
     const gamesPlayed = document.getElementById('gamesPlayed');
 
     if (gamesPlayed) {
-        gamesPlayed.textContent = totalGamesPlayed;
+        gamesPlayed.textContent = totalGamesPlayed.toLocaleString();
     }
 }
+
 // ========= Section 3: Display the name of the games played =======
 // ======= Display the name of games played in player profile =============
 /* ===== Load Games Played ===== */
 
+//=====updated function to display games with dificulty levels
 async function loadGames() {
 
-    // Get the logged-in user
+    // =========================
+    // GET LOGGED-IN USER
+    // =========================
+
     const {
         data: { user },
         error: userError
@@ -132,10 +163,14 @@ async function loadGames() {
         return;
     }
 
-    // Get the user's game statistics and related game names
+
+    // =========================
+    // GET ARCHERY / GENERAL GAME STATS
+    // =========================
+
     const {
-        data: games,
-        error: gamesError
+        data: playerStats,
+        error: playerStatsError
     } = await supaDb
         .from('PlayerStats')
         .select(`
@@ -147,12 +182,56 @@ async function loadGames() {
         `)
         .eq('user_id', user.id);
 
-    if (gamesError) {
-        console.error('Error loading games:', gamesError);
+
+    // =========================
+    // GET 2048 DIFFICULTY STATS
+    // =========================
+
+    const {
+        data: difficultyStats,
+        error: difficultyStatsError
+    } = await supaDb
+        .from('PlayerGameDifficultyStats')
+        .select(`
+            difficulty,
+            best_score,
+            highest_tile,
+            games_played,
+            Games (
+                name
+            )
+        `)
+        .eq('user_id', user.id);
+
+
+    // =========================
+    // HANDLE QUERY ERRORS
+    // =========================
+
+    if (playerStatsError) {
+        console.error(
+            'Error loading general game statistics:',
+            playerStatsError
+        );
+    }
+
+    if (difficultyStatsError) {
+        console.error(
+            'Error loading 2048 difficulty statistics:',
+            difficultyStatsError
+        );
+    }
+
+    // Stop only if both queries failed.
+    if (playerStatsError && difficultyStatsError) {
         return;
     }
 
-    // Get the games container
+
+    // =========================
+    // GET GAMES CONTAINER
+    // =========================
+
     const gamesList = document.getElementById('gamesList');
 
     if (!gamesList) {
@@ -160,42 +239,117 @@ async function loadGames() {
         return;
     }
 
-    // Clear existing content
     gamesList.replaceChildren();
 
-    // Display an empty state if no games have been played
-    if (!games || games.length === 0) {
+
+    // =========================
+    // COMBINE GAME RECORDS
+    // =========================
+
+    const allGames = [
+        ...(playerStats || []).map(record => ({
+            type: 'general',
+            ...record
+        })),
+
+        ...(difficultyStats || []).map(record => ({
+            type: 'difficulty',
+            ...record
+        }))
+    ];
+
+
+    // =========================
+    // EMPTY STATE
+    // =========================
+
+    if (allGames.length === 0) {
+
         const message = document.createElement('div');
+
         message.className = 'game-item';
         message.textContent = 'You have not played any games yet.';
 
         gamesList.appendChild(message);
+
         return;
     }
 
-    // Display each game
-    games.forEach(record => {
+
+    // =========================
+    // DISPLAY GAME RECORDS
+    // =========================
+
+    allGames.forEach(record => {
 
         const gameItem = document.createElement('div');
+
         gameItem.className = 'game-item';
 
+
+        // GAME TITLE
         const gameTitle = document.createElement('span');
+
         gameTitle.className = 'game-title';
-        gameTitle.textContent =
-            record.Games?.name || 'Unknown Game';
 
+        const gameName = record.Games?.name || 'Unknown Game';
+
+        gameTitle.textContent = record.type === 'difficulty'
+            ? `${gameName} (${record.difficulty})`
+            : gameName;
+
+
+        // GAME SCORE
         const gameScore = document.createElement('span');
-        gameScore.className = 'game-score';
-        gameScore.textContent =
-            `High Score: ${record.best_score ?? 0}`;
 
-        gameItem.append(gameTitle, gameScore);
+        gameScore.className = 'game-score';
+
+        gameScore.textContent =
+            `High Score: ${Number(record.best_score || 0).toLocaleString()}`;
+
+
+        // GAMES PLAYED
+        const gamesPlayed = document.createElement('span');
+
+        gamesPlayed.className = 'games-played';
+
+        gamesPlayed.textContent =
+            `Games Played: ${record.games_played || 0}`;
+
+
+        // APPEND BASIC INFORMATION
+        gameItem.append(
+            gameTitle,
+            gameScore,
+            gamesPlayed
+        );
+
+
+       // 2048-SPECIFIC INFORMATION
+if (record.type === 'difficulty') {
+    const gameDetails = document.createElement('div');
+    gameDetails.className = 'game-details';
+
+    const difficultyBadge = document.createElement('span');
+    difficultyBadge.className = `difficulty-badge ${record.difficulty}`;
+    difficultyBadge.textContent = record.difficulty.replace('-', ' ');
+
+    const highestTile = document.createElement('span');
+    highestTile.className = 'highest-tile';
+    highestTile.innerHTML = `
+        <span class="detail-label">Highest Tile</span>
+        <strong>${Number(record.highest_tile || 0).toLocaleString()}</strong>
+    `;
+
+    gameDetails.append(difficultyBadge, highestTile);
+    gameItem.appendChild(gameDetails);
+}
+
         gamesList.appendChild(gameItem);
 
     });
 
 }
-
 // ===== Section 3 end =======
 // ====== Section 4: User online activity =======
     // Check if user is online  >>>>>>
