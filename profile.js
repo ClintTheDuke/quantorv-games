@@ -501,6 +501,117 @@ const ACHIEVEMENTS = [
 /* ===== Lightweight SVG Icon Set ===== */
 
 
+const ACHIEVEMENT_ICONS = {
+    // First Steps — complete your first game
+    gamepad: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 10h12a4 4 0 0 1 3.8 5.2l-1 3
+            a2 2 0 0 1-3.2 1l-3-2.2h-5.2l-3 2.2
+            a2 2 0 0 1-3.2-1l-1-3A4 4 0 0 1 6 10Z"/>
+            <path d="M7 12v4m-2-2h4m6-1h.01m3 2h.01"/>
+        </svg>
+    `,
+
+    // Daily login / calendar achievements
+    calendar: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2"/>
+            <path d="M16 3v4M8 3v4M3 10h18M8 14h2m4 0h2m-8 3h2"/>
+        </svg>
+    `,
+
+    // Sharpshooter — 1,000 Archery points
+    target: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="13" r="8"/>
+            <circle cx="11" cy="13" r="4"/>
+            <circle cx="11" cy="13" r="1"/>
+            <path d="m13 11 8-8m-5 0h5v5"/>
+        </svg>
+    `,
+
+    // Trophy / tournament achievements
+    trophy: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 21h8m-4-4v4M7 4h10v5a5 5 0
+            0 1-10 0V4ZM7 7H3v2a5 5 0 0 0 5 5
+            m9-7h4v2a5 5 0 0 1-5 5"/>
+        </svg>
+    `,
+
+    // Exploration achievements
+    compass: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>
+        </svg>
+    `,
+
+    // Streak achievements
+    flame: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 22a8 8 0 0 0 8-8
+            c0-4-3-6-4-10-2 2-3 4-3 6
+            -2-1-3-3-3-5-4 4-6 7-6 10a8 8
+            0 0 0 8 7Z"/>
+            <path d="M12 22a4 4 0 0 0 4-4
+            c0-2-2-4-3-5 0 2-2 3-2 5
+            a4 4 0 0 0 1 4Z"/>
+        </svg>
+    `,
+
+    // First Blood — 100 Archery points
+    first_blood: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3 14.5 9.5 21 12l-6.5 2.5L12 21
+            9.5 14.5 3 12l6.5-2.5L12 3Z"/>
+            <path d="m17 3 .8 2.2L20 6l-2.2.8L17 9
+            l-.8-2.2L14 6l2.2-.8L17 3Z"/>
+        </svg>
+    `,
+
+    // Deadeye — 500 Archery points
+    deadeye: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="12" cy="12" r="1.5"/>
+            <path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>
+        </svg>
+    `,
+
+    // Bullseye Legend — 5,000 Archery points
+    bullseye_legend: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="3"/>
+            <path d="m14 10 7-7m-5 0h5v5"/>
+        </svg>
+    `,
+
+    // Master Archer — 10,000 Archery points
+    master_archer: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20 20 4M7 4h13v13"/>
+            <path d="M4 4c10 0 16 6 16 16"/>
+            <path d="m14 4 6 6"/>
+            <circle cx="12" cy="12" r="2"/>
+        </svg>
+    `,
+
+    // Archery Ascendant — 50,000 Archery points
+    archery_ascendant: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m3 17 5-6 4 3 8-10"/>
+            <path d="M14 4h6v6"/>
+            <path d="M4 21h16"/>
+            <path d="m7 8 1-5 3 3"/>
+        </svg>
+    `
+    
+};
+
 
 // ======================================
 // QUANTORV 2048 ACHIEVEMENT ICONS
@@ -690,6 +801,7 @@ Object.assign(ACHIEVEMENT_ICONS, {
     `)
 
 });
+
 
 
 
