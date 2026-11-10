@@ -501,115 +501,195 @@ const ACHIEVEMENTS = [
 /* ===== Lightweight SVG Icon Set ===== */
 
 
-const ACHIEVEMENT_ICONS = {
-    // First Steps — complete your first game
-    gamepad: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 10h12a4 4 0 0 1 3.8 5.2l-1 3
-            a2 2 0 0 1-3.2 1l-3-2.2h-5.2l-3 2.2
-            a2 2 0 0 1-3.2-1l-1-3A4 4 0 0 1 6 10Z"/>
-            <path d="M7 12v4m-2-2h4m6-1h.01m3 2h.01"/>
-        </svg>
-    `,
 
-    // Daily login / calendar achievements
-    calendar: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="16" rx="2"/>
-            <path d="M16 3v4M8 3v4M3 10h18M8 14h2m4 0h2m-8 3h2"/>
-        </svg>
-    `,
+// ======================================
+// QUANTORV 2048 ACHIEVEMENT ICONS
+// ======================================
 
-    // Sharpshooter — 1,000 Archery points
-    target: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="11" cy="13" r="8"/>
-            <circle cx="11" cy="13" r="4"/>
-            <circle cx="11" cy="13" r="1"/>
-            <path d="m13 11 8-8m-5 0h5v5"/>
-        </svg>
-    `,
+const qvg2048Icon = (content) => `
+    <svg viewBox="0 0 24 24"
+         fill="none"
+         stroke="#08d549"
+         stroke-width="1.7"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         aria-hidden="true">
+        ${content}
+    </svg>
+`;
 
-    // Trophy / tournament achievements
-    trophy: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8 21h8m-4-4v4M7 4h10v5a5 5 0
-            0 1-10 0V4ZM7 7H3v2a5 5 0 0 0 5 5
-            m9-7h4v2a5 5 0 0 1-5 5"/>
-        </svg>
-    `,
+// Add these entries inside ACHIEVEMENT_ICONS:
 
-    // Exploration achievements
-    compass: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>
-        </svg>
-    `,
+Object.assign(ACHIEVEMENT_ICONS, {
 
-    // Streak achievements
-    flame: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 22a8 8 0 0 0 8-8
-            c0-4-3-6-4-10-2 2-3 4-3 6
-            -2-1-3-3-3-5-4 4-6 7-6 10a8 8
-            0 0 0 8 7Z"/>
-            <path d="M12 22a4 4 0 0 0 4-4
-            c0-2-2-4-3-5 0 2-2 3-2 5
-            a4 4 0 0 0 1 4Z"/>
-        </svg>
-    `,
+    // ===== TILE MILESTONES =====
 
-    // First Blood — 100 Archery points
-    first_blood: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 3 14.5 9.5 21 12l-6.5 2.5L12 21
-            9.5 14.5 3 12l6.5-2.5L12 3Z"/>
-            <path d="m17 3 .8 2.2L20 6l-2.2.8L17 9
-            l-.8-2.2L14 6l2.2-.8L17 3Z"/>
-        </svg>
-    `,
+    // 128 — Tile Explorer
+    tile_explorer: qvg2048Icon(`
+        <circle cx="12" cy="12" r="9"/>
+        <path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>
+        <path d="M12 3v2M21 12h-2"/>
+        <path d="M12 12h.01" stroke="#b7ffd0" stroke-width="2.5"/>
+    `),
 
-    // Deadeye — 500 Archery points
-    deadeye: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <circle cx="12" cy="12" r="5"/>
-            <circle cx="12" cy="12" r="1.5"/>
-            <path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>
-        </svg>
-    `,
+    // 256 — Block Builder
+    block_builder: qvg2048Icon(`
+        <path d="m12 3 8 4.5-8 4.5-8-4.5L12 3Z"/>
+        <path d="M4 7.5v9l8 4.5 8-4.5v-9"/>
+        <path d="M12 12v9"/>
+        <path d="m8 5.2 8 4.5" stroke="#b7ffd0"/>
+    `),
 
-    // Bullseye Legend — 5,000 Archery points
-    bullseye_legend: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <circle cx="12" cy="12" r="6"/>
-            <circle cx="12" cy="12" r="3"/>
-            <path d="m14 10 7-7m-5 0h5v5"/>
-        </svg>
-    `,
+    // 512 — Tile Master
+    tile_master: qvg2048Icon(`
+        <path d="m12 2 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 8.6l6.2-.9L12 2Z"/>
+        <path d="m9 12 2 2 4-4" stroke="#b7ffd0"/>
+    `),
 
-    // Master Archer — 10,000 Archery points
-    master_archer: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 20 20 4M7 4h13v13"/>
-            <path d="M4 4c10 0 16 6 16 16"/>
-            <path d="m14 4 6 6"/>
-            <circle cx="12" cy="12" r="2"/>
-        </svg>
-    `,
+    // 1,024 — Power Player
+    power_player: qvg2048Icon(`
+        <path d="M13 2 5 13h6l-1 9 9-12h-6l1-8Z"/>
+        <path d="m13 2-2 9" stroke="#b7ffd0"/>
+    `),
 
-    // Archery Ascendant — 50,000 Archery points
-    archery_ascendant: `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="m3 17 5-6 4 3 8-10"/>
-            <path d="M14 4h6v6"/>
-            <path d="M4 21h16"/>
-            <path d="m7 8 1-5 3 3"/>
-        </svg>
-    `
-};
+    // 2,048 — Can You Beat That?
+    can_you_beat_that: qvg2048Icon(`
+        <path d="M8 3h8v5a4 4 0 0 1-8 0V3Z"/>
+        <path d="M8 5H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4"/>
+        <path d="M12 12v5m-4 4h8m-4-4v4"/>
+        <path d="m12 5 1 2-1 2-1-2 1-2Z" stroke="#b7ffd0"/>
+    `),
+
+    // 4,096 — Tile, Tiles and More Tiles!
+    tile_tiles_more_tiles: qvg2048Icon(`
+        <rect x="3" y="3" width="8" height="8" rx="1.5"/>
+        <rect x="13" y="3" width="8" height="8" rx="1.5"/>
+        <rect x="3" y="13" width="8" height="8" rx="1.5"/>
+        <rect x="13" y="13" width="8" height="8" rx="1.5"/>
+        <path d="M7 6v2m10-2v2M7 16v2m10-2v2" stroke="#b7ffd0"/>
+    `),
+
+    // 8,192 — Eight Thousand Reasons
+    eight_thousand_reasons: qvg2048Icon(`
+        <path d="M12 12c-2-2-6-2-7 1s1 6 4 6c2 0 3-2 3-7Z"/>
+        <path d="M12 12c2-2 6-2 7 1s-1 6-4 6c-2 0-3-2-3-7Z"/>
+        <path d="M12 12c-2-2-6-2-7-1s1 6 4 6c2 0 3-2 3-5Z" stroke="#b7ffd0"/>
+        <path d="M12 12c2-2 6-2 7-1s-1 6-4 6c-2 0-3-2-3-5Z"/>
+    `),
+
+    // 16,384 — How Far Can I Go?
+    how_far_can_i_go: qvg2048Icon(`
+        <path d="m12 2 3 7-3 4-3-4 3-7Z"/>
+        <path d="m9 9-4 8 7-4 7 4-4-8"/>
+        <path d="M9 20h6m-3-7v7"/>
+        <path d="M12 5v3" stroke="#b7ffd0"/>
+    `),
+
+    // 32,768 — This Is Getting Ridiculous!
+    this_is_getting_ridiculous: qvg2048Icon(`
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3c5 0 7 5 4 8s-7 1-6-2 5-2 5 1"/>
+        <path d="M4 17c3 3 7 4 11 2" stroke="#b7ffd0"/>
+        <path d="m17 16 3 3-4 1"/>
+    `),
+
+    // 65,536 — Who Needs Sleep Anyway?
+    who_needs_sleep_anyway: qvg2048Icon(`
+        <path d="M19 15A8 8 0 0 1 9 5a8 8 0 1 0 10 10Z"/>
+        <path d="m17 3 .8 2.2L20 6l-2.2.8L17 9l-.8-2.2L14 6l2.2-.8L17 3Z" stroke="#b7ffd0"/>
+        <path d="m20 11 .5 1.5L22 13l-1.5.5L20 15l-.5-1.5L18 13l1.5-.5L20 11Z"/>
+    `),
+
+    // 131,072 — The Tile Overlord
+    tile_overlord: qvg2048Icon(`
+        <path d="m3 18 2-11 5 4 2-7 2 7 5-4 2 11H3Z"/>
+        <path d="M5 21h14"/>
+        <path d="m12 7 1 2-1 2-1-2 1-2Z" stroke="#b7ffd0"/>
+    `),
+
+    // ===== SCORE MILESTONES =====
+
+    // 1,000 — Mini Millenia
+    mini_millenia: qvg2048Icon(`
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M8 9h8m-8 3h8m-8 3h8"/>
+        <path d="M12 6v12" stroke="#b7ffd0"/>
+    `),
+
+    // 5,000 — Spot On
+    spot_on: qvg2048Icon(`
+        <circle cx="12" cy="12" r="9"/>
+        <circle cx="12" cy="12" r="5"/>
+        <circle cx="12" cy="12" r="1.5" stroke="#b7ffd0"/>
+        <path d="m15 9 6-6m-4 0h4v4"/>
+    `),
+
+    // 10,000 — Score Storm
+    score_storm: qvg2048Icon(`
+        <path d="M5 16a4 4 0 0 1 1-7.9A6 6 0 0 1 18 9a3.5 3.5 0 0 1 1 7H5Z"/>
+        <path d="m13 12-4 6h4l-1 4 5-7h-4l1-3Z"/>
+        <path d="m8 3 1 2m7-2-1 2" stroke="#b7ffd0"/>
+    `),
+
+    // 25,000 — Point Overload
+    point_overload: qvg2048Icon(`
+        <path d="M4 19V9m5 10V5m5 14v-7m5 7V3"/>
+        <path d="M2 21h20"/>
+        <path d="m4 6 5-3 5 5 5-5" stroke="#b7ffd0"/>
+        <path d="m16 3 3 0v3"/>
+    `),
+
+    // ===== GAME PARTICIPATION =====
+
+    // 25 games — Falling in Love
+    falling_in_love: qvg2048Icon(`
+        <path d="M20.8 8.8c0 5-8.8 11-8.8 11s-8.8-6-8.8-11A4.8 4.8 0 0 1 12 6.5a4.8 4.8 0 0 1 8.8 2.3Z"/>
+        <path d="m12 8 1.2 2.5 2.8.4-2 2 .5 2.8-2.5-1.3-2.5 1.3.5-2.8-2-2 2.8-.4L12 8Z" stroke="#b7ffd0"/>
+    `),
+
+    // 100 games — Can't Stop, Won't Stop
+    cant_stop_wont_stop: qvg2048Icon(`
+        <path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/>
+        <path d="M21 3v5h-5"/>
+        <path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/>
+        <path d="M3 21v-5h5"/>
+        <path d="m10 9 2-2 2 2m-2-2v10" stroke="#b7ffd0"/>
+    `),
+
+    // 250 games — Are You Living Here?
+    are_you_living_here: qvg2048Icon(`
+        <path d="m3 11 9-8 9 8"/>
+        <path d="M5 10v10h14V10"/>
+        <path d="M9 20v-6h6v6"/>
+        <path d="M12 3v3" stroke="#b7ffd0"/>
+    `),
+
+    // ===== DIFFICULTY ACHIEVEMENTS =====
+
+    // Hard — Reach 2,048
+    hard_dont_phase_me: qvg2048Icon(`
+        <path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z"/>
+        <path d="m8 12 3 3 5-6"/>
+        <path d="M12 5v3" stroke="#b7ffd0"/>
+    `),
+
+    // Normal — Reach 4,096
+    normal_is_my_playground: qvg2048Icon(`
+        <path d="M3 19h18M5 19l2-9 5-4 5 4 2 9"/>
+        <path d="M8 10h8M12 6V3"/>
+        <circle cx="12" cy="3" r="1" stroke="#b7ffd0"/>
+        <path d="M9 15h6"/>
+    `),
+
+    // Super Easy — Reach 2,048
+    easy_does_it: qvg2048Icon(`
+        <path d="M4 20 19 5"/>
+        <path d="M14 4h6v6"/>
+        <path d="M5 15c3-1 5-3 6-6"/>
+        <path d="M4 20c-1-3 0-6 3-8" stroke="#b7ffd0"/>
+    `)
+
+});
 
 
 
